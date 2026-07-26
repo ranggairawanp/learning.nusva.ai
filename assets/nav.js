@@ -2,37 +2,40 @@
    Ditulis sekali di sini supaya produk Nusva lain bisa memakai komponen yang sama
    dengan hanya menukar isi MENU. Aksennya ikut token produk, bukan ditulis mati. */
 
-import { T } from './app.js';
+import { T, bahasa, pasangBahasa, pasangTema, pasangAkun } from './app.js';
 
-/* p = prefiks relatif, '' untuk halaman akar dan '../' untuk halaman di dalam folder */
+/* p = prefiks relatif, '' untuk halaman akar dan '../' untuk halaman di dalam folder
+
+   Aturan yang dipegang menu ini: MAKSIMAL DUA penanda Coming soon per panel. Deretan penanda
+   "belum ada" membentuk kesan produk setengah jadi, dan efeknya tidak sebanding dengan manfaat
+   transparansinya. Yang disembunyikan tidak berbiaya; yang ditampilkan sebagai belum ada
+   berbiaya kredibilitas. Sisanya dimunculkan lagi begitu benar-benar jadi. */
 export const MENU = p => ([
   { id:'belajar', label:{id:'Belajar',en:'Learn'},
     utama:{ judul:{id:'Jelajahi belajar',en:'Explore learning'}, item:[
       { t:{id:'Beranda belajar',en:'Learning home'}, h:p+'belajar.html' },
       { t:{id:'Semua modul',en:'All modules'},       h:p+'index.html#katalog' },
       { t:{id:'Daily Recall',en:'Daily Recall'},     h:p+'belajar.html#recall', soon:true },
-      { t:{id:'Workshop',en:'Workshop'},             h:p+'belajar.html#workshop', soon:true },
       { t:{id:'Progres saya',en:'My progress'},      h:p+'belajar.html#progres', soon:true }
     ]},
     lain:{ judul:{id:'Lainnya dari belajar',en:'More from learning'}, item:[
       { t:{id:'Cara belajarnya',en:'How it works'},        h:p+'index.html#cara' },
-      { t:{id:'Sertifikat Penyelesaian',en:'Completion Certificate'}, h:p+'index.html#cara', soon:true },
-      { t:{id:'Paket Bukti Karya',en:'Evidence Portfolio'}, h:p+'index.html#cara', soon:true },
-      { t:{id:'Verifikasi keaslian',en:'Verify a document'}, h:p+'index.html', soon:true }
+      { t:{id:'Sertifikat Penyelesaian',en:'Completion Certificate'}, h:p+'dokumen.html#sertifikat' },
+      { t:{id:'Paket Bukti Karya',en:'Evidence Portfolio'}, h:p+'dokumen.html#bukti' }
     ]} },
 
   { id:'katalog', label:{id:'Katalog',en:'Catalogue'},
     utama:{ judul:{id:'Jelajahi katalog',en:'Explore the catalogue'}, item:[
       { t:{id:'Semua modul',en:'All modules'},                 h:p+'index.html#katalog' },
-      { t:{id:'SKKNI Manajemen SDM',en:'SKKNI HR Management'}, h:p+'index.html#katalog' },
-      { t:{id:'SKKNI Periklanan',en:'SKKNI Advertising'},      h:p+'index.html#katalog', soon:true },
-      { t:{id:'SKKNI Hubungan Industrial',en:'SKKNI Industrial Relations'}, h:p+'index.html#katalog', soon:true },
-      { t:{id:'Soft skill',en:'Soft skills'},                  h:p+'index.html#katalog' }
+      { t:{id:'SKKNI Manajemen SDM',en:'SKKNI HR Management'}, h:p+'index.html?bidang=SKKNI%20MSDM#katalog' },
+      { t:{id:'Soft skill',en:'Soft skills'},                  h:p+'index.html?bidang=Soft%20skill#katalog' },
+      { t:{id:'Cari modul',en:'Search modules'},               h:p+'index.html#cari' }
     ]},
     lain:{ judul:{id:'Lainnya dari katalog',en:'More from the catalogue'}, item:[
-      { t:{id:'Track kurasi',en:'Curated tracks'}, h:p+'index.html#katalog', soon:true },
-      { t:{id:'Harga',en:'Pricing'},               h:p+'index.html#katalog' },
-      { t:{id:'Untuk perusahaan',en:'For companies'}, h:p+'index.html', soon:true }
+      { t:{id:'Harga',en:'Pricing'},                  h:p+'index.html#katalog' },
+      { t:{id:'Untuk perusahaan',en:'For companies'}, h:p+'perusahaan.html' },
+      { t:{id:'Track kurasi',en:'Curated tracks'},    h:p+'index.html#katalog', soon:true },
+      { t:{id:'SKKNI Periklanan',en:'SKKNI Advertising'}, h:p+'index.html#katalog', soon:true }
     ]} },
 
   { id:'trainer', label:{id:'Untuk Trainer',en:'For Trainers'},
@@ -50,14 +53,15 @@ export const MENU = p => ([
 
   { id:'dukungan', label:{id:'Dukungan',en:'Support'},
     utama:{ judul:{id:'Jelajahi dukungan',en:'Explore support'}, item:[
-      { t:{id:'Pusat bantuan',en:'Help centre'}, h:'#', soon:true },
-      { t:{id:'Hubungi kami',en:'Contact us'},   h:'#', soon:true },
-      { t:{id:'Status layanan',en:'Service status'}, h:'#', soon:true }
+      { t:{id:'Hubungi kami',en:'Contact us'},   h:p+'perusahaan.html#kontak' },
+      { t:{id:'Bicara untuk tim',en:'Talk about a team'}, h:p+'perusahaan.html#kontak' },
+      { t:{id:'Pusat bantuan',en:'Help centre'}, h:'#', soon:true }
     ]},
     lain:{ judul:{id:'Ketentuan',en:'Terms'}, item:[
-      { t:{id:'Ketentuan layanan',en:'Terms of service'}, h:'#', soon:true },
-      { t:{id:'Kebijakan privasi',en:'Privacy policy'},   h:'#', soon:true },
-      { t:{id:'Posisi produk',en:'Product position'},     h:p+'index.html' }
+      { t:{id:'Complete dan Kompeten',en:'Complete and Kompeten'}, h:p+'dokumen.html#complete' },
+      { t:{id:'Kebijakan privasi',en:'Privacy policy'},   h:p+'dokumen.html#privasi' },
+      { t:{id:'Posisi produk',en:'Product position'},     h:p+'dokumen.html#posisi' },
+      { t:{id:'Ketentuan layanan',en:'Terms of service'}, h:'#', soon:true }
     ]} }
 ]);
 
@@ -70,12 +74,34 @@ const ic = {
 let terbuka = null, _tundaBuka = null, _tundaTutup = null;
 function batal(){ clearTimeout(_tundaBuka); clearTimeout(_tundaTutup); }
 
+/* Isi bar ditulis lewat T() saat digambar, bukan lewat data-en, jadi ia tidak ikut tertukar oleh
+   penukar bahasa umum. Karena itu bar-nya digambar ulang sendiri saat bahasanya berganti.
+   Tanpa ini, seluruh halaman berpindah ke Inggris tetapi menunya tetap berbahasa Indonesia. */
+let _navOpts = null, _navPasang = false;
+
 export function pasangNav(opts){
-  const o = opts || {};
+  const o = _navOpts = opts || _navOpts || {};
   const p = o.prefix || '';
   const el = document.getElementById('nav');
   if(!el) return;
   const menu = MENU(p);
+
+  if(!_navPasang){
+    _navPasang = true;
+    document.addEventListener('nusva:bahasa', () => {
+      pasangNav(_navOpts);
+      /* hanya kendali di dalam bar yang dipasang ulang; memanggil pasangKepala() global akan
+         menempelkan pendengar kedua pada tombol di luar bar yang tidak ikut digambar ulang */
+      const bar = document.getElementById('nav');
+      bar.querySelectorAll('[data-aksi="bahasa"]').forEach(b => {
+        b.textContent = bahasa() === 'en' ? 'ID' : 'EN';
+        b.setAttribute('aria-pressed', String(bahasa() === 'en'));
+        b.addEventListener('click', () => pasangBahasa(b));
+      });
+      bar.querySelectorAll('[data-aksi="tema"]').forEach(b => b.addEventListener('click', () => pasangTema(b)));
+      pasangAkun(document.getElementById('aakun'));
+    });
+  }
 
   el.className = 'anav';
   el.innerHTML =
@@ -90,6 +116,8 @@ export function pasangNav(opts){
           (T(m.label.id, m.label.en)) + '</button>').join('') +
       '</nav>' +
       '<span class="asp"></span>' +
+      '<a class="aico" href="' + p + 'index.html#cari" title="' + T('Cari modul','Search modules') + '" ' +
+        'aria-label="' + T('Cari modul','Search modules') + '">' + ic.cari + '</a>' +
       '<button class="aico" data-aksi="bahasa" aria-pressed="false" title="Bahasa">EN</button>' +
       '<button class="aico" data-aksi="tema" aria-pressed="false" title="Tema">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg>' +

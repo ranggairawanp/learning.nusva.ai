@@ -10,6 +10,8 @@ index.html              Landing utama, untuk semua orang yang membuka learning.n
 masuk.html              Masuk dengan Google atau daftar dengan email, sadar peran learner atau trainer
 belajar.html            Beranda learner: Daily Recall, modul saya, progres, katalog
 modul.html              Detail modul. Terbuka tanpa akun; bagian bertanda gratis bisa dibuka
+perusahaan.html         Untuk pembeli korporat: pemetaan jabatan, kisaran biaya, formulir Bicara untuk tim
+dokumen.html            Sertifikat, Paket Bukti Karya, beda Complete dan Kompeten, privasi, posisi produk
 trainer.html            Halaman trainer, deck tujuh panel
 trainer/modul.html       Alur penyiapan modul, empat langkah sampai gerbang terbit, autosave draf
 trainer/dashboard.html  Dashboard trainer: pencairan, sinyal mutu, wawasan peserta
@@ -27,14 +29,29 @@ vercel.json             Clean URL dan header keamanan
 
 ## Urutan menjalankan SQL
 
-Jalankan berurutan di SQL Editor Supabase:
+Cukup dua kali tempel di SQL Editor Supabase:
 
-1. `supabase/schema.sql` aplikasi utama, profil, modul, sub-modul, pembelian, progres, RLS
-2. `supabase/schema-registry.sql` tabel registry SKKNI
-3. `supabase/seed-registry.sql` isi registry, 165 unit dan 1.019 KUK
-4. `supabase/schema-draft.sql` draf modul untuk autosave
+1. `supabase/00-jalankan-dulu.sql` gabungan skema aplikasi, registry, dan draf, dalam urutan yang benar
+2. `supabase/seed-registry.sql` isi registry, 165 unit dan 1.019 KUK, dipisah karena besar
+3. `supabase/02-permintaan-tim.sql` tabel penampung formulir Bicara untuk tim di `perusahaan.html`
 
-Sampai langkah 2 dan 3 dijalankan, alur modul memakai berkas cadangan di `assets/registry/`,
+Nomor 3 opsional dan bisa menunggu. Selama belum dijalankan, formulirnya tetap berfungsi tetapi
+jatuh ke jalur cadangan berupa aplikasi email dengan isian yang sudah tersusun, jadi tidak ada
+permintaan yang hilang diam-diam. Tabel itu sengaja **tidak punya policy select**: siapa pun boleh
+mengirim, tidak seorang pun boleh membaca lewat API publik. Tanpa itu, satu kunci publishable cukup
+untuk mengunduh seluruh daftar prospek Anda beserta nomor teleponnya.
+
+Sesudahnya, jalankan `supabase/99-cek.sql` untuk memastikan RLS aktif di semua tabel, fungsi penjaga
+akses lengkap, trigger profil terpasang, dan registry terisi 165 unit serta 1.019 KUK.
+
+Berkas aslinya tetap ada (`schema.sql`, `schema-registry.sql`, `schema-draft.sql`) untuk dibaca per bagian.
+Semuanya aman diulang.
+
+**Jangan jalankan di database yang sudah punya tabel bernama `modules` atau `lessons` dengan arti
+berbeda.** `create table if not exists` akan dilewati diam-diam dan foreign key akan menempel ke tabel
+yang salah. Itu kerusakan yang tidak memunculkan pesan error. Jalankan hanya di proyek bersih.
+
+Sampai langkah 1 dan 2 dijalankan, alur modul memakai berkas cadangan di `assets/registry/`,
 jadi situsnya tetap berfungsi.
 
 ## Cara deploy
@@ -51,7 +68,8 @@ petunjuk DNS-nya di penyedia domain nusva.ai.
 
 ## Menyalakan Supabase
 
-**1. Jalankan skema.** Buka Supabase, SQL Editor, tempel seluruh isi `supabase/schema.sql`, jalankan sekali.
+**1. Jalankan skema.** Ikuti urutan SQL di atas. Sudah dijalankan pada proyek berjalan, dan
+`99-cek.sql` melaporkan tujuh baris LULUS.
 
 **2. Nyalakan Google.** Authentication lalu Providers lalu Google. Isi Client ID dan Client Secret dari
 Google Cloud Console. Di Google Cloud, Authorized redirect URI-nya adalah:
@@ -92,7 +110,12 @@ alur trainer empat langkah sampai gerbang terbit, dashboard trainer, tema terang
 toggle bahasa Indonesia dan Inggris.
 
 Belum jalan: pembayaran Xendit, penulisan modul dari alur trainer ke tabel Supabase, mesin rubrik,
-dan penerbitan sertifikat. Katalog di halaman utama masih memakai data contoh di `assets/app.js`,
+dan penerbitan sertifikat.
+
+Perlu diketahui satu hal soal `assets/config.js`: berkas itu **wajib dimuat lewat tag script biasa di
+`<head>` setiap halaman**, sebelum modul mana pun. Kalau tidak, `window.NUSVA` kosong, seluruh lapisan
+Supabase mati tanpa satu pun pesan error, dan tombol Masuk cuma menjawab "Supabase belum
+dikonfigurasi". Halaman baru harus ikut memasangnya. Katalog di halaman utama masih memakai data contoh di `assets/app.js`,
 dan tinggal ditukar ke query Supabase begitu tabel `modules` terisi.
 
 ## Aturan yang mengikat isi

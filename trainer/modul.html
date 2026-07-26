@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="icon" href="../assets/logo-color.svg">
 <link rel="stylesheet" href="../assets/nusva.css">
+<script src="../assets/config.js"></script>
 <title>Modul · Nusva Learning</title>
 <style>
 @font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:200 800;font-display:swap;src:url('../assets/fonts/PlusJakartaSans-var.woff2') format('woff2');}
@@ -267,6 +268,43 @@ input.f:focus,textarea.f:focus,select.f:focus{border-color:var(--accent);outline
   background:var(--samudra-900);color:#fff;border-radius:999px;padding:9px 17px;font-size:13px;
   font-weight:var(--w-caption);transition:opacity .25s ease,transform .25s var(--spring);z-index:50;max-width:86%;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+/* ---- contoh modul jadi ---- */
+dialog.contoh{border:0;padding:0;border-radius:var(--r-panel);max-width:660px;width:calc(100% - 36px);
+  background:var(--surface);color:var(--ink);box-shadow:0 24px 70px rgba(5,25,43,.28)}
+dialog.contoh::backdrop{background:rgba(5,25,43,.42)}
+.chd{display:flex;gap:12px;align-items:flex-start;padding:22px 24px 16px;border-bottom:1px solid var(--border)}
+.chd b{display:block;font-size:18px;font-weight:var(--w-heading);letter-spacing:-.02em}
+.chd span{display:block;font-size:12.5px;color:var(--ink-3);margin-top:4px;line-height:1.5}
+.chd .x{margin-left:auto;flex:none;width:32px;height:32px;border-radius:9px;border:0;background:var(--surface-2);
+  color:var(--ink-2);display:grid;place-items:center}
+.cbd{padding:18px 24px 24px;max-height:64vh;overflow:auto}
+.cblok{margin-top:18px}
+.cblok:first-child{margin-top:0}
+.cblok > b{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:8px}
+.crow{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--ink-2);
+  padding:9px 0;border-bottom:1px dashed var(--border)}
+.crow:last-child{border-bottom:0}
+.crow .n{flex:none;width:22px;height:22px;border-radius:7px;background:var(--surface-3);color:var(--ink-2);
+  display:grid;place-items:center;font-size:11px;font-weight:800}
+.crow .tx{flex:1;min-width:0}
+.crow .tx b{display:block;color:var(--ink);font-weight:var(--w-body-strong);font-size:13.5px}
+.crow .tag{flex:none;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  background:var(--accent);color:#fff;border-radius:5px;padding:2px 6px}
+.cfoot{padding:14px 24px 20px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.cfoot .cap{flex:1;min-width:200px}
+
+/* ---- contoh kriteria yang bisa ditempel ---- */
+.contohkrit{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.contohkrit button{text-align:left;border:1px dashed var(--border-strong);background:var(--surface-2);
+  border-radius:10px;padding:7px 11px;font-size:12px;line-height:1.45;color:var(--ink-2);max-width:100%}
+.contohkrit button:hover{border-style:solid;border-color:var(--accent);color:var(--accent)}
+.contohkrit button::before{content:"+ ";font-weight:800;color:var(--accent)}
+.kata{display:none;font-size:12.5px;line-height:1.5;color:var(--ink-2);background:var(--warning-tint);
+  border-radius:var(--r-field);padding:10px 12px;margin-top:9px}
+.kata.on{display:block}
+.kata b{color:var(--ink);font-weight:var(--w-body-strong)}
+
 [hidden]{display:none !important}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important}}
 
@@ -313,6 +351,12 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
         </button>
       </div>
       <p class="hint" style="margin-top:13px;line-height:1.5;max-width:56ch" data-en="The first pass is run by the Nusva rubric engine, using the criteria you write yourself.">Pemeriksaan pertama dijalankan mesin rubrik Nusva, memakai kriteria yang Anda tulis sendiri.</p>
+
+      <!-- Contoh jadi, bisa dibuka sejak langkah pertama. Alur ini meminta kriteria, sub-modul, dan
+           soal, tetapi sebelumnya tidak pernah menunjukkan seperti apa hasil yang baik di platform
+           ini. Trainer pertama kali jadi menebak-nebak, dan menebak di tengah alur adalah alasan
+           paling umum orang berhenti. -->
+      <button class="btn btn-quiet" style="margin-top:16px" onclick="bukaContoh()" data-en="See a finished example">Lihat contoh jadi</button>
     </section>
 
     <!-- ================= 2. TEKNIS: BASIS ================= -->
@@ -408,9 +452,12 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
         <h2 data-en="Observable indicators">Indikator teramati</h2>
         <p class="cap" data-en="One sentence per behaviour, the kind you could nod at from across the room. These become what we mark against.">Satu kalimat per perilaku, yang bisa Anda anggukkan dari seberang ruangan. Inilah yang nanti jadi acuan penilaian.</p>
         <div class="row">
-          <input class="f" id="iText" placeholder="Contoh: menyatakan ulang keberatan pihak lain sebelum menjawab" data-en-ph="Example: restates the other party's objection before replying">
+          <input class="f" id="iText" oninput="periksaKata(this.value,'kataInd')" placeholder="Contoh: menyatakan ulang keberatan pihak lain sebelum menjawab" data-en-ph="Example: restates the other party's objection before replying">
           <button class="btn btn-quiet" onclick="tambahIndikator()" data-en="Add">Tambah</button>
         </div>
+        <div class="kata" id="kataInd"></div>
+        <p class="cap" style="margin-top:11px" data-en="Or start from one of these and edit it. They come from the skill you picked above.">Atau mulai dari salah satu ini lalu ubah seperlunya. Contohnya mengikuti skill yang Anda pilih di atas.</p>
+        <div class="contohkrit" id="contohInd"></div>
         <div class="flist" id="listIndikator"></div>
         <div class="inerr" id="errPerilaku"></div>
       </div>
@@ -438,11 +485,24 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
         <div class="g2">
           <div><label class="f" for="harga" data-en="Price per training (IDR)">Harga per training (Rp)</label>
             <input class="f" id="harga" type="number" min="0" step="1000" oninput="cek()">
-            <span class="cap" id="hargaHint"></span></div>
+            <span class="cap" id="hargaHint"></span>
+            <!-- pembanding dari modul yang benar-benar terbit, bukan angka karangan -->
+            <span class="cap" id="hargaPasar" style="display:block;margin-top:5px"></span></div>
           <div><label class="f" data-en="Sub-module total (auto)">Total sub-modul (otomatis)</label>
             <input class="f" id="estimasi" readonly>
             <span class="cap" data-en="Just a running total, not a requirement.">Sekadar penjumlahan, bukan syarat.</span></div>
         </div>
+
+        <!-- Rangkaian modul. Batas lima bagian dan dua puluh menit sengaja TIDAK dilonggarkan,
+             karena batas itu benar secara pedagogis. Yang ditambahkan adalah cara mencapai
+             panjang dengan MERANGKAI, bukan dengan memanjangkan satu modul sampai tidak
+             dituntaskan siapa pun. -->
+        <label class="f" for="seriNama" data-en="Part of a series (optional)">Bagian dari rangkaian (opsional)</label>
+        <div class="g2">
+          <div><input class="f" id="seriNama" oninput="ubahSeri()" placeholder="Siklus Pengupahan Penuh" data-en-ph="A Full Payroll Cycle"></div>
+          <div><input class="f" id="seriUrut" type="number" min="1" max="20" step="1" oninput="ubahSeri()" placeholder="Urutan ke berapa" data-en-ph="Position in the series"></div>
+        </div>
+        <span class="cap" data-en="One full payroll cycle genuinely needs more than a hundred minutes, and the cap does not stand in your way. Chain three modules under one series name: the learner sees a single path, and every part stays short enough to actually be finished.">Satu siklus pengupahan yang utuh memang butuh lebih dari seratus menit, dan batasnya tidak menghalangi Anda. Rangkai tiga modul di bawah satu nama rangkaian: learner melihat satu jalur, dan tiap bagiannya tetap cukup pendek untuk benar-benar dituntaskan.</span>
       </div>
 
       <div class="sect">
@@ -528,9 +588,12 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
         <h2 data-en="Workshop exercise">Latihan Workshop</h2>
         <p class="cap" id="kritCap"></p>
         <div class="row">
-          <input class="f" id="rText" placeholder="Perilaku teramati pada karya learner" data-en-ph="Observable behaviour in the learner's work">
+          <input class="f" id="rText" oninput="periksaKata(this.value,'kataKrit')" placeholder="Perilaku teramati pada karya learner" data-en-ph="Observable behaviour in the learner's work">
           <button class="btn btn-quiet" onclick="tambahKriteria()" data-en="Add">Tambah</button>
         </div>
+        <div class="kata" id="kataKrit"></div>
+        <p class="cap" style="margin-top:11px" data-en="Or start from one of these and edit it.">Atau mulai dari salah satu ini lalu ubah seperlunya.</p>
+        <div class="contohkrit" id="contohKrit"></div>
         <div class="flist" id="listKriteria"></div>
       </div>
     </section>
@@ -540,6 +603,23 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
       <span class="eyebrow">Langkah 4</span>
       <h1 class="t" data-en="Publish gate">Gerbang terbit</h1>
       <p class="lead" data-en="All of it has to pass. It is the only thing standing between a paid catalogue and a pile of half-finished modules.">Semuanya harus lolos. Cuma ini yang memisahkan katalog berbayar dari tumpukan modul setengah jadi.</p>
+
+      <!-- Sumber dan hak pakai materi. Trainer memakai kerangka orang lain sepanjang waktu, dan
+           itu wajar. Tanpa tempat menyatakannya, risikonya menumpuk diam-diam dan baru muncul
+           persis saat modulnya sudah laku, yaitu saat paling mahal untuk diurus. -->
+      <div class="sect">
+        <h2 data-en="Source and rights">Sumber dan hak pakai</h2>
+        <p class="cap" data-en="Using someone else framework is normal and allowed. Say where it came from, and everyone is protected, including you.">Memakai kerangka orang lain itu biasa dan boleh. Sebutkan asalnya, dan semua pihak terlindungi, termasuk Anda.</p>
+        <label class="f" for="sumberMat" data-en="Where the material comes from">Asal materinya</label>
+        <textarea class="f" id="sumberMat" rows="2" oninput="ubahSumber()"
+          placeholder="Sepenuhnya tulisan saya sendiri. Kerangka lima langkahnya mengadaptasi SKKNI M.70SDM01.010.2."
+          data-en-ph="Entirely my own writing. The five step outline adapts SKKNI M.70SDM01.010.2."></textarea>
+        <div class="lock" style="margin-top:11px;align-items:flex-start">
+          <input type="checkbox" id="hakPakai" onchange="ubahSumber()" style="width:16px;height:16px;flex:none;margin-top:2px;accent-color:var(--accent)">
+          <label for="hakPakai" style="cursor:pointer" data-en="&lt;b&gt;I have the right to publish this material&lt;/b&gt;Whatever is in here is my own work, or I hold a licence or permission to use it commercially. If a third party disputes it, Nusva may take the module down while it is sorted out."><b>Saya berhak menerbitkan materi ini</b>Apa pun yang ada di dalamnya adalah karya saya sendiri, atau saya memegang lisensi atau izin untuk memakainya secara komersial. Kalau ada pihak ketiga yang mempersoalkannya, Nusva boleh menurunkan modulnya selama urusannya diselesaikan.</label>
+        </div>
+      </div>
+
       <div id="glist" style="margin-top:16px"></div>
       <div class="prevbox">
         <b data-en="How the learner sees it">Cara learner melihatnya</b>
@@ -557,6 +637,25 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
   </div>
 
   <div class="toast" id="toast" role="status"></div>
+
+  <!-- Contoh modul jadi. Isinya modul sungguhan yang sudah terbit, bukan naskah karangan,
+       supaya trainer melihat standar yang benar-benar berlaku di katalog. -->
+  <dialog class="contoh" id="dlgContoh" aria-labelledby="cJudul">
+    <div class="chd">
+      <div>
+        <b id="cJudul">Menyusun Uraian Jabatan</b>
+        <span id="cSub"></span>
+      </div>
+      <button class="x" onclick="tutupContoh()" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="cbd" id="cBody"></div>
+    <div class="cfoot">
+      <span class="cap" id="cCap"></span>
+      <button class="btn btn-primary" onclick="tutupContoh()" id="cTutup">Mengerti</button>
+    </div>
+  </dialog>
 </div>
 </div>
 
@@ -567,7 +666,8 @@ const $=id=>document.getElementById(id);
 let lang='id';
 const S={jenis:null,basis:null,mode:null,standar:null,unit:null,kuk:[],usulKuk:[],skill:[],indikator:[],
   seg:[],tingkat:null,parts:[],dok:[],kriteria:[],pre:{on:false},post:{on:false},kat:'materi',
-  sampul:null,terbit:false};
+  sampul:null,terbit:false,
+  seri:{nama:'',urut:null}, sumber:'', hak:false};
 
 const SKILL=['Komunikasi Efektif','Kepemimpinan','Kolaborasi Tim','Manajemen Waktu','Berpikir Kritis',
  'Negosiasi','Presentasi','Literasi Data','Produktivitas AI','Bahasa Inggris Profesional','Manajemen Proyek','Layanan Pelanggan'];
@@ -581,6 +681,179 @@ const segNama=x=>typeof x==='string'?x:(lang==='en'?x.en:x.id);
 const WHITE={materi:['pdf','pptx'],tools:['pdf','docx','xlsx','pptx']};
 const MAKS={materi:20*1024*1024,tools:20*1024*1024};
 const rp=n=>new Intl.NumberFormat('id-ID').format(n);
+const t=(id,en)=>lang==='en'?en:id;
+
+/* ================= contoh modul jadi =================
+   Diambil dari modul yang benar-benar terbit di katalog, bukan naskah karangan, supaya yang
+   dilihat trainer adalah standar yang sungguhan berlaku. */
+const CONTOH = {
+  judul:'Menyusun Uraian Jabatan',
+  sub:{id:'Jalur teknis berbasis SKKNI · unit M.70SDM01.010.2 · 5 sub-modul · 51 menit · Rp50.000',
+       en:'Technical path on SKKNI · unit M.70SDM01.010.2 · 5 sub-modules · 51 minutes · Rp50,000'},
+  parts:[
+    {j:{id:'Kenapa uraian jabatan sering jadi dokumen mati',en:'Why job descriptions end up dead'},m:4,t:{id:'Artikel',en:'Article'},g:1},
+    {j:{id:'Anatomi uraian jabatan yang terpakai',en:'Anatomy of one that gets used'},m:6,t:{id:'Artikel',en:'Article'},g:1},
+    {j:{id:'Contoh dikerjakan: jabatan Staf Payroll',en:'Worked example: Payroll Staff'},m:8,t:{id:'Video',en:'Video'},g:0},
+    {j:{id:'Latihan mandiri: susun satu uraian jabatan',en:'Practice: write one job description'},m:10,t:{id:'Latihan Workshop',en:'Workshop exercise'},g:0},
+    {j:{id:'Terapkan di pekerjaan Anda',en:'Apply it at work'},m:5,t:{id:'Artikel',en:'Article'},g:0}
+  ],
+  krit:[
+    {id:'Uraiannya memisahkan pekerjaan dari orang yang sedang memegangnya',en:'It separates the job from the person currently holding it'},
+    {id:'Tiap tanggung jawab utama menyebut keluaran, bukan kegiatan',en:'Each main responsibility names an output, not an activity'},
+    {id:'Persyaratan kompetensinya bisa diverifikasi orang lain tanpa bertanya ke penulisnya',en:'The competency requirements can be verified by someone else without asking the author'}
+  ],
+  soal:{
+    q:{id:'Mana yang termasuk isi uraian jabatan?',en:'Which of these belongs in a job description?'},
+    o:[{id:'Tanggung jawab utama',en:'Main responsibilities'},{id:'Gaji orangnya',en:'The person salary'},{id:'Kompetensi yang dibutuhkan',en:'Required competencies'}],
+    b:{id:'Benar: 1 dan 3. Gaji melekat pada orang dan struktur upah, bukan pada uraian jabatannya.',
+       en:'Correct: 1 and 3. Salary attaches to the person and the pay structure, not to the job description.'}
+  }
+};
+function bukaContoh(){
+  const d=$('dlgContoh');
+  $('cJudul').textContent = CONTOH.judul;
+  $('cSub').textContent = t(CONTOH.sub.id, CONTOH.sub.en);
+  const tot = CONTOH.parts.reduce((a,b)=>a+b.m,0);
+  $('cBody').innerHTML =
+    '<div class="cblok"><b>'+t('Sub-modul','Sub-modules')+'</b>'+
+      CONTOH.parts.map((p,i)=>
+        '<div class="crow"><span class="n">'+(i+1)+'</span><span class="tx"><b>'+t(p.j.id,p.j.en)+'</b>'+
+        t(p.t.id,p.t.en)+' · '+p.m+' '+t('mnt','min')+'</span>'+
+        (p.g?'<span class="tag">'+t('Gratis','Free')+'</span>':'')+'</div>').join('')+
+      '<p class="cap" style="margin-top:9px">'+
+      t('Total '+tot+' menit. Tidak ada satu pun bagian yang melewati 20 menit, dan dua bagian pertama dibuka sebelum dibeli.',
+        'Total '+tot+' minutes. No single part goes past 20 minutes, and the first two open before purchase.')+'</p></div>'+
+
+    '<div class="cblok"><b>'+t('Kriteria rubrik','Rubric criteria')+'</b>'+
+      CONTOH.krit.map((k,i)=>'<div class="crow"><span class="n">'+(i+1)+'</span><span class="tx">'+t(k.id,k.en)+'</span></div>').join('')+
+      '<p class="cap" style="margin-top:9px">'+
+      t('Perhatikan bentuknya: tiap baris menyebut sesuatu yang bisa dilihat pada karya peserta. Tidak ada satu pun yang berbunyi peserta memahami.',
+        'Note the shape: every line names something visible in the work. Not one of them says the learner understands.')+'</p></div>'+
+
+    '<div class="cblok"><b>'+t('Satu quiz checkpoint','One checkpoint quiz')+'</b>'+
+      '<div class="crow"><span class="tx"><b>'+t(CONTOH.soal.q.id,CONTOH.soal.q.en)+'</b>'+
+      CONTOH.soal.o.map((o,i)=>(i+1)+'. '+t(o.id,o.en)).join(' &nbsp;·&nbsp; ')+'</span></div>'+
+      '<p class="cap" style="margin-top:9px">'+t(CONTOH.soal.b.id,CONTOH.soal.b.en)+'</p></div>';
+  $('cCap').textContent = t('Modul ini terbit di katalog dan bisa Anda buka sendiri di halaman modul.',
+                           'This module is live in the catalogue and you can open it yourself on the module page.');
+  $('cTutup').textContent = t('Mengerti','Got it');
+  if(typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open','');
+}
+function tutupContoh(){ const d=$('dlgContoh'); if(typeof d.close==='function') d.close(); else d.removeAttribute('open'); }
+
+/* ================= contoh kriteria dan pemeriksa kata =================
+   Jalur SKKNI aman karena KUK-nya didatangkan. Jalur non SKKNI dan perilaku sebelumnya cuma
+   memberi kotak kosong, padahal menulis kriteria teramati justru bagian tersulitnya. Kebanyakan
+   orang menulis tujuan ("peserta memahami…"), dan mesin rubrik tidak bisa memeriksa kata memahami. */
+const CONTOH_KRIT = {
+  'Komunikasi Efektif':[
+    {id:'Menyatakan ulang keberatan lawan bicara sebelum menjawabnya',en:'Restates the other side objection before replying'},
+    {id:'Menyampaikan satu permintaan spesifik beserta tenggatnya, bukan harapan umum',en:'States one specific request with a deadline, not a general hope'},
+    {id:'Memisahkan fakta yang diamati dari tafsirannya dalam kalimat terpisah',en:'Separates observed fact from interpretation in distinct sentences'}],
+  'Kepemimpinan':[
+    {id:'Menyebut perilaku yang perlu berubah, bukan sifat orangnya',en:'Names the behaviour that must change, not the person character'},
+    {id:'Menutup percakapan dengan satu kesepakatan bertanggal yang ditulis ulang oleh bawahannya',en:'Closes with one dated agreement the report restates in their own words'},
+    {id:'Menyatakan konsekuensi yang benar-benar ada di kewenangannya',en:'States a consequence that is actually within their authority'}],
+  'Kolaborasi Tim':[
+    {id:'Menuliskan siapa mengerjakan apa dan kapan, tanpa nama ganda di satu keluaran',en:'Writes who does what by when, with no double owner on one output'},
+    {id:'Menandai ketergantungan antar pekerjaan sebelum jadwalnya disusun',en:'Flags dependencies between tasks before the schedule is built'},
+    {id:'Menyampaikan hambatan lebih awal dengan menyebut dampaknya ke pekerjaan orang lain',en:'Raises a blocker early, naming its impact on other people work'}],
+  'Manajemen Waktu':[
+    {id:'Menolak satu permintaan dengan menyebut pekerjaan mana yang akan mundur kalau diterima',en:'Declines one request by naming which work would slip if accepted'},
+    {id:'Memecah pekerjaan besar jadi langkah yang tiap langkahnya selesai di bawah dua jam',en:'Breaks large work into steps each finishable in under two hours'},
+    {id:'Menyusun ulang urutan kerja berdasarkan tenggat yang tertulis, bukan yang paling ramai ditagih',en:'Reorders work by written deadline, not by who is shouting loudest'}],
+  'Berpikir Kritis':[
+    {id:'Menyebut satu asumsi yang kalau keliru akan membatalkan kesimpulannya',en:'Names one assumption that would break the conclusion if wrong'},
+    {id:'Membedakan korelasi dari sebab akibat pada data yang dibawanya',en:'Distinguishes correlation from causation in the data presented'},
+    {id:'Mengajukan satu bukti tandingan terhadap posisinya sendiri',en:'Offers one piece of counter evidence against their own position'}],
+  'Negosiasi':[
+    {id:'Menyatakan batas bawahnya sendiri sebelum pertemuan dimulai',en:'States their own walk away point before the meeting starts'},
+    {id:'Menawarkan pertukaran yang menyebut apa yang ia lepas, bukan hanya yang ia minta',en:'Offers a trade naming what they give up, not only what they want'},
+    {id:'Merangkum kesepakatan dalam kalimat yang disetujui kedua pihak di tempat',en:'Summarises the agreement in words both sides confirm on the spot'}],
+  'Presentasi':[
+    {id:'Membuka dengan kesimpulan, lalu barulah alasannya',en:'Opens with the conclusion, then the reasoning'},
+    {id:'Tiap salindia membawa satu gagasan, dan judulnya adalah gagasan itu sendiri',en:'Each slide carries one idea, and its title is that idea'},
+    {id:'Menjawab satu pertanyaan sulit tanpa mengulang isi salindia',en:'Answers one hard question without repeating the slide'}],
+  'Literasi Data':[
+    {id:'Menyebut sumber dan tanggal potong data sebelum menampilkan angkanya',en:'States the source and cut off date before showing the figure'},
+    {id:'Memilih jenis grafik yang sesuai bentuk datanya dan bisa menjelaskan alasannya',en:'Picks a chart type that fits the data shape and can say why'},
+    {id:'Menandai angka yang berasal dari sampel kecil sebagai belum dapat disimpulkan',en:'Marks figures from small samples as not yet conclusive'}],
+  'Produktivitas AI':[
+    {id:'Menuliskan konteks, peran, dan format keluaran dalam satu perintah',en:'Writes context, role, and output format in a single prompt'},
+    {id:'Memeriksa satu klaim faktual dari keluaran AI terhadap sumber aslinya',en:'Verifies one factual claim from the AI output against the source'},
+    {id:'Menandai bagian mana dari hasil akhirnya yang dibantu AI',en:'Marks which part of the final work was AI assisted'}],
+  'Bahasa Inggris Profesional':[
+    {id:'Menulis email permintaan yang subjeknya sudah menyebut tindakan yang diminta',en:'Writes a request email whose subject already names the action needed'},
+    {id:'Menyampaikan penolakan yang sopan tanpa kalimat berputar',en:'Delivers a polite refusal without circling'},
+    {id:'Merangkum rapat dalam lima kalimat yang bisa dibaca orang yang tidak hadir',en:'Summarises a meeting in five sentences an absentee can follow'}],
+  'Manajemen Proyek':[
+    {id:'Menyusun lingkup yang menyebutkan juga apa yang TIDAK termasuk',en:'Defines a scope that also names what is NOT included'},
+    {id:'Menetapkan satu penanggung jawab tunggal per keluaran',en:'Assigns exactly one accountable owner per deliverable'},
+    {id:'Melaporkan risiko dengan peluang dan dampaknya, bukan sekadar daftar kekhawatiran',en:'Reports risk with likelihood and impact, not a worry list'}],
+  'Layanan Pelanggan':[
+    {id:'Menyatakan ulang keluhan pelanggan dengan kalimatnya sendiri sebelum menawarkan solusi',en:'Restates the complaint in their own words before offering a fix'},
+    {id:'Menyebut apa yang bisa dan tidak bisa ia lakukan, beserta tenggatnya',en:'States what they can and cannot do, with a time frame'},
+    {id:'Menutup dengan satu langkah lanjutan yang jelas pemiliknya',en:'Closes with one next step that has a clear owner'}]
+};
+const CONTOH_TEKNIS = [
+  {id:'Hasilnya memuat seluruh komponen wajib, dan yang hilang bisa ditunjuk',en:'The output contains every required component, and a missing one can be pointed at'},
+  {id:'Angkanya bisa ditelusuri sampai ke sumber datanya',en:'Every figure can be traced back to its source data'},
+  {id:'Perhitungannya memakai rumus yang benar untuk kasus yang diberikan',en:'The calculation uses the correct formula for the case given'},
+  {id:'Formatnya mengikuti ketentuan yang berlaku dan bisa dibaca pihak ketiga',en:'The format follows the applicable rules and is readable by a third party'},
+  {id:'Kesimpulannya dinyatakan terpisah dari datanya, bukan tercampur',en:'The conclusion is stated separately from the data, not mixed into it'}
+];
+
+/* Pemeriksa lunak. Kriteria yang dibuka kata memahami, mengetahui, atau mampu tidak bisa diperiksa
+   mesin rubrik maupun manusia, karena tidak ada yang bisa dilihat. Ini peringatan, bukan larangan:
+   trainer tetap boleh menyimpannya kalau memang itu maksudnya. */
+const KATA_LEMAH = [
+  ['memahami','understand'],['mengetahui','know'],['mengerti','understand'],
+  ['mampu','be able'],['paham','grasp'],['menyadari','be aware'],['mengenal','be familiar'],
+  ['understands',''],['knows',''],['is able',''],['aware of','']
+];
+function kataLemah(teks){
+  const s = ' ' + String(teks).toLowerCase() + ' ';
+  for(const [a] of KATA_LEMAH){ if(a && s.includes(' ' + a)) return a; }
+  return null;
+}
+function periksaKata(teks, boxId){
+  const el = $(boxId); if(!el) return;
+  const k = kataLemah(teks);
+  if(!k){ el.classList.remove('on'); el.innerHTML=''; return; }
+  el.classList.add('on');
+  el.innerHTML = '<b>' + t('Kata "'+k+'" tidak bisa diperiksa.','The word "'+k+'" cannot be checked.') + '</b> ' +
+    t('Tidak ada yang bisa dilihat dari kata itu pada karya peserta, jadi rubriknya tidak punya pegangan. Coba ganti jadi apa yang HARUS TERLIHAT: bukan "peserta memahami beban kerja", melainkan "perhitungannya menyebutkan asumsi jam kerja efektif yang dipakai". Anda tetap boleh menyimpannya kalau memang itu yang Anda maksud.',
+      'Nothing about that word is visible in the work, so the rubric has nothing to hold on to. Try what MUST BE VISIBLE instead: not "the learner understands workload", but "the calculation states the effective working hours assumption used". You may still keep it if that is genuinely what you mean.');
+}
+
+/* Deretan contoh yang bisa ditempel sekali klik ke daftar kriteria atau indikator. */
+function gambarContohKrit(boxId, targetKey, kotakId){
+  const box = $(boxId); if(!box) return;
+  let sumber = [];
+  if(targetKey === 'indikator'){
+    S.skill.forEach(n => { if(CONTOH_KRIT[n]) sumber = sumber.concat(CONTOH_KRIT[n]); });
+    if(!sumber.length) sumber = CONTOH_KRIT['Komunikasi Efektif'];
+  } else {
+    S.skill.forEach(n => { if(CONTOH_KRIT[n]) sumber = sumber.concat(CONTOH_KRIT[n]); });
+    sumber = sumber.length ? sumber : CONTOH_TEKNIS;
+  }
+  sumber = sumber.slice(0, 6);
+  box.innerHTML = '';
+  sumber.forEach(c => {
+    const teks = t(c.id, c.en);
+    if(S[targetKey].includes(teks)) return;
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = teks;
+    b.onclick = () => {
+      S[targetKey].push(teks);
+      if(targetKey === 'kriteria'){ gambarKriteria(); segarkanCueLatihan(); }
+      else gambarList('indikator','listIndikator');
+      gambarContohKrit(boxId, targetKey, kotakId);
+      cek(); aturFoot();
+    };
+    box.appendChild(b);
+  });
+}
 
 /* ---------- alur langkah ---------- */
 let langkah=0;
@@ -596,8 +869,9 @@ function go(n){
   ['1','2','2b','4','5'].forEach(k=>{ const el=$('sc'+k); if(el) el.hidden = (String(langkah)!==k); });
   $('stepsWrap').hidden=false; $('foot').hidden=false;
   gambarBar();
-  if(langkah===4){ isiSeg(); gambarParts(); setKat(S.kat, $('pillKat').querySelector('.pill[aria-pressed="true"]')||$('pillKat').firstElementChild); kritCap(); }
-  if(String(langkah)==='2b') isiSkill();
+  if(langkah===4){ isiSeg(); gambarParts(); setKat(S.kat, $('pillKat').querySelector('.pill[aria-pressed="true"]')||$('pillKat').firstElementChild); kritCap(); gambarContohKrit('contohKrit','kriteria'); gambarPembanding(); }
+  if(langkah===5){ $('sumberMat').value=S.sumber||''; $('hakPakai').checked=!!S.hak; }
+  if(String(langkah)==='2b'){ isiSkill(); gambarContohKrit('contohInd','indikator'); }
   if(langkah===2 && $('skkniPick')){ $('skkniPick').hidden = S.basis!=='skkni'; if(S.basis==='skkni'){ isiStandar(); $('unitWrap').hidden = !(S.mode==='registry' && S.standar); $('sectUsul').hidden = S.mode!=='usul'; } }
   if(langkah===5) cek();
   aturFoot();
@@ -866,7 +1140,7 @@ function isiSkill(){
     const b=document.createElement('button'); b.className='pill';
     b.setAttribute('aria-pressed',String(S.skill.includes(n))); b.textContent=n;
     b.onclick=()=>{ const i=S.skill.indexOf(n); i<0?S.skill.push(n):S.skill.splice(i,1);
-      b.setAttribute('aria-pressed',String(i<0)); aturFoot(); };
+      b.setAttribute('aria-pressed',String(i<0)); gambarContohKrit('contohInd','indikator'); aturFoot(); };
     box.appendChild(b);
   });
 }
@@ -897,6 +1171,30 @@ function hintHarga(){
 function setTingkat(v,el){ S.tingkat=v;
   el.parentElement.querySelectorAll('.pill').forEach(b=>b.setAttribute('aria-pressed',String(b===el))); cek(); }
 function tog(k,el){ S[k]=!S[k]; el.setAttribute('aria-pressed',String(S[k])); cek(); }
+function ubahSeri(){
+  S.seri = { nama:$('seriNama').value.trim(), urut: parseInt($('seriUrut').value,10) || null };
+  cek();
+}
+function ubahSumber(){
+  S.sumber = $('sumberMat').value.trim();
+  S.hak = $('hakPakai').checked;
+  cek();
+}
+/* Pembanding harga: median modul yang BENAR-BENAR terbit. Selama belum ada satu pun, jawabannya
+   harus jujur, karena angka karangan yang terlihat meyakinkan lebih merusak daripada tidak ada
+   angka sama sekali. */
+let PASAR = null;
+function pasangPembanding(d){ PASAR = d; gambarPembanding(); }
+function gambarPembanding(){
+  const el = $('hargaPasar'); if(!el) return;
+  if(!PASAR || !PASAR.n){
+    el.textContent = t('Belum ada modul terbit yang bisa dijadikan pembanding. Anda termasuk yang pertama, jadi angka Anda yang akan jadi acuan orang berikutnya.',
+                       'No published module exists yet to compare against. You are among the first, so your number becomes the reference for whoever comes next.');
+    return;
+  }
+  el.textContent = t('Pembanding: median '+PASAR.n+' modul terbit Rp'+rp(PASAR.median)+', rentang Rp'+rp(PASAR.min)+' sampai Rp'+rp(PASAR.maks)+'.',
+                     'Reference: median of '+PASAR.n+' published modules Rp'+rp(PASAR.median)+', ranging Rp'+rp(PASAR.min)+' to Rp'+rp(PASAR.maks)+'.');
+}
 function kritCap(){
   $('kritCap').textContent = S.jenis==='perilaku'
     ? (lang==='en'?'We already carried over the indicators you wrote in step 3. Add more if something is missing.'
@@ -1261,6 +1559,8 @@ function aturan(){
     kur:{id:'',en:''},cat:{id:'Opsional. Tanpa unggahan, sampul dibangkitkan dari judul.',en:'Optional. Without an upload, the cover is generated from the title.'}},
    {t:{id:'Harga ditetapkan',en:'Price set'},ok:(+$('harga').value||0)>0,
     kur:{id:'Isi harga per training; Anda yang menetapkan.',en:'Set the price per training; the trainer decides it.'}},
+   {t:{id:'Sumber dan hak pakai materi',en:'Source and rights to the material'},ok:S.hak && S.sumber.length>=10,
+    kur:{id:'Sebutkan asal materinya, lalu centang pernyataan hak. Memakai kerangka orang lain itu boleh; yang tidak boleh adalah tidak menyebutkannya.',en:'Say where the material came from, then tick the rights statement. Using someone else framework is fine; not saying so is not.'}},
   ];
   if(S.jenis==='teknis'&&S.basis==='skkni'){
     L.push({t:{id:'Pemetaan kriteria SKKNI',en:'SKKNI criteria mapping'},ok:S.kuk.length>=1||S.usulKuk.length>=1,
@@ -1370,6 +1670,11 @@ window.NW = {
     if(d.judul) $('judul').value=d.judul;
     if(d.desk) $('desk').value=d.desk;
     if(d.harga) $('harga').value=d.harga;
+    S.seri = S.seri || {nama:'',urut:null};
+    $('seriNama').value = S.seri.nama || '';
+    $('seriUrut').value = S.seri.urut || '';
+    $('sumberMat').value = S.sumber || '';
+    $('hakPakai').checked = !!S.hak;
     isiStandar(); isiSkill(); isiSeg(); gambarParts(); gambarDok();
     gambarKriteria(); gambarList('indikator','listIndikator');
     gambarList('usulKuk','listUsul',x=>'KUK '+x[0]+' · '+x[1]);
@@ -1381,6 +1686,7 @@ window.NW = {
       $('pkNon').setAttribute('aria-pressed',String(S.basis==='non')); }
     kritCap(); gambarSampul(); go(d.langkah && urutan().includes(d.langkah) ? d.langkah : 1);
   },
+  pasangPembanding,
   onUbah:null
 };
 /* setiap perubahan state memanggil cek(), jadi itulah tempat paling tepat memicu autosave */
@@ -1389,7 +1695,7 @@ cek = function(){ _cek.apply(null, arguments); if(window.NW.onUbah) window.NW.on
 </script>
 
 <script type="module">
-import { pasangChrome, pitaPratinjau, ambilBidang, ambilBidangIsi,
+import { pasangChrome, pitaPratinjau, ambilBidang, ambilBidangIsi, ambilHargaTerbit,
          simpanDraf, ambilDraf, hapusDraf, tandaSimpan } from '../assets/trainer.js';
 import { T, toast } from '../assets/app.js';
 import { sampulCadangan, ikonBerkas, pratinjauBerkas } from '../assets/sampul.js';
@@ -1417,6 +1723,12 @@ window.__muatBidang = async kode => {
   }
 
   window.NW.mulai();
+
+  /* Pembanding harga diambil di latar. Kalau gagal atau belum ada modul terbit, kolomnya
+     menyatakan itu apa adanya, bukan menampilkan angka yang tidak punya dasar. */
+  ambilHargaTerbit()
+    .then(d => window.NW.pasangPembanding(d))
+    .catch(() => window.NW.pasangPembanding(null));
 
   const draf = await ambilDraf(modulId ? Number(modulId) : null);
   if(draf){

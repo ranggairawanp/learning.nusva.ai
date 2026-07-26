@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dokumen yang Anda terima · Nusva Learning</title>
+<meta name="description" content="Sertifikat Penyelesaian Pelatihan, Paket Bukti Karya, beda Complete dan Kompeten, prinsip privasi, dan posisi produk Nusva Learning.">
+<link rel="icon" href="assets/logo-color.svg">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/PlusJakartaSans-var.woff2" crossorigin>
+<link rel="stylesheet" href="assets/nusva.css">
+<script src="assets/config.js"></script>
+<style>
+html{scroll-behavior:smooth}
+[id]{scroll-margin-top:78px}
+main{padding:0 0 76px}
+section{padding:62px 0;border-top:1px solid var(--border)}
+section:first-child{border-top:0;padding-top:44px}
+@media (max-width:700px){ section{padding:44px 0} }
+h1{font-size:clamp(30px,4.4vw,46px);letter-spacing:-.03em;line-height:1.1;margin:12px 0 0;max-width:16ch}
+h2.j{font-size:clamp(23px,2.8vw,32px);letter-spacing:-.026em;line-height:1.15;margin:12px 0 0;max-width:22ch}
+.lead{font-size:clamp(16px,1.8vw,20px);color:var(--ink-2);line-height:1.55;margin:16px 0 0;max-width:54ch}
+p.tx{font-size:14.5px;color:var(--ink-2);line-height:1.7;margin:16px 0 0;max-width:62ch}
+.dua{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:44px;align-items:start}
+@media (max-width:900px){ .dua{grid-template-columns:1fr;gap:26px} }
+
+/* daftar isi */
+.toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+.toc a{font-size:13px;font-weight:var(--w-body-strong);text-decoration:none;color:var(--ink-2);
+  border:1px solid var(--border-strong);background:var(--surface);border-radius:999px;padding:8px 14px}
+.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* dokumen contoh */
+.doc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-panel);padding:26px 26px 28px;
+  box-shadow:var(--sh-1,0 1px 2px rgba(5,25,43,.05))}
+.doc .kop{display:flex;gap:10px;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.doc .kop .lockup img{height:22px;width:66px}
+.doc .kop span{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.doc .nm{display:block;font-size:19px;font-weight:var(--w-heading);margin-top:16px;letter-spacing:-.02em}
+.doc .sb{display:block;font-size:12.5px;color:var(--ink-3);margin-top:4px}
+.doc .baris{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-2);
+  line-height:1.5;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
+.doc .baris svg{width:14px;height:14px;flex:none;margin-top:3px;color:var(--success)}
+.doc .cap{margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+
+/* dua kolom boleh dan tidak boleh */
+.bandingkan{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+@media (max-width:760px){ .bandingkan{grid-template-columns:1fr} }
+.kol{border:1px solid var(--border);border-radius:var(--r-card);background:var(--surface);padding:20px 21px 22px}
+.kol.ya{border-color:color-mix(in srgb,var(--success) 45%,var(--border))}
+.kol.tidak{border-color:color-mix(in srgb,var(--danger) 40%,var(--border))}
+.kol h3{font-size:15px;display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.kol h3 svg{width:16px;height:16px;flex:none}
+.kol.ya h3 svg{color:var(--success)}
+.kol.tidak h3 svg{color:var(--danger)}
+.kol ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:11px}
+.kol li{font-size:13.5px;color:var(--ink-2);line-height:1.55;padding-left:15px;position:relative}
+.kol li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--ink-3)}
+
+.prinsip{list-style:none;padding:0;margin:24px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){ .prinsip{grid-template-columns:1fr} }
+.prinsip li{border:1px solid var(--border);border-radius:var(--r-card);background:var(--surface);padding:18px 19px 20px}
+.prinsip b{display:block;font-size:14.5px;font-weight:var(--w-body-strong);margin-bottom:7px}
+.prinsip span{font-size:13.5px;color:var(--ink-2);line-height:1.55}
+</style>
+</head>
+<body>
+
+<header id="nav"></header>
+
+<main>
+
+<section class="wrap" id="atas">
+  <span class="eyebrow" data-en="What you receive">Yang Anda terima</span>
+  <h1 data-en="Two documents, and what each one may be claimed for.">Dua dokumen, dan untuk apa masing-masing boleh diklaim.</h1>
+  <p class="lead" data-en="This page exists because the difference between finishing training and being declared competent gets blurred constantly in this industry, and the person paying the price for that blur is usually the one holding the certificate.">Halaman ini ada karena beda antara menuntaskan pelatihan dan dinyatakan kompeten terus-menerus dikaburkan di industri ini, dan yang membayar akibat kaburnya biasanya justru orang yang memegang sertifikatnya.</p>
+  <nav class="toc" aria-label="Isi halaman">
+    <a href="#sertifikat" data-en="Completion Certificate">Sertifikat Penyelesaian</a>
+    <a href="#bukti" data-en="Evidence Portfolio">Paket Bukti Karya</a>
+    <a href="#complete" data-en="Complete and Kompeten">Complete dan Kompeten</a>
+    <a href="#privasi" data-en="Privacy">Privasi</a>
+    <a href="#posisi" data-en="Product position">Posisi produk</a>
+  </nav>
+</section>
+
+<!-- ============ sertifikat ============ -->
+<section class="wrap" id="sertifikat">
+  <div class="dua">
+    <div>
+      <span class="eyebrow" data-en="Document one">Dokumen pertama</span>
+      <h2 class="j" data-en="Training Completion Certificate">Sertifikat Penyelesaian Pelatihan</h2>
+      <p class="tx" data-en="Issued when every criterion in the module has been met by work the participant actually submitted. It says one thing precisely: this person did this training and their submissions met the criteria written on the certificate itself.">Terbit ketika seluruh kriteria di modul terpenuhi oleh karya yang benar-benar dikumpulkan pesertanya. Isinya menyatakan satu hal dengan tepat: orang ini mengikuti pelatihan ini, dan karyanya memenuhi kriteria yang tertulis di sertifikatnya sendiri.</p>
+      <p class="tx" data-en="The criteria are printed on the document, not hidden in a system. That is deliberate: a certificate that does not say what was measured is a decoration, and everyone reading it knows that.">Kriterianya tercetak di dokumennya, bukan disembunyikan di dalam sistem. Itu disengaja: sertifikat yang tidak menyebutkan apa yang diukur hanyalah hiasan, dan setiap orang yang membacanya tahu itu.</p>
+      <p class="tx" data-en="Attempts are not printed and not counted against anyone. Someone who needed six tries to get it right has learned it exactly as well as someone who needed one, and often better.">Jumlah percobaan tidak dicetak dan tidak dihitung sebagai kekurangan siapa pun. Orang yang perlu enam kali sampai tepat telah mempelajarinya sama baiknya dengan yang cukup sekali, dan sering kali lebih baik.</p>
+    </div>
+    <div class="doc">
+      <div class="kop">
+        <span class="lockup" aria-hidden="true">
+          <img class="c" src="assets/logo-color.svg" alt="">
+          <img class="w" src="assets/logo-white.svg" alt="">
+        </span>
+        <span data-en="Completion Certificate">Sertifikat Penyelesaian</span>
+      </div>
+      <span class="nm" data-en="Menyusun Uraian Jabatan">Menyusun Uraian Jabatan</span>
+      <span class="sb" data-en="Framework reference M.70SDM01.010.2 · 51 minutes">Acuan kerangka M.70SDM01.010.2 · 51 menit</span>
+      <div class="baris"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span data-en="The job description separates the job from the person holding it">Uraian jabatannya memisahkan pekerjaan dari orang yang sedang memegangnya</span></div>
+      <div class="baris"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span data-en="Each main responsibility names an output, not an activity">Tiap tanggung jawab utama menyebut keluaran, bukan kegiatan</span></div>
+      <div class="baris"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span data-en="The competency requirements can be verified by someone else">Persyaratan kompetensinya bisa diverifikasi orang lain</span></div>
+      <p class="cap" data-en="Complete means the exercises were finished to the criteria above. It is not a competency verdict. Competency assessment belongs to BNSP licensed LSPs.">Complete berarti latihannya dituntaskan sesuai kriteria di atas. Itu bukan vonis kompetensi. Asesmen kompetensi adalah wilayah LSP berlisensi BNSP.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ bukti karya ============ -->
+<section class="wrap" id="bukti">
+  <span class="eyebrow" data-en="Document two">Dokumen kedua</span>
+  <h2 class="j" data-en="Evidence Portfolio">Paket Bukti Karya</h2>
+  <p class="lead" data-en="Everything the participant actually produced, filed criterion by criterion. This is the document that does the real work, and it is free forever.">Semua yang benar-benar dihasilkan pesertanya, diarsipkan kriteria demi kriteria. Inilah dokumen yang bekerja sungguhan, dan ia gratis selamanya.</p>
+  <p class="tx" data-en="A certificate tells someone you finished. A portfolio lets them check. When a hiring manager, an internal reviewer, or an LSP assessor wants to know whether the skill is really there, the certificate is an assertion and the portfolio is the evidence. We charge for the training and never for the evidence, because charging for evidence would make it ours instead of theirs.">Sertifikat memberitahu orang bahwa Anda menuntaskan. Portofolio membuat orang itu bisa memeriksanya. Ketika manajer perekrut, peninjau internal, atau asesor LSP ingin tahu apakah keterampilannya benar-benar ada, sertifikat adalah pernyataan dan portofolio adalah buktinya. Kami memungut biaya untuk pelatihannya dan tidak pernah untuk buktinya, karena memungut biaya atas bukti akan membuatnya jadi milik kami, bukan milik orangnya.</p>
+  <p class="tx" data-en="It belongs to the participant, not to the employer who paid. They keep it after they leave, and that is not an oversight.">Ia milik pesertanya, bukan milik perusahaan yang membayar. Ia tetap memegangnya setelah pindah kerja, dan itu bukan kelalaian.</p>
+</section>
+
+<!-- ============ complete vs kompeten ============ -->
+<section class="wrap" id="complete">
+  <span class="eyebrow" data-en="For the buyer, not for the lawyer">Untuk pembeli, bukan untuk pengacara</span>
+  <h2 class="j" data-en="Complete and Kompeten are two different words.">Complete dan Kompeten adalah dua kata yang berbeda.</h2>
+  <p class="lead" data-en="The legal version of this is in the footer of every page. This is the operational version: what you may write, and what will get you in trouble.">Versi hukumnya ada di kaki tiap halaman. Ini versi operasionalnya: apa yang boleh Anda tulis, dan apa yang akan menyeret Anda ke masalah.</p>
+
+  <div class="bandingkan">
+    <div class="kol ya">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span data-en="You may write this">Boleh Anda tulis</span></h3>
+      <ul>
+        <li data-en="In an annual training report: the number of participants who completed the training, the modules taken, and the hours.">Di laporan pelatihan tahunan: jumlah peserta yang menuntaskan pelatihan, modul yang diambil, dan jam pelatihannya.</li>
+        <li data-en="In an employee file: Training Completion Certificate from Nusva Learning, with the module title and date.">Di berkas karyawan: Sertifikat Penyelesaian Pelatihan dari Nusva Learning, beserta judul modul dan tanggalnya.</li>
+        <li data-en="In a development plan: the training was taken as preparation before a competency assessment at an LSP.">Di rencana pengembangan: pelatihannya diambil sebagai persiapan sebelum uji kompetensi di LSP.</li>
+        <li data-en="In an ISO or internal audit: evidence that a training programme was delivered and that its output was checked against written criteria.">Di audit ISO atau audit internal: bukti bahwa program pelatihan dijalankan dan keluarannya diperiksa terhadap kriteria tertulis.</li>
+      </ul>
+    </div>
+    <div class="kol tidak">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+        <span data-en="You may not claim this">Tidak boleh Anda klaim</span></h3>
+      <ul>
+        <li data-en="That the person is certified competent. Nobody at Nusva is an assessor and Nusva holds no BNSP licence.">Bahwa orangnya bersertifikat kompeten. Tidak ada seorang pun di Nusva yang berstatus asesor, dan Nusva tidak memegang lisensi BNSP.</li>
+        <li data-en="That the certificate satisfies a regulatory requirement for certified personnel. It does not, anywhere.">Bahwa sertifikatnya memenuhi persyaratan regulasi untuk tenaga bersertifikat. Ia tidak memenuhinya, di mana pun.</li>
+        <li data-en="That Nusva is affiliated with an LSP, with BNSP, or endorsed by Kemnaker. None of those are true.">Bahwa Nusva berafiliasi dengan LSP, dengan BNSP, atau didukung Kemnaker. Tidak satu pun dari itu benar.</li>
+        <li data-en="That the SKKNI unit code on a module means the unit has been assessed. The code names the curriculum reference, nothing more.">Bahwa kode unit SKKNI pada sebuah modul berarti unitnya sudah diasesmen. Kodenya menyebutkan acuan kurikulum, tidak lebih.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="tx" data-en="If your people are going to sit for a competency assessment at an LSP, the Evidence Portfolio is the part that helps them. An assessor works from evidence of performance, and most candidates arrive with none, having to reconstruct from memory what they did months ago. Someone arriving with work already filed against the unit criteria is in a materially different position. That is the honest claim, and it is a strong one without needing to be inflated.">Kalau orang Anda akan mengikuti uji kompetensi di LSP, bagian yang membantunya adalah Paket Bukti Karya. Asesor bekerja dari bukti unjuk kerja, dan sebagian besar peserta datang tanpa membawanya, lalu harus menyusun ulang dari ingatan apa yang ia kerjakan berbulan-bulan lalu. Orang yang datang membawa karya yang sudah terarsip terhadap kriteria unitnya berada di posisi yang jelas berbeda. Itulah klaim yang jujur, dan ia sudah kuat tanpa perlu dilebihkan.</p>
+</section>
+
+<!-- ============ privasi ============ -->
+<section class="wrap" id="privasi">
+  <span class="eyebrow" data-en="Privacy">Privasi</span>
+  <h2 class="j" data-en="What we deliberately refuse to collect.">Yang sengaja tidak kami kumpulkan.</h2>
+  <p class="lead" data-en="Written as principles rather than as a policy document, because a policy nobody reads protects nobody.">Ditulis sebagai prinsip, bukan sebagai dokumen kebijakan, karena kebijakan yang tidak dibaca siapa pun tidak melindungi siapa pun.</p>
+  <ul class="prinsip">
+    <li><b data-en="Attempts are never reported">Percobaan tidak pernah dilaporkan</b>
+      <span data-en="Not to an employer, not to a trainer, not in any export. Counting attempts turns practice into a test, and people stop practising.">Tidak ke perusahaan, tidak ke trainer, tidak di ekspor mana pun. Menghitung percobaan mengubah latihan jadi ujian, dan orang berhenti berlatih.</span></li>
+    <li><b data-en="Aggregates need at least ten people">Agregat butuh minimal sepuluh orang</b>
+      <span data-en="Below ten, an average is a name written a different way. Any group smaller than that is simply not shown.">Di bawah sepuluh, rata-rata hanyalah nama yang ditulis dengan cara lain. Kelompok yang lebih kecil dari itu tidak ditampilkan sama sekali.</span></li>
+    <li><b data-en="Draft content is yours alone">Isi draf hanya milik Anda</b>
+      <span data-en="Autosave exists so you do not lose work, not so somebody can read what you were thinking before you finished thinking it.">Autosave ada supaya Anda tidak kehilangan pekerjaan, bukan supaya ada yang bisa membaca apa yang Anda pikirkan sebelum Anda selesai memikirkannya.</span></li>
+    <li><b data-en="The portfolio follows the person">Portofolio mengikuti orangnya</b>
+      <span data-en="It is tied to the account, not to the employer that paid for the module. Leaving a company does not delete your work.">Ia terikat pada akun, bukan pada perusahaan yang membayar modulnya. Pindah kerja tidak menghapus karya Anda.</span></li>
+    <li><b data-en="No streaks, no leaderboards">Tanpa hitungan beruntun, tanpa papan peringkat</b>
+      <span data-en="A blank day stays blank and nothing scolds you. Devices designed to make you feel guilty produce attendance, not learning.">Hari yang bolong dibiarkan bolong dan tidak ada yang memarahi Anda. Perangkat yang dirancang membuat Anda merasa bersalah menghasilkan kehadiran, bukan pembelajaran.</span></li>
+    <li><b data-en="No selling and no ad profiling">Tidak dijual, tidak diprofilkan untuk iklan</b>
+      <span data-en="Learning data is not a product here. What you study is not information anybody else should be able to buy.">Data belajar bukan produk di sini. Apa yang Anda pelajari bukan informasi yang boleh dibeli orang lain.</span></li>
+  </ul>
+  <p class="cap" style="margin-top:20px;max-width:64ch" data-en="The full terms of service are being drafted with counsel and will be published before the public launch. Until then these principles are what the product is actually built to do, and they are enforced in the database rather than in a paragraph.">Ketentuan layanan lengkapnya sedang disusun bersama penasihat hukum dan akan diterbitkan sebelum peluncuran publik. Sampai saat itu, prinsip di atas adalah apa yang memang dijalankan produknya, dan ia ditegakkan di dalam basis data, bukan di dalam sebuah paragraf.</p>
+</section>
+
+<!-- ============ posisi produk ============ -->
+<section class="wrap" id="posisi">
+  <span class="eyebrow" data-en="Product position">Posisi produk</span>
+  <h2 class="j" data-en="Nusva trains. Nusva does not certify.">Nusva melatih. Nusva tidak menyertifikasi.</h2>
+  <p class="tx" data-en="Nusva Learning is a training provider. It uses SKKNI as a curriculum framework for its curated tracks, and it is equally open to soft skill, digital, language, and general modules that carry no SKKNI obligation at all. The framework is a way of organising what gets taught, not a claim of authority.">Nusva Learning adalah penyedia pelatihan. Ia memakai SKKNI sebagai kerangka kurikulum untuk track kurasinya, dan ia sama terbukanya untuk modul soft skill, digital, bahasa, dan bidang umum yang sama sekali tidak punya kewajiban SKKNI. Kerangkanya adalah cara menata apa yang diajarkan, bukan klaim kewenangan.</p>
+  <p class="tx" data-en="Nusva does not provide assessment services, assessors, competency testing, or competency certification. All four belong to LSPs licensed by BNSP. Nusva is not affiliated with any LSP or with BNSP, and claims no Kemnaker endorsement.">Nusva tidak menyediakan jasa asesmen, jasa asesor, uji kompetensi, maupun sertifikasi kompetensi. Keempatnya adalah wilayah LSP berlisensi BNSP. Nusva tidak berafiliasi dengan LSP maupun BNSP, dan tidak mengklaim endorsement Kemnaker.</p>
+  <p class="tx" data-en="Both documents Nusva issues carry this disclaimer permanently, on the document itself, not in a footnote somewhere else. If a competitor tells you their completion certificate makes someone certified, that is the sentence to ask them to put in writing.">Kedua dokumen yang diterbitkan Nusva memuat disclaimer ini secara permanen, di dokumennya sendiri, bukan di catatan kaki di tempat lain. Kalau ada pesaing yang mengatakan sertifikat penyelesaiannya membuat seseorang jadi bersertifikat kompeten, itulah kalimat yang layak Anda minta ditulis hitam di atas putih.</p>
+  <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:28px">
+    <a class="btn btn-primary" href="index.html#katalog" data-en="See the catalogue">Lihat katalog</a>
+    <a class="btn btn-secondary" href="perusahaan.html#kontak" data-en="Ask us something">Tanyakan sesuatu</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="fnav">
+      <a class="lockup" href="index.html" aria-label="Nusva Learning">
+        <img class="c" src="assets/logo-color.svg" alt="Nusva Learning">
+        <img class="w" src="assets/logo-white.svg" alt="Nusva Learning">
+      </a>
+      <span class="sp"></span>
+      <a href="index.html#katalog" data-en="Catalogue">Katalog</a>
+      <a href="perusahaan.html" data-en="For companies">Untuk perusahaan</a>
+      <a href="trainer.html" data-en="For trainers">Untuk trainer</a>
+    </div>
+    <p class="legal" data-en="Nusva Learning is a training provider using SKKNI as a curriculum framework for its curated tracks, and is also open to soft skill, digital, language, and general modules with no SKKNI obligation. Nusva does not provide assessment services, assessors, competency testing, or competency certification, all of which belong to BNSP licensed LSPs. PT Nusva Digital Talenta.">Nusva Learning adalah penyedia pelatihan yang memakai SKKNI sebagai kerangka kurikulum untuk track kurasinya, dan juga terbuka untuk modul soft skill, digital, bahasa, dan bidang umum tanpa kewajiban SKKNI. Nusva tidak menyediakan jasa asesmen, jasa asesor, uji kompetensi, maupun sertifikasi kompetensi, yang seluruhnya wilayah LSP berlisensi BNSP. PT Nusva Digital Talenta.</p>
+  </div>
+</footer>
+
+<script type="module">
+import { pasangKepala, pasangAkun } from './assets/app.js';
+import { pasangNav } from './assets/nav.js';
+pasangNav({ prefix:'' });
+pasangKepala();
+pasangAkun(document.getElementById('aakun'));
+</script>
+</body>
+</html>

@@ -155,6 +155,26 @@ export async function ambilBidangIsi(kode){
   return _cacheUnit[kode];
 }
 
+/* ---------------------------------------------------------------- pembanding harga */
+/* Trainer diminta menentukan angka tanpa tahu modul sejenis laku di harga berapa, dan akibatnya
+   dua-duanya buruk: menetapkan terlalu rendah, atau menunda karena ragu. Ini mengambil harga
+   modul yang BENAR-BENAR terbit. Kalau belum ada satu pun, jawabannya harus jujur berupa
+   "belum ada pembanding", bukan angka karangan yang terlihat meyakinkan. */
+export async function ambilHargaTerbit(bidang){
+  const kosong = { n:0, median:null, min:null, maks:null, bidang:bidang||null };
+  if(!terkonfigurasi()) return kosong;
+  const c = await klien();
+  if(!c) return kosong;
+  let q = c.from('modules').select('harga_idr,bidang').eq('status','terbit').gt('harga_idr',0);
+  if(bidang) q = q.eq('bidang', bidang);
+  const { data, error } = await q;
+  if(error || !data || !data.length) return kosong;
+  const h = data.map(r => Number(r.harga_idr)).filter(x => x > 0).sort((a,b) => a - b);
+  if(!h.length) return kosong;
+  const m = h.length % 2 ? h[(h.length - 1) / 2] : (h[h.length/2 - 1] + h[h.length/2]) / 2;
+  return { n:h.length, median:Math.round(m), min:h[0], maks:h[h.length-1], bidang:bidang||null };
+}
+
 /* ---------------------------------------------------------------- autosave draf */
 let _tunda = null, _terakhir = '';
 export function tandaSimpan(teks){

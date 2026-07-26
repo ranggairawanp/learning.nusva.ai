@@ -7,6 +7,7 @@
 <link rel="icon" href="assets/logo-color.svg">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/PlusJakartaSans-var.woff2" crossorigin>
 <link rel="stylesheet" href="assets/nusva.css">
+<script src="assets/config.js"></script>
 <style>
 main{padding:30px 0 70px}
 .crumb{display:inline-flex;gap:7px;align-items:center;font-size:13px;color:var(--ink-2);text-decoration:none}
@@ -54,6 +55,24 @@ h2.sec{font-size:19px;font-weight:var(--w-heading);margin:34px 0 0}
 .akun .nm{max-width:20ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:var(--w-body-strong)}
 @media (max-width:640px){ .akun .nm{display:none} }
 .kosong{padding:50px 20px;text-align:center}
+
+/* Bilah bawah untuk ponsel. Di bawah 940 piksel kolom .beli turun ke paling bawah, jadi harga
+   dan tombolnya baru terlihat setelah pengguna melewati lima bagian modul. Padahal ponsel adalah
+   perangkat mayoritas. Bilah ini mengembalikan keduanya ke jangkauan ibu jari. */
+.belibar{position:fixed;left:0;right:0;bottom:0;z-index:var(--z-sticky,45);display:none;
+  gap:12px;align-items:center;padding:11px 18px calc(11px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:saturate(180%) blur(18px);
+  border-top:1px solid var(--border)}
+@supports not (backdrop-filter:blur(1px)){ .belibar{background:var(--surface)} }
+.belibar .kiri{min-width:0;flex:1}
+.belibar .h{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.belibar .s{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+.belibar .btn{flex:none}
+@media (max-width:940px){
+  .belibar.on{display:flex}
+  body{padding-bottom:78px}
+  .beli{position:static}
+}
 </style>
 </head>
 <body>
@@ -61,6 +80,7 @@ h2.sec{font-size:19px;font-weight:var(--w-heading);margin:34px 0 0}
 <header id="nav"></header>
 
 <main class="wrap" id="main"></main>
+<div class="belibar" id="belibar" hidden></div>
 
 <footer class="site">
   <div class="wrap">
@@ -71,6 +91,7 @@ h2.sec{font-size:19px;font-weight:var(--w-heading);margin:34px 0 0}
       </a>
       <span class="sp"></span>
       <a href="index.html#katalog" data-en="Catalogue">Katalog</a>
+      <a href="dokumen.html" data-en="Documents">Dokumen</a>
       <a href="trainer.html" data-en="For trainers">Untuk trainer</a>
     </div>
     <p class="legal" data-en="Complete means the learner finished the exercises to the stated criteria. It is not a competency verdict. Competency assessment belongs to BNSP licensed LSPs. PT Nusva Digital Talenta.">Complete berarti peserta menuntaskan latihannya sesuai kriteria yang tertulis. Itu bukan vonis kompetensi. Asesmen kompetensi adalah wilayah LSP berlisensi BNSP. PT Nusva Digital Talenta.</p>
@@ -201,31 +222,60 @@ function bukaBagian(el, i){
   el.setAttribute('aria-expanded','true');
 }
 
+/* Urutan biaya dan nilai. Untuk pengunjung yang belum masuk, aksi paling menonjol adalah
+   MENCICIPI, bukan menyerahkan akun. Menaruh permintaan akun sebagai tombol utama memasang
+   kembali biaya di muka yang justru sengaja dicabut. Setelah ia mengerjakan sepotong,
+   permintaan akun jadi wajar, karena sudah ada yang perlu disimpan. */
+function bukaBagianPertama(){
+  const el = document.querySelector('.brow.buka');
+  if(el){ el.scrollIntoView({block:'center'}); if(el.getAttribute('aria-expanded')!=='true') el.click(); }
+}
+async function beli(){
+  const p = await pengguna();
+  if(!p){ keMasuk('learner', 'modul.html?m=' + m.slug); return; }
+  toast(T('Pembayaran Xendit belum tersambung di versi ini.','The Xendit payment step is not wired up in this build yet.'));
+}
+
 async function gambarAksi(){
   const box = document.getElementById('aksi');
   const u = await pengguna();
   const buka = m.bagian.filter(b=>b.buka).length;
-  box.innerHTML =
-    '<button class="btn btn-primary full" id="btnMulai">'+
-      (u ? T('Beli dan mulai belajar','Buy and start learning') : T('Masuk untuk mulai belajar','Sign in to start learning'))+'</button>'+
-    (buka ? '<button class="btn btn-quiet full" style="margin-top:9px" id="btnCoba">'+
-      T('Coba bagian gratisnya dulu','Try the free parts first')+'</button>' : '')+
-    '<p class="cap" style="margin-top:11px">'+
-      (u ? T('Pembayaran lewat Xendit. Bagian gratis tetap bisa dibuka tanpa membeli.','Payment via Xendit. The free parts stay open without buying.')
-         : T('Membaca halaman ini tidak perlu akun. Akun baru diperlukan saat Anda mulai mengerjakan, supaya progres dan karya Anda punya tempat tersimpan.',
-             'Reading this page needs no account. An account is only needed when you start working, so your progress and submissions have somewhere to live.'))+
-    '</p>';
+  const cicip = !u && buka > 0;   /* pengunjung baru dan ada yang bisa dicicipi */
 
-  document.getElementById('btnMulai').addEventListener('click', async () => {
-    const p = await pengguna();
-    if(!p){ keMasuk('learner', 'modul.html?m=' + m.slug); return; }
-    toast(T('Pembayaran Xendit belum tersambung di versi ini.','The Xendit payment step is not wired up in this build yet.'));
-  });
+  const tCicip = T(buka + ' bagian gratis, mulai sekarang', 'Start the ' + buka + ' free parts now');
+  const tBeli  = u ? T('Beli dan mulai belajar','Buy and start learning')
+                   : T('Masuk untuk beli modul ini','Sign in to buy this module');
+
+  box.innerHTML = cicip
+    ? '<button class="btn btn-primary full" id="btnCoba">'+tCicip+'</button>'+
+      '<button class="btn btn-quiet full" style="margin-top:9px" id="btnMulai">'+tBeli+'</button>'
+    : '<button class="btn btn-primary full" id="btnMulai">'+tBeli+'</button>'+
+      (buka ? '<button class="btn btn-quiet full" style="margin-top:9px" id="btnCoba">'+
+        T('Buka bagian gratisnya','Open the free parts')+'</button>' : '');
+
+  box.insertAdjacentHTML('beforeend', '<p class="cap" style="margin-top:11px">'+
+      (u ? T('Pembayaran lewat Xendit. Bagian gratis tetap bisa dibuka tanpa membeli.','Payment via Xendit. The free parts stay open without buying.')
+         : T('Bagian gratisnya terbuka tanpa akun. Akun baru diperlukan saat karya Anda perlu tempat tersimpan.',
+             'The free parts open without an account. An account is only needed once your work needs somewhere to live.'))+
+    '</p>');
+
+  document.getElementById('btnMulai').addEventListener('click', beli);
   const cb = document.getElementById('btnCoba');
-  if(cb) cb.addEventListener('click', () => {
-    const el = document.querySelector('.brow.buka');
-    if(el){ el.scrollIntoView({block:'center'}); el.click(); }
-  });
+  if(cb) cb.addEventListener('click', bukaBagianPertama);
+
+  gambarBilah(cicip, tCicip, tBeli);
+}
+
+/* Bilah bawah ponsel: satu harga, satu tombol, sama persis dengan aksi utama di kartu. */
+function gambarBilah(cicip, tCicip, tBeli){
+  const bar = document.getElementById('belibar');
+  bar.hidden = false; bar.classList.add('on');
+  bar.innerHTML =
+    '<span class="kiri"><span class="h num">'+rp(m.harga)+'</span>'+
+    '<span class="s">'+T('sekali bayar, akses selamanya','one payment, access for good')+'</span></span>'+
+    '<button class="btn btn-primary" id="barBtn"></button>';
+  bar.querySelector('#barBtn').textContent = cicip ? tCicip : tBeli;
+  bar.querySelector('#barBtn').addEventListener('click', cicip ? bukaBagianPertama : beli);
 }
 
 document.addEventListener('nusva:bahasa', gambar);

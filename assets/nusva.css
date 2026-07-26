@@ -165,7 +165,15 @@ footer.site{padding:34px 0 46px;border-top:1px solid var(--border);background:va
 .tlinks a[aria-current="page"]{background:var(--surface-3);color:var(--ink)}
 @media (max-width:600px){ .tlinks{display:none} }
 .simpan{font-size:11.5px;color:var(--ink-3);font-weight:var(--w-caption);white-space:nowrap}
-@media (max-width:760px){ .simpan{display:none} }
+/* Di layar kecil tandanya TIDAK dihilangkan, hanya turun ke barisnya sendiri, tepat di bawah bilah.
+   Ponsel justru tempat orang paling takut kehilangan pekerjaan, karena aplikasinya bisa tertutup
+   kapan saja; menghapus penenangnya persis di situ adalah kebalikan dari yang seharusnya. */
+@media (max-width:760px){
+  .tnav{flex-wrap:wrap;height:auto;padding-top:8px;padding-bottom:7px}
+  .simpan{order:9;flex-basis:100%;white-space:normal;border-top:1px solid var(--border);
+    margin-top:6px;padding-top:7px}
+  .simpan:empty{display:none}
+}
 
 .whoWrap{display:flex;gap:10px;align-items:center;min-width:0}
 .whoWrap .who{font-size:12px;color:var(--ink-3);font-weight:var(--w-caption);text-align:right;
@@ -217,7 +225,8 @@ html[data-theme="dark"] .alogo .w{display:block}
 }
 .abar .asp{flex:1}
 .aico{background:transparent;border:0;width:32px;height:32px;border-radius:8px;color:var(--ink-2);
-  display:grid;place-items:center;font-size:11.5px;font-weight:800;flex:none}
+  display:grid;place-items:center;font-size:11.5px;font-weight:800;flex:none;text-decoration:none}
+a.aico{color:var(--ink-2)}
 .aico:hover{background:var(--surface-2);color:var(--ink)}
 .aico svg{width:16px;height:16px}
 .aakun{display:flex;align-items:center;gap:8px;margin-left:6px;flex:none}
