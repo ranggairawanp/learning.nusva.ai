@@ -1,0 +1,1437 @@
+<!doctype html>
+<html lang="id" data-product="learning" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="../assets/logo-color.svg">
+<link rel="stylesheet" href="../assets/nusva.css">
+<title>Modul · Nusva Learning</title>
+<style>
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:200 800;font-display:swap;src:url('../assets/fonts/PlusJakartaSans-var.woff2') format('woff2');}
+:root{
+  --samudra-500:#0A3D62;--samudra-900:#05192B;--laguna-500:#0FA3B1;--kristal-500:#1ECAD3;
+  --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#F7F9FA;--surface-3:#EEF3F5;
+  --border:#E2EAEE;--border-strong:#CFDCE2;--ink:#0A3D62;--ink-2:#3E5A6E;--ink-3:#7C93A1;
+  --focus:#14A7B0;--accent:#0FA3B1;
+  --success:#1E9E6A;--success-tint:#E7F6EF;--success-deep:#15784F;
+  --warning:#D9920E;--warning-tint:#FDF3E0;--warning-deep:#A8680C;
+  --danger:#C8382F;--danger-tint:#FBECEA;--danger-deep:#A93A2D;
+  --info:#1E6FA8;--info-tint:#E8F2F9;
+}
+html[data-theme="dark"]{
+  --bg:#071018;--surface:#0D1B26;--surface-2:#122430;--surface-3:#17303E;
+  --border:#1D3C4C;--border-strong:#275063;--ink:#FFFFFF;--ink-2:#D6E4EC;--ink-3:#A3BBC7;
+  --success-tint:#0D2A1E;--warning-tint:#2A1F09;--danger-tint:#2A1210;--info-tint:#0C2436;
+}
+html[data-product="learning"]{
+  --w-heading:650;--w-subhead:600;--w-body-strong:600;--w-caption:500;--ls-heading:-.015em;
+  --fs-ui:15px;--lh-ui:1.5;--r-control:10px;--r-field:12px;--r-card:18px;--r-panel:24px;--r-window:32px;
+  --hit-min:44px;--hit-compact:36px;--spring:cubic-bezier(.30,1.08,.35,1);
+  --grad-pasang:linear-gradient(135deg,#0B6B77 0%,#0FA3B1 55%,#1ECAD3 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{min-height:100dvh;display:flex;flex-direction:column;background:var(--surface-2);color:var(--ink);
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:var(--fs-ui);line-height:var(--lh-ui);
+  -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+
+.prev{position:sticky;top:0;z-index:40;display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+  padding:8px 12px;background:var(--samudra-900);color:#fff}
+.prev b{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#6FE3EA;margin-right:4px}
+.prev button{min-height:30px;padding:4px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.22);
+  background:transparent;color:#fff;font-size:12.5px;font-weight:600}
+.prev button[aria-pressed="true"]{background:#fff;color:var(--samudra-900);border-color:#fff}
+.prev .sep{flex:1 1 auto}
+
+.stagewrap{flex:1;min-height:0;display:flex;justify-content:center;padding:20px 14px 34px}
+.device{width:100%;max-width:820px;height:800px;max-height:100%;background:var(--bg);border-radius:var(--r-window);
+  border:1px solid var(--border);box-shadow:0 24px 60px -28px rgba(5,25,43,.42);overflow:hidden;
+  position:relative;display:flex;flex-direction:column}
+@media(max-width:700px){
+  html,body{height:100dvh;overflow:hidden}
+  .stagewrap{padding:0}
+  .device{max-width:none;border:0;border-radius:0;height:100%;box-shadow:none}
+}
+
+.top{display:flex;align-items:center;gap:11px;padding:12px 18px;border-bottom:1px solid var(--border);flex:none}
+.lockup img{height:27px;width:80px;display:block;flex:none}
+.lockup .w{display:none}
+html[data-theme="dark"] .lockup .c{display:none}
+html[data-theme="dark"] .lockup .w{display:block}
+.top .sp{flex:1}
+.who{font-size:12px;color:var(--ink-3);font-weight:var(--w-caption);text-align:right;line-height:1.25;min-width:0}
+.who b{display:block;font-size:12.5px;color:var(--ink-2);font-weight:var(--w-body-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* progres langkah */
+.steps{padding:10px 18px 0;flex:none}
+.bar{display:flex;gap:4px}
+.bar i{height:4px;flex:1;border-radius:2px;background:var(--surface-3)}
+.bar i.on{background:var(--accent)}
+.bar i.now{background:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 20%,transparent)}
+.steplbl{font-size:11.5px;color:var(--ink-3);font-weight:var(--w-caption);margin-top:7px;display:flex;gap:6px;align-items:center}
+.steplbl b{color:var(--ink-2);font-weight:var(--w-body-strong)}
+
+.body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px 18px 22px}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1.t{font-size:23px;line-height:1.26;font-weight:var(--w-heading);letter-spacing:var(--ls-heading);margin:6px 0 5px;max-width:26ch}
+.lead{font-size:13.5px;color:var(--ink-2);line-height:1.55;max-width:56ch}
+
+.cards{display:grid;gap:10px;margin-top:16px}
+.cards.two{grid-template-columns:1fr 1fr}
+@media(max-width:560px){.cards.two{grid-template-columns:1fr}}
+.pick{text-align:left;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-card);
+  padding:15px;display:flex;flex-direction:column;gap:5px;transition:border-color .2s ease,transform .18s var(--spring)}
+.pick:hover{border-color:var(--accent)}
+.pick:active{transform:scale(.99)}
+.pick[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.pick b{font-size:15.5px;font-weight:var(--w-body-strong)}
+.pick span{font-size:12.5px;color:var(--ink-3);line-height:1.5}
+.pick .tag{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+
+.sect{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:15px;margin-top:14px}
+.sect h2{margin:0 0 2px;font-size:15px;font-weight:var(--w-body-strong)}
+.sect .cap{font-size:12px;color:var(--ink-3);font-weight:var(--w-caption);line-height:1.45}
+label.f{display:block;font-size:12px;font-weight:var(--w-caption);color:var(--ink-3);margin:10px 0 4px}
+input.f,textarea.f,select.f{width:100%;border:1px solid var(--border);border-radius:var(--r-field);background:var(--surface);
+  padding:10px 12px;font-size:14.5px;min-height:var(--hit-min);color:var(--ink)}
+textarea.f{min-height:74px;resize:vertical;line-height:1.5}
+input.f:focus,textarea.f:focus,select.f:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:560px){.g2,.g3{grid-template-columns:1fr}}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.pill{min-height:var(--hit-compact);padding:7px 13px;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface);font-size:13px;font-weight:var(--w-caption);color:var(--ink-2)}
+.pill[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.pill.sm{font-size:12px;padding:5px 11px;min-height:32px}
+
+.dz{border:1.5px dashed var(--border-strong);border-radius:var(--r-field);background:var(--surface-2);
+  padding:15px;text-align:center;margin-top:10px}
+.dz.hot{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,var(--surface-2))}
+.dz b{display:block;font-size:13.5px;font-weight:var(--w-body-strong)}
+.dz span{display:block;font-size:11.5px;color:var(--ink-3);margin-top:3px}
+.dz input[type=file]{display:none}
+.flist{margin-top:10px}
+.sampulrow{display:flex;gap:16px;align-items:flex-start;margin-top:12px;flex-wrap:wrap}
+.sampulprev{width:230px;aspect-ratio:16/10;object-fit:cover;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface-3);flex:none;display:block}
+.sampulakt{display:flex;flex-direction:column;gap:9px;align-items:flex-start;min-width:220px;flex:1}
+.fthumb{width:38px;height:38px;border-radius:9px;object-fit:cover;flex:none;display:block;border:1px solid var(--border)}
+.fitem{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--border)}
+.fitem:first-child{border-top:0}
+.fitem .ico{width:32px;height:32px;border-radius:9px;background:var(--info-tint);color:var(--info);
+  display:grid;place-items:center;flex:none;font-size:9px;font-weight:800}
+.fitem .nm{flex:1;min-width:0}
+.fitem .nm b{display:block;font-size:13.5px;font-weight:var(--w-body-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fitem .nm span{font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.x{border:0;background:transparent;color:var(--ink-3);min-height:var(--hit-compact);min-width:var(--hit-compact);border-radius:8px;font-size:17px;line-height:1}
+.x:hover{color:var(--danger);background:var(--danger-tint)}
+.row{display:flex;gap:8px;align-items:flex-start;margin-top:8px}
+
+.btn{min-height:var(--hit-min);border-radius:var(--r-control);border:1px solid transparent;font-weight:700;font-size:15px;
+  padding:10px 18px;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  transition:transform .18s var(--spring),filter .18s ease}
+.btn:active{transform:scale(.985)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+/* tombol utama tetap hidup saat syarat belum lengkap: menekannya menjelaskan apa yang kurang.
+   Tanpa penanda bisu: yang menerangkan keadaan adalah kalimat di sebelahnya, bukan simbol. */
+.btn-primary.needs{background:var(--surface);color:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.hint{display:flex;gap:6px;align-items:flex-start}
+.hint svg{width:13px;height:13px;flex:none;margin-top:2px}
+.hint.on{color:var(--warning-deep);font-weight:var(--w-body-strong)}
+.btn-secondary{background:var(--surface-2);border-color:var(--border-strong);color:var(--ink)}
+.btn-quiet{background:transparent;border-color:var(--border);color:var(--ink-2);min-height:var(--hit-compact);font-size:13.5px;padding:6px 13px}
+.btn-google{background:var(--surface);border-color:var(--border-strong);color:var(--ink);width:100%}
+
+/* foto trainer */
+.whoWrap{display:flex;gap:10px;align-items:center;min-width:0}
+.ava{position:relative;width:38px;height:38px;flex:none}
+.ava .ph{width:38px;height:38px;border-radius:50%;overflow:hidden;background:var(--surface-3);border:1px solid var(--border);
+  display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--ink-2);letter-spacing:.02em}
+.ava .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ava .edit{position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--surface);
+  background:var(--accent);color:#fff;display:grid;place-items:center;padding:0}
+.ava .edit svg{width:9px;height:9px}
+.ava input[type=file]{display:none}
+.btn-full{width:100%}
+
+.foot{flex:none;border-top:1px solid var(--border);padding:11px 18px;display:flex;gap:9px;align-items:center;background:var(--surface)}
+.foot .sp{flex:1}
+.hint{font-size:11.5px;color:var(--ink-3);font-weight:var(--w-caption)}
+
+/* gerbang */
+.gitem{display:flex;gap:9px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-field);padding:10px 11px;margin-bottom:7px}
+.gitem .dot{width:17px;height:17px;border-radius:50%;flex:none;display:grid;place-items:center;margin-top:1px;
+  background:var(--surface-3);color:var(--ink-3);border:1px solid var(--border)}
+.gitem .dot svg{width:10px;height:10px}
+.gitem[data-ok="1"] .dot{background:var(--success);border-color:var(--success);color:#fff}
+.gitem[data-ok="0"] .dot{background:var(--warning);border-color:var(--warning);color:#fff}
+.gitem .tx{min-width:0;flex:1}
+.gitem .tx b{display:block;font-size:13px;font-weight:var(--w-body-strong)}
+.gitem .tx span{display:block;font-size:11.5px;color:var(--warning-deep);line-height:1.45;margin-top:1px}
+.prevbox{background:var(--info-tint);border:1px solid color-mix(in srgb,var(--info) 26%,transparent);
+  border-radius:var(--r-field);padding:12px;margin-top:14px}
+.prevbox b{display:block;font-size:12.5px;color:var(--info);font-weight:800}
+.prevbox p{margin:5px 0 0;font-size:12.5px;line-height:1.55;color:var(--ink-2)}
+.note{background:var(--warning-tint);border-radius:var(--r-field);padding:11px 12px;margin-top:12px;
+  font-size:12.5px;line-height:1.5;color:var(--warning-deep)}
+.ok{background:var(--success-tint);border-radius:var(--r-field);padding:11px 12px;margin-top:12px;
+  font-size:12.5px;line-height:1.5;color:var(--success-deep)}
+.kukbox{border:1px solid var(--border);border-radius:var(--r-field);margin-top:9px;overflow:hidden}
+.kukrow{display:flex;gap:9px;align-items:flex-start;padding:9px 11px;border-top:1px solid var(--border)}
+.kukrow:first-child{border-top:0}
+.kukrow .kd{font-size:11.5px;font-weight:800;color:var(--ink-3);flex:none;min-width:46px}
+.kukrow .st{font-size:12.5px;line-height:1.45;color:var(--ink-2);flex:1;min-width:0}
+.kukrow .pill{flex:none}
+
+.part{border:1px solid var(--border);border-radius:var(--r-field);background:var(--surface);margin-bottom:8px;overflow:hidden}
+.part.warn{border-color:color-mix(in srgb,var(--warning) 42%,var(--border))}
+.phead{width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;background:transparent;border:0;text-align:left}
+.phead .pnum{font-size:10.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);flex:none}
+.phead .ptitle{flex:1;min-width:0;font-size:14px;font-weight:var(--w-body-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.phead .ptitle.kosong{color:var(--ink-3);font-weight:var(--w-caption)}
+.phead .pmin{font-size:11.5px;color:var(--ink-3);font-weight:var(--w-caption);font-variant-numeric:tabular-nums;flex:none}
+.phead .pcar{flex:none;color:var(--ink-3);transition:transform .22s var(--spring)}
+.part[data-open="1"] .phead .pcar{transform:rotate(90deg)}
+.pbody{display:none;padding:2px 12px 13px;border-top:1px solid var(--border)}
+.part[data-open="1"] .pbody{display:block}
+.psub{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.psub>div{flex:1;min-width:118px}
+.popt{border-top:1px dashed var(--border);margin-top:12px;padding-top:10px}
+.pact{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.pwarn{font-size:11.5px;line-height:1.45;color:var(--warning-deep);background:var(--warning-tint);border-radius:8px;padding:7px 9px;margin-top:8px}
+.tot{display:flex;align-items:baseline;gap:8px;margin-top:11px;font-size:12.5px;color:var(--ink-3);font-weight:var(--w-caption)}
+.tot b{font-size:15px;color:var(--ink);font-weight:var(--w-body-strong);font-variant-numeric:tabular-nums}
+.kerangka{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.qbox{border:1px solid var(--border);border-radius:10px;padding:10px;margin-top:8px;background:var(--surface-2)}
+.qhd{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.qhd b{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.qhd .x{margin-left:auto}
+.qopt{display:flex;align-items:center;gap:8px;margin-top:6px}
+.qopt input[type=radio]{width:17px;height:17px;accent-color:var(--accent);flex:none}
+.qopt input.f{min-height:38px;padding:7px 10px;font-size:13.5px}
+.qcap{font-size:11px;color:var(--ink-3);font-weight:var(--w-caption);margin-top:5px}
+/* penanda posisi quiz: diderivasi dari urutan bagian, bukan diisi trainer */
+.part.gratis{border-color:var(--accent)}
+.gcue{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.45;margin-top:8px;
+  background:var(--info-tint);color:var(--info-deep);border-radius:8px;padding:8px 10px}
+.gcue svg{width:13px;height:13px;flex:none;margin-top:2px}
+.gsum{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.45;margin-top:10px;
+  border-radius:9px;padding:9px 11px}
+.gsum.a{background:var(--warning-tint);color:var(--warning-deep)}
+.gsum.b{background:var(--success-tint);color:var(--success-deep)}
+.gsum svg{width:13px;height:13px;flex:none;margin-top:2px}
+.qpos{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.45;margin:8px 0 2px;
+  background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:7px 9px;color:var(--ink-2)}
+.qpos b{font-weight:var(--w-body-strong);color:var(--ink)}
+.qpos .tag{flex:none;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--accent);color:#fff;border-radius:5px;padding:2px 6px;margin-top:1px}
+/* pernyataan sistem: bukan saklar, tidak bisa dimatikan trainer */
+.lock{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.45;margin-top:9px;
+  background:var(--success-tint,var(--surface-2));border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--ink-2)}
+.lock b{font-weight:var(--w-body-strong);color:var(--ink);display:block}
+.lock .ic{flex:none;width:14px;height:14px;margin-top:2px;color:var(--success)}
+@keyframes flash{0%,100%{box-shadow:0 0 0 0 transparent}18%,62%{box-shadow:0 0 0 4px color-mix(in srgb,var(--warning) 40%,transparent)}}
+.flash{animation:flash 1.5s ease}
+.inerr{display:none;font-size:12.5px;line-height:1.5;color:var(--ink-2);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:9px;padding:9px 11px;margin-top:9px}
+.inerr.on{display:flex;gap:8px;align-items:flex-start}
+.inerr::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none;margin-top:6px}
+.kukhead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:11px}
+.kukhead .cnt{font-size:12px;color:var(--ink-3);font-weight:var(--w-caption);margin-left:auto;font-variant-numeric:tabular-nums}
+.stdrow{width:100%;display:flex;align-items:flex-start;gap:10px;text-align:left;background:var(--surface);
+  border:1.5px solid var(--border);border-radius:var(--r-field);padding:12px;margin-bottom:8px;transition:border-color .2s ease}
+.stdrow:hover{border-color:var(--accent)}
+.stdrow[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.stdrow .rad{width:17px;height:17px;border-radius:50%;border:2px solid var(--border-strong);flex:none;margin-top:2px;display:grid;place-items:center}
+.stdrow[aria-pressed="true"] .rad{border-color:var(--accent)}
+.stdrow[aria-pressed="true"] .rad::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.stdrow .tx{min-width:0;flex:1}
+.stdrow .tx b{display:block;font-size:14px;font-weight:var(--w-body-strong)}
+.stdrow .tx span{display:block;font-size:11.5px;color:var(--ink-3);line-height:1.45;margin-top:1px}
+.stdrow .tx i{display:block;font-size:11px;color:var(--accent);font-style:normal;font-weight:700;margin-top:3px}
+.stdgap{display:flex;align-items:center;gap:10px;margin:12px 0 4px}
+.stdgap span{flex:1;height:1px;background:var(--border)}
+.stdgap b{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.bidang{display:flex;align-items:center;gap:9px;background:var(--surface-2);border:1px solid var(--border);
+  border-radius:var(--r-field);padding:10px 12px;margin-top:10px}
+.bidang .tx{flex:1;min-width:0}
+.bidang .tx b{display:block;font-size:13.5px;font-weight:var(--w-body-strong)}
+.bidang .tx span{font-size:11.5px;color:var(--ink-3)}
+.toast{position:absolute;left:50%;bottom:74px;transform:translate(-50%,14px);opacity:0;pointer-events:none;
+  background:var(--samudra-900);color:#fff;border-radius:999px;padding:9px 17px;font-size:13px;
+  font-weight:var(--w-caption);transition:opacity .25s ease,transform .25s var(--spring);z-index:50;max-width:86%;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+[hidden]{display:none !important}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important}}
+
+/* ---- tata letak aplikasi: bingkai prototipe diganti halaman penuh ---- */
+.stagewrap{padding:0;flex:1;min-height:0}
+.device{max-width:none;width:100%;height:calc(100dvh - var(--nav));max-height:none;
+  border-radius:0;border:0;box-shadow:none}
+html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
+.body > .sc{max-width:880px;margin:0 auto}
+.steps{padding-left:max(22px,calc((100% - 880px)/2));padding-right:max(22px,calc((100% - 880px)/2))}
+.foot{padding-left:max(18px,calc((100% - 880px)/2));padding-right:max(18px,calc((100% - 880px)/2))}
+</style>
+</head>
+<body>
+
+
+<header id="topbar"></header>
+
+
+<div class="stagewrap">
+<div class="device" id="device">
+
+  <div class="steps" id="stepsWrap" hidden>
+    <div class="bar" id="bar"></div>
+    <div class="steplbl"><b id="stepNum"></b><span id="stepName"></span></div>
+  </div>
+
+  <div class="body" id="body">
+
+    <section class="sc" id="sc1">
+      <span class="eyebrow">Langkah 1</span>
+      <h1 class="t" data-en="Choose the skill type">Tentukan Jenis Keterampilan</h1>
+      <p class="lead" data-en="Simple question: do you want to check how accurate the result is, or how effective the approach was?">Pertanyaannya sederhana: Anda ingin memeriksa ketepatan hasilnya, atau efektivitas caranya?</p>
+      <div class="cards two">
+        <button class="pick" id="pkTeknis" onclick="pilihJenis('teknis')">
+          <span class="tag">HARD SKILLS</span>
+          <b data-en="Measurable and certain">Terukur dan Pasti</b>
+          <span data-en="A fit for calculations, document formats, and data analysis. What gets checked: is the answer right or wrong, are the components complete or missing.">Cocok untuk perhitungan, format dokumen, dan analisis data. Yang diperiksa: jawabannya tepat atau keliru, komponennya lengkap atau kurang.</span>
+        </button>
+        <button class="pick" id="pkPerilaku" onclick="pilihJenis('perilaku')">
+          <span class="tag">SOFT SKILLS</span>
+          <b data-en="Nuance and context">Nuansa dan Konteks</b>
+          <span data-en="A fit for conversation simulations, conflict handling, and leadership. What gets judged: how it is delivered, the tone chosen, and the flow of decisions, because no single answer is absolute.">Cocok untuk simulasi percakapan, manajemen konflik, dan kepemimpinan. Yang dinilai: cara menyampaikan, pilihan nada, dan alur keputusan, karena tidak ada satu jawaban yang mutlak.</span>
+        </button>
+      </div>
+      <p class="hint" style="margin-top:13px;line-height:1.5;max-width:56ch" data-en="The first pass is run by the Nusva rubric engine, using the criteria you write yourself.">Pemeriksaan pertama dijalankan mesin rubrik Nusva, memakai kriteria yang Anda tulis sendiri.</p>
+    </section>
+
+    <!-- ================= 2. TEKNIS: BASIS ================= -->
+    <section class="sc" id="sc2" hidden>
+      <span class="eyebrow">Langkah 2</span>
+      <h1 class="t" data-en="Is this training based on SKKNI?">Apakah training ini berbasis SKKNI?</h1>
+      <p class="lead" data-en="If your material already follows the national standard, say so. Everything your participant produces then lands in the right box for an LSP test later.">Kalau materi Anda sudah mengikuti standar nasional, sebutkan di sini. Setiap karya peserta jadi masuk ke kotak yang tepat untuk uji di LSP nanti.</p>
+      <div class="cards two">
+        <button class="pick" id="pkSkkni" onclick="pilihBasis('skkni')">
+          <span class="tag">SKKNI</span>
+          <b data-en="Follow the national standard">Ikut standar nasional</b>
+          <span data-en="You pick a unit, we bring in its criteria, and every piece of work your participant hands in gets filed against the right one.">Anda pilih unitnya, kriterianya kami yang datangkan, dan tiap karya peserta diarsipkan ke kriteria yang tepat.</span>
+        </button>
+        <button class="pick" id="pkNon" onclick="pilihBasis('non')">
+          <span class="tag" data-en="Non SKKNI">Non SKKNI</span>
+          <b data-en="Use your own">Pakai punya Anda sendiri</b>
+          <span data-en="An internal SOP, a vendor course, or the way you have always taught it. You write the criteria, in your own words.">SOP internal, kursus vendor, atau cara yang selama ini Anda ajarkan. Kriterianya Anda tulis sendiri, dengan bahasa Anda.</span>
+        </button>
+      </div>
+    
+      <div id="skkniPick" hidden style="margin-top:4px">
+
+
+      <div class="sect">
+        <h2 data-en="SKKNI available in the platform">SKKNI yang tersedia di platform</h2>
+        <p class="cap" data-en="Pick the field you teach. The units inside it appear right after.">Pilih bidang yang Anda ajarkan. Unit di dalamnya muncul setelah itu.</p>
+        <div id="stdList"></div>
+        <div class="stdgap"><span></span><b data-en="or">atau</b><span></span></div>
+        <button class="btn btn-secondary btn-full" id="btnTambahStd" onclick="modeUsul(true)" data-en="Add SKKNI information">Tambahkan informasi SKKNI</button>
+        <p class="cap" id="tambahCap" style="margin-top:7px" data-en="Choose this if the field you teach is not on the list above.">Pilih ini kalau bidang yang Anda ajarkan belum ada di daftar atas.</p>
+        <div id="unitWrap" hidden>
+          <label class="f" for="unitCari" data-en="Find a unit">Cari unit</label>
+          <input class="f" id="unitCari" placeholder="Ketik kata kunci, misalnya uraian jabatan" data-en-ph="Type a keyword, for example job description" oninput="filterUnit()">
+          <select class="f" id="unitSel" style="margin-top:8px" onchange="pilihUnit()"></select>
+          <span class="cap" id="unitCap"></span>
+        </div>
+        <div class="inerr" id="errUnit"></div>
+        <div id="kukWrap" hidden>
+          <div class="kukhead">
+            <button class="btn btn-quiet" id="btnSemuaKuk" onclick="semuaKuk()" data-en="Train all criteria">Latih semua kriteria</button>
+            <span class="cnt" id="kukCnt"></span>
+          </div>
+          <p class="cap" style="margin-top:7px" data-en="Tick only what you really train here. A criterion you leave unticked stays untouched for your participant, which is honest and fine.">Centang yang benar-benar Anda latih di sini saja. Kriteria yang tidak dicentang dibiarkan kosong bagi peserta, dan itu jujur, tidak masalah.</p>
+          <div class="kukbox" id="kukBox"></div>
+          <div class="inerr" id="errKuk"></div>
+        </div>
+      </div>
+
+      <div class="sect" id="sectUsul" hidden>
+        <h2 data-en="SKKNI information you add">Informasi SKKNI yang Anda tambahkan</h2>
+        <p class="cap" data-en="Type it in yourself. It waits as a proposal and never sits next to the official units until our curator has read it.">Tulis sendiri di sini. Statusnya menunggu sebagai usulan dan tidak pernah berdiri sejajar unit resmi sebelum dibaca kurator kami.</p>
+        <div id="usulBox">
+          <label class="f" for="sJudul" data-en="SKKNI title (field)">Judul SKKNI (bidang)</label>
+          <input class="f" id="sJudul" placeholder="Contoh: SKKNI Bidang Keselamatan dan Kesehatan Kerja" data-en-ph="Example: SKKNI for Occupational Health and Safety" oninput="aturFoot()">
+          <div class="g2">
+            <div><label class="f" for="sNomor" data-en="Decree number">Nomor SKKNI</label>
+              <input class="f" id="sNomor" placeholder="Kepmenaker RI Nomor ... Tahun ..." data-en-ph="Ministerial decree number" oninput="aturFoot()"></div>
+            <div><label class="f" for="sTahun" data-en="Year issued">Tahun terbit</label>
+              <input class="f" id="sTahun" type="number" min="2000" max="2030" placeholder="2023" oninput="aturFoot()"></div>
+          </div>
+          <div class="g2" style="margin-top:2px">
+            <div><label class="f" for="uKode" data-en="Unit code">Kode unit</label><input class="f" id="uKode" placeholder="M.70SDM01.0XX.2" oninput="aturFoot()"></div>
+            <div><label class="f" for="uJudul" data-en="Unit title">Judul unit</label><input class="f" id="uJudul" oninput="aturFoot()"></div>
+          </div>
+          <label class="f" data-en="Criteria (KUK): code and observable statement">Kriteria (KUK): kode dan pernyataan teramati</label>
+          <div class="row">
+            <input class="f" id="uKd" placeholder="1.1" style="max-width:88px">
+            <input class="f" id="uSt" placeholder="Pernyataan kriteria" data-en-ph="Criterion statement">
+            <button class="btn btn-quiet" onclick="tambahUsulKuk()" data-en="Add">Tambah</button>
+          </div>
+          <div class="flist" id="listUsul"></div>
+          <div class="inerr" id="errUsul"></div>
+          <div class="note" data-en="Why we are strict here: the moment made-up units sit beside real ones, the phrase 'based on SKKNI' stops meaning anything. Yours stays a proposal until someone reads it.">Kenapa kami ketat di sini: begitu unit karangan berdiri di samping unit asli, kalimat "berbasis SKKNI" kehilangan artinya. Punya Anda tetap usulan sampai ada yang membacanya, baik bidangnya maupun unitnya.</div>
+        </div>
+      </div>
+    
+      </div>
+    </section>
+
+    <!-- ================= 3. SKKNI: sudah ada / belum ================= -->
+    <!-- ================= 3b. PERILAKU ================= -->
+    <section class="sc" id="sc2b" hidden>
+      <span class="eyebrow">Langkah 2</span>
+      <h1 class="t" data-en="What should we be able to see them doing?">Apa yang harus terlihat mereka lakukan?</h1>
+      <p class="lead" data-en="Pick the skill, then write what it looks like when someone handles it well. We never label anyone's personality, we only watch what they do.">Pilih skill-nya, lalu tulis seperti apa kelihatannya kalau seseorang menanganinya dengan baik. Kami tidak pernah melabeli kepribadian siapa pun, cuma melihat tindakannya.</p>
+      <div class="sect">
+        <h2 data-en="Skill tags">Tag skill</h2>
+        <p class="cap" data-en="Not seeing the one you mean? Send it to us and we will look at adding it.">Tidak ada yang Anda maksud? Kirim ke kami, akan kami pertimbangkan menambahkannya.</p>
+        <div class="pills" id="skillPills"></div>
+      </div>
+
+      <div class="sect">
+        <h2 data-en="Observable indicators">Indikator teramati</h2>
+        <p class="cap" data-en="One sentence per behaviour, the kind you could nod at from across the room. These become what we mark against.">Satu kalimat per perilaku, yang bisa Anda anggukkan dari seberang ruangan. Inilah yang nanti jadi acuan penilaian.</p>
+        <div class="row">
+          <input class="f" id="iText" placeholder="Contoh: menyatakan ulang keberatan pihak lain sebelum menjawab" data-en-ph="Example: restates the other party's objection before replying">
+          <button class="btn btn-quiet" onclick="tambahIndikator()" data-en="Add">Tambah</button>
+        </div>
+        <div class="flist" id="listIndikator"></div>
+        <div class="inerr" id="errPerilaku"></div>
+      </div>
+        </section>
+
+    <section class="sc" id="sc4" hidden>
+      <span class="eyebrow">Langkah 3</span>
+      <h1 class="t" data-en="Module details">Detail modul</h1>
+      <p class="lead" data-en="Pick everyone this is for, as many as apply. Price is yours to set; the reference next to it is only a reference.">Pilih semua yang cocok, boleh lebih dari satu. Harga Anda yang menentukan; acuan di sebelahnya sekadar acuan.</p>
+
+      <div class="sect">
+        <h2 data-en="Identity">Identitas</h2>
+        <label class="f" for="judul" data-en="Module name">Nama modul</label>
+        <input class="f" id="judul" oninput="cek(); gambarSampul()">
+        <label class="f" for="desk" data-en="Description (what the learner can do afterwards)">Deskripsi (apa yang bisa dilakukan learner setelahnya)</label>
+        <textarea class="f" id="desk" oninput="cek()"></textarea>
+        <label class="f" data-en="Audience segment (choose as many as apply)">Segmen peserta (boleh lebih dari satu)</label>
+        <div class="pills" id="pillSeg"></div>
+        <label class="f" data-en="Level">Tingkat</label>
+        <div class="pills" id="pillTingkat">
+          <button class="pill" aria-pressed="false" onclick="setTingkat('dasar',this)" data-en="Basic">Dasar</button>
+          <button class="pill" aria-pressed="false" onclick="setTingkat('menengah',this)" data-en="Intermediate">Menengah</button>
+          <button class="pill" aria-pressed="false" onclick="setTingkat('mahir',this)" data-en="Advance">Mahir</button>
+        </div>
+        <div class="g2">
+          <div><label class="f" for="harga" data-en="Price per training (IDR)">Harga per training (Rp)</label>
+            <input class="f" id="harga" type="number" min="0" step="1000" oninput="cek()">
+            <span class="cap" id="hargaHint"></span></div>
+          <div><label class="f" data-en="Sub-module total (auto)">Total sub-modul (otomatis)</label>
+            <input class="f" id="estimasi" readonly>
+            <span class="cap" data-en="Just a running total, not a requirement.">Sekadar penjumlahan, bukan syarat.</span></div>
+        </div>
+      </div>
+
+      <div class="sect">
+        <h2 data-en="Sub-modules">Sub-modul</h2>
+        <p class="cap" data-en="Break it into parts a person can finish in one sitting. In online course data, shorter parts get finished all the way through far more often.">Pecah jadi bagian yang bisa diselesaikan sekali duduk. Di data kelas daring, bagian yang lebih pendek jauh lebih sering dituntaskan sampai habis.</p>
+
+        <div id="kerangkaBox">
+          <div class="kerangka">
+            <button class="btn btn-primary" onclick="pakaiKerangka()" data-en="Use the suggested outline">Pakai kerangka yang disarankan</button>
+            <button class="btn btn-quiet" onclick="tambahPart()" data-en="Start from blank">Mulai dari kosong</button>
+          </div>
+          <p class="cap" style="margin-top:9px" data-en="The outline lays down five parts in the order that helps people learn: why it matters, the core idea, a worked example, practice, then applying it at work. Rename anything.">Kerangka menurunkan lima bagian dalam urutan yang membantu orang belajar: kenapa penting, konsep inti, contoh dikerjakan, latihan mandiri, lalu menerapkannya di pekerjaan. Semua judul bisa Anda ganti.</p>
+        </div>
+
+        <div id="listPart" style="margin-top:10px"></div>
+        <button class="btn btn-quiet" id="btnAddPart" onclick="tambahPart()" hidden data-en="Add sub-module">Tambah Sub-modul</button>
+        <div class="tot" id="totBox" hidden><b id="totMnt">0</b><span id="totLbl"></span></div>
+        <div id="gratisBox" hidden></div>
+      </div>
+
+      <div class="sect">
+        <h2 data-en="Module cover">Sampul modul</h2>
+        <p class="cap" data-en="One image that represents the work, not a stock photo of people smiling at a laptop. If you skip it, we generate a cover from your module title so the catalogue never shows an empty box.">Satu gambar yang mewakili pekerjaannya, bukan foto stok orang tersenyum di depan laptop. Kalau dilewati, kami bangkitkan sampul dari judul modul Anda supaya katalog tidak pernah menampilkan kotak kosong.</p>
+        <div class="sampulrow">
+          <img class="sampulprev" id="sampulPrev" alt="">
+          <div class="sampulakt">
+            <button class="btn btn-secondary" onclick="document.getElementById('sampulFile').click()" data-en="Upload cover">Unggah sampul</button>
+            <button class="btn btn-quiet" id="btnHapusSampul" onclick="hapusSampul()" hidden data-en="Use the generated one">Pakai yang dibangkitkan</button>
+            <input type="file" id="sampulFile" accept="image/png,image/jpeg,image/webp" onchange="pilihSampul(event)" hidden>
+            <span class="cap" id="sampulKet"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sect">
+        <h2 data-en="Upload Document">Upload Document</h2>
+        <p class="cap" data-en="Materi is the one thing we need: PPTX or PDF. Upload a video and we pull the audio out and draft the transcript, then you read it over.">Yang wajib cuma materi: PPTX atau PDF. Unggah video, audionya kami tarik keluar dan transkripnya kami draf, lalu Anda baca ulang.</p>
+        <div class="pills" style="margin-top:10px" id="pillKat">
+          <button class="pill" aria-pressed="true" onclick="setKat('materi',this)" data-en="Materi (PPTX/PDF)">Materi (PPTX/PDF)</button>
+          <button class="pill" aria-pressed="false" onclick="setKat('tools',this)" data-en="Work tools (DOCX/XLSX/PPTX/PDF)">Bahan/alat kerja (DOCX/XLSX/PPTX/PDF)</button>
+        </div>
+        <div class="dz" id="dz" ondragover="hot(event,1)" ondragleave="hot(event,0)" ondrop="jatuh(event)">
+          <b id="dzTitle"></b><span id="dzHint"></span>
+          <input type="file" id="file" multiple onchange="pilihBerkas(event)">
+          <button class="btn btn-secondary" style="margin-top:10px" onclick="document.getElementById('file').click()" data-en="Choose file">Pilih berkas</button>
+        </div>
+        <div class="flist" id="listDok"></div>
+      </div>
+
+      <div class="sect">
+        <h2 data-en="Tes Awal and Tes Akhir">Tes Awal dan Tes Akhir</h2>
+        <p class="cap" data-en="These show how far someone moved, nothing more. Asking them to guess before they learn helps: even a wrong guess makes the next part stick.">Keduanya menunjukkan seberapa jauh seseorang bergerak, tidak lebih. Meminta mereka menebak sebelum belajar itu membantu: tebakan yang salah pun membuat bagian berikutnya menempel.</p>
+        <div class="g2" style="margin-top:10px">
+          <div>
+            <label class="f" data-en="Tes Awal">Tes Awal</label>
+            <div class="pills"><button class="pill" id="pkPre" aria-pressed="false" onclick="togTes('pre',this)" data-en="Use it">Pakai</button></div>
+            <label class="f" for="preTipe" data-en="Question format">Format soal</label>
+            <select class="f" id="preTipe" onchange="cek()">
+              <option value="pg" data-en="Multiple choice">Pilihan ganda</option>
+              <option value="pendek" data-en="Short answer">Isian pendek</option>
+            </select>
+            <span class="cap" data-en="Essay is left out on purpose: nobody writes an essay before they have learned anything.">Esai sengaja tidak ada di sini: tidak ada yang mau menulis esai sebelum belajar apa pun.</span>
+          </div>
+          <div>
+            <label class="f" data-en="Tes Akhir">Tes Akhir</label>
+            <div class="pills"><button class="pill" id="pkPost" aria-pressed="false" onclick="togTes('post',this)" data-en="Use it">Pakai</button></div>
+            <label class="f" for="postTipe" data-en="Question format">Format soal</label>
+            <select class="f" id="postTipe" onchange="cek()">
+              <option value="pg" data-en="Multiple choice">Pilihan ganda</option>
+              <option value="pendek" data-en="Short answer">Isian pendek</option>
+              <option value="esai" data-en="Essay">Esai</option>
+            </select>
+            <span class="cap" data-en="Pick essay and you will need at least one criterion below, otherwise there is nothing to check it against.">Pilih esai, dan Anda perlu minimal satu kriteria di bawah, kalau tidak tidak ada yang bisa dipakai memeriksanya.</span>
+          </div>
+        </div>
+        <div class="lock">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <span data-en="&lt;b&gt;Correct answer shown immediately&lt;/b&gt;Always on for Tes Awal, Tes Akhir, and every checkpoint quiz, and not something you can switch off. A wrong guess only helps if the right answer lands right behind it; without that, the wrong one is what stays."><b>Jawaban benar diperlihatkan seketika</b>Selalu aktif untuk Tes Awal, Tes Akhir, dan setiap quiz checkpoint, dan bukan sesuatu yang bisa Anda matikan. Tebakan keliru hanya membantu kalau jawaban benarnya datang tepat di belakangnya; tanpa itu, yang menetap justru yang kelirunya.</span>
+        </div>
+      </div>
+
+      <div class="sect" id="sectKriteria4">
+        <h2 data-en="Workshop exercise">Latihan Workshop</h2>
+        <p class="cap" id="kritCap"></p>
+        <div class="row">
+          <input class="f" id="rText" placeholder="Perilaku teramati pada karya learner" data-en-ph="Observable behaviour in the learner's work">
+          <button class="btn btn-quiet" onclick="tambahKriteria()" data-en="Add">Tambah</button>
+        </div>
+        <div class="flist" id="listKriteria"></div>
+      </div>
+    </section>
+
+    <!-- ================= 5. TERBIT ================= -->
+    <section class="sc" id="sc5" hidden>
+      <span class="eyebrow">Langkah 4</span>
+      <h1 class="t" data-en="Publish gate">Gerbang terbit</h1>
+      <p class="lead" data-en="All of it has to pass. It is the only thing standing between a paid catalogue and a pile of half-finished modules.">Semuanya harus lolos. Cuma ini yang memisahkan katalog berbayar dari tumpukan modul setengah jadi.</p>
+      <div id="glist" style="margin-top:16px"></div>
+      <div class="prevbox">
+        <b data-en="How the learner sees it">Cara learner melihatnya</b>
+        <p id="prevText"></p>
+      </div>
+      <div class="ok" id="okBox" hidden data-en="Published. The learner screen is generated from this data, identical in layout to every other training.">Terbit. Layar learner dibentuk dari data ini, tata letaknya sama dengan training lain.</div>
+    </section>
+  </div>
+
+  <div class="foot" id="foot" hidden>
+    <button class="btn btn-quiet" id="btnBack" onclick="mundur()" data-en="Back">Kembali</button>
+    <span class="sp"></span>
+    <span class="hint" id="footHint"></span>
+    <button class="btn btn-primary" id="btnNext" onclick="maju()" data-en="Continue">Lanjut</button>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+</div>
+</div>
+
+<script>
+let REG = { frameworks: [], kuk: {} };   /* diisi dari Supabase, cadangan assets/registry */
+let STANDAR = [];
+const $=id=>document.getElementById(id);
+let lang='id';
+const S={jenis:null,basis:null,mode:null,standar:null,unit:null,kuk:[],usulKuk:[],skill:[],indikator:[],
+  seg:[],tingkat:null,parts:[],dok:[],kriteria:[],pre:{on:false},post:{on:false},kat:'materi',
+  sampul:null,terbit:false};
+
+const SKILL=['Komunikasi Efektif','Kepemimpinan','Kolaborasi Tim','Manajemen Waktu','Berpikir Kritis',
+ 'Negosiasi','Presentasi','Literasi Data','Produktivitas AI','Bahasa Inggris Profesional','Manajemen Proyek','Layanan Pelanggan'];
+const SEG=[
+ ['staf','Staf',50000],['supervisor','Supervisor',75000],['manajer','Manajer',150000],['eksekutif','Eksekutif',250000],
+ ['umum',{id:'Umum',en:'General'},null],['fresh',{id:'Fresh Graduate',en:'Fresh Graduate'},null],
+ ['mahasiswa',{id:'Mahasiswa/i',en:'Students'},null],['owner',{id:'Business Owner',en:'Business Owner'},null],
+ ['trainer',{id:'Trainer',en:'Trainer'},null],['coach',{id:'Coach',en:'Coach'},null],
+ ['profesional',{id:'Professional',en:'Professional'},null],['pengusaha',{id:'Pengusaha',en:'Entrepreneur'},null]];
+const segNama=x=>typeof x==='string'?x:(lang==='en'?x.en:x.id);
+const WHITE={materi:['pdf','pptx'],tools:['pdf','docx','xlsx','pptx']};
+const MAKS={materi:20*1024*1024,tools:20*1024*1024};
+const rp=n=>new Intl.NumberFormat('id-ID').format(n);
+
+/* ---------- alur langkah ---------- */
+let langkah=0;
+const TOTAL_LANGKAH=4;
+function urutan(){
+  if(S.jenis==='perilaku') return [1,'2b',4,5];
+  if(S.jenis==='teknis') return [1,2,4,5];
+  return [1];
+}
+function idxSekarang(){ return urutan().indexOf(langkah); }
+function go(n){
+  langkah=n;
+  ['1','2','2b','4','5'].forEach(k=>{ const el=$('sc'+k); if(el) el.hidden = (String(langkah)!==k); });
+  $('stepsWrap').hidden=false; $('foot').hidden=false;
+  gambarBar();
+  if(langkah===4){ isiSeg(); gambarParts(); setKat(S.kat, $('pillKat').querySelector('.pill[aria-pressed="true"]')||$('pillKat').firstElementChild); kritCap(); }
+  if(String(langkah)==='2b') isiSkill();
+  if(langkah===2 && $('skkniPick')){ $('skkniPick').hidden = S.basis!=='skkni'; if(S.basis==='skkni'){ isiStandar(); $('unitWrap').hidden = !(S.mode==='registry' && S.standar); $('sectUsul').hidden = S.mode!=='usul'; } }
+  if(langkah===5) cek();
+  aturFoot();
+  $('body').scrollTop=0;
+}
+function gambarBar(){
+  const u=urutan(), i=Math.max(0,u.indexOf(langkah));
+  const bar=$('bar'); bar.innerHTML='';
+  for(let k=0;k<TOTAL_LANGKAH;k++){ const el=document.createElement('i');
+    if(k<i) el.className='on'; if(k===i) el.className='now'; bar.appendChild(el); }
+  const nm={1:{id:'Jenis keterampilan',en:'Skill type'},
+    2:{id:'Standar dan kompetensi',en:'Standard and competency'},
+    '2b':{id:'Perilaku dan indikator',en:'Behaviour and indicators'},
+    4:{id:'Detail modul',en:'Module details'},5:{id:'Gerbang terbit',en:'Publish gate'}}[langkah];
+  $('stepNum').textContent = (lang==='en'?'Step ':'Langkah ')+(i+1)+' / '+TOTAL_LANGKAH;
+  $('stepName').textContent = nm ? (lang==='en'?nm.en:nm.id) : '';
+  const eye=document.querySelector('#sc'+langkah+' .eyebrow');
+  if(eye) eye.textContent=(lang==='en'?'Step ':'Langkah ')+(i+1);
+}
+function aturFoot(){
+  const u=urutan(), i=u.indexOf(langkah);
+  $('btnBack').disabled = i<=0;
+  const akhir = langkah===5;
+  $('btnNext').textContent = akhir ? (lang==='en'?'Publish module':'Terbitkan modul') : (lang==='en'?'Continue':'Lanjut');
+  let boleh=true, pesan='';
+  if(langkah===1) { boleh=!!S.jenis; pesan=boleh?'':(lang==='en'?'Pick one to continue':'Pilih salah satu untuk melanjutkan'); }
+  if(langkah===2){
+    if(!S.basis){ boleh=false; pesan=lang==='en'?'Pick one to continue':'Pilih salah satu untuk melanjutkan'; }
+    else if(S.basis==='skkni'){
+      const usulLengkap = S.usulKuk.length>=1 && ($('sJudul').value.trim().length>=6)
+        && ($('sNomor').value.trim().length>=4) && (+$('sTahun').value>=2000)
+        && ($('uKode').value.trim().length>=6) && ($('uJudul').value.trim().length>=4);
+      if(S.kuk.length>=1){ boleh=true; }
+      else if(S.usulKuk.length>=1){
+        boleh=usulLengkap;
+        pesan=boleh?'':(lang==='en'?'Fill the SKKNI title, number, year, and unit'
+                                   :'Lengkapi judul SKKNI, nomor, tahun, dan unitnya'); }
+      else if(!S.standar){ boleh=false; pesan=lang==='en'?'Pick the SKKNI field first':'Pilih bidang SKKNI-nya dulu'; }
+      else { boleh=false; pesan=lang==='en'?'Tick at least one criterion':'Centang minimal satu kriteria'; }
+    }
+  }
+  if(String(langkah)==='2b'){ boleh=S.skill.length>=1 && S.indikator.length>=1;
+    pesan=boleh?'':(lang==='en'?'Pick a skill and add an indicator':'Pilih skill dan tambahkan indikator'); }
+  if(langkah===5){ const L=aturan(); boleh=L.every(x=>x.ok);
+    pesan=boleh?'':(lang==='en'?'All rules must pass':'Semua aturan harus lolos'); }
+  const b = blokir();
+  const bn=$('btnNext');
+  bn.disabled=false;                       /* tombol mati tidak menjelaskan dirinya: biarkan hidup */
+  bn.classList.toggle('needs', !!b);
+  bn.setAttribute('aria-describedby','footHint');
+  const fh=$('footHint');
+  fh.classList.toggle('on', !!b);
+  fh.innerHTML = b
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.4v.2"/></svg><span></span>'
+    : '';
+  if(b) fh.querySelector('span').textContent=b.p;
+  ['errUnit','errKuk','errUsul','errPerilaku'].forEach(id=>{ const e=$(id); if(e){ e.textContent=''; e.classList.remove('on'); } });
+  if(b && b.err){ const e=$(b.err); if(e){ e.textContent=b.p; e.classList.add('on'); } }
+}
+function sorot(elId,errId,pesan){
+  const el=$(elId), er=$(errId);
+  if(er){ er.textContent=pesan; er.classList.add('on'); }
+  const t=el||er; if(t){ t.scrollIntoView({behavior:'smooth',block:'center'});
+    t.classList.add('flash'); setTimeout(()=>t.classList.remove('flash'),1600); }
+}
+function blokir(){
+  if(langkah===1 && !S.jenis) return {el:'pkTeknis',err:null,
+    p:lang==='en'?'Pick one of the two to continue.':'Pilih salah satu dari dua ini untuk melanjutkan.'};
+  if(langkah===2){
+    if(!S.basis) return {el:'pkSkkni',err:null,
+      p:lang==='en'?'Pick one of the two to continue.':'Pilih salah satu dari dua ini untuk melanjutkan.'};
+    if(S.basis==='skkni'){
+      if(S.mode==='usul'){
+        const kur=[['sJudul',lang==='en'?'the SKKNI title':'judul SKKNI'],['sNomor',lang==='en'?'the decree number':'nomor SK'],
+                   ['sTahun',lang==='en'?'the year issued':'tahun terbit'],['uKode',lang==='en'?'the unit code':'kode unit'],
+                   ['uJudul',lang==='en'?'the unit title':'judul unit']].find(([id])=>!($(id).value||'').trim());
+        if(kur) return {el:kur[0],err:'errUsul',
+          p:(lang==='en'?'Still missing: ':'Masih kurang: ')+kur[1]+'.'};
+        if(S.usulKuk.length<1) return {el:'uSt',err:'errUsul',
+          p:lang==='en'?'Add at least one criterion (KUK) for this unit.':'Tambahkan minimal satu kriteria (KUK) untuk unit ini.'};
+        return null;
+      }
+      if(!S.standar) return {el:'stdList',err:'errUnit',
+        p:lang==='en'?'Pick a field from the list, or add your own SKKNI information below.'
+                     :'Pilih bidang dari daftar, atau tambahkan informasi SKKNI Anda sendiri di bawah.'};
+      if(!S.unit) return {el:'unitSel',err:'errUnit',
+        p:lang==='en'?'Choose the competency unit here, or write your own standard in the box below.'
+                     :'Pilih unit kompetensinya di sini, atau tulis standar Anda sendiri di kotak bawah.'};
+      if(S.kuk.length<1) return {el:'btnSemuaKuk',err:'errKuk',
+        p:lang==='en'?'Mark at least one criterion as trained. Use Train all criteria if this module covers the whole unit.'
+                     :'Tandai minimal satu kriteria sebagai dilatih. Pakai Latih semua kriteria kalau modul ini mencakup seluruh unit.'};
+    }
+    return null;
+  }
+  if(String(langkah)==='2b'){
+    if(S.skill.length<1) return {el:'skillPills',err:'errPerilaku',
+      p:lang==='en'?'Pick at least one skill first.':'Pilih minimal satu skill dulu.'};
+    if(S.indikator.length<1) return {el:'iText',err:'errPerilaku',
+      p:lang==='en'?'Write at least one thing you should be able to see them doing.'
+                   :'Tulis minimal satu hal yang harus terlihat mereka lakukan.'};
+    return null;
+  }
+  if(langkah===5){
+    const L=aturan(), sisa=L.filter(x=>!x.ok);
+    if(sisa.length) return {el:'glist',err:null,
+      p:lang==='en'?`${sisa.length} rule(s) still open: ${sisa[0].t.en}`
+                   :`${sisa.length} aturan belum lolos: ${sisa[0].t.id}`};
+    return null;
+  }
+  return null;
+}
+function maju(){
+  const b=blokir();
+  if(b){ sorot(b.el,b.err,b.p); return; }
+  const u=urutan(), i=u.indexOf(langkah);
+  if(langkah===5){ terbit(); return; }
+  go(u[i+1]);
+}
+function mundur(){ const u=urutan(), i=u.indexOf(langkah); if(i>0) go(u[i-1]); }
+
+/* ---------- pilihan ---------- */
+function pilihJenis(v){
+  S.jenis=v; S.basis = v==='perilaku'?null:S.basis;
+  $('pkTeknis').setAttribute('aria-pressed',String(v==='teknis'));
+  $('pkPerilaku').setAttribute('aria-pressed',String(v==='perilaku'));
+  aturFoot();
+  setTimeout(()=>{ const u=urutan(); go(u[u.indexOf(1)+1]); },220);
+}
+function pilihBasis(v){
+  S.basis=v;
+  $('pkSkkni').setAttribute('aria-pressed',String(v==='skkni'));
+  $('pkNon').setAttribute('aria-pressed',String(v==='non'));
+  $('skkniPick').hidden = v!=='skkni';
+  if(v==='skkni'){ if(!S.mode) S.mode='registry'; if(!S.standar && STANDAR.length===1) S.standar=STANDAR[0].kode;
+    isiStandar(); $('unitWrap').hidden = S.mode!=='registry'; $('sectUsul').hidden = S.mode!=='usul';
+    $('unitWrap').hidden = !(S.mode==='registry' && S.standar);
+    if(S.mode==='registry' && S.standar) isiUnit(); }
+  gambarBar(); aturFoot();
+}
+const unitBidang=kode=>{ const f=REG.frameworks.find(x=>x.kode===kode); return f&&f.units?f.units:[]; };
+function isiStandar(){
+  const box=$('stdList'); if(!box) return;
+  box.innerHTML='';
+  STANDAR.forEach(st=>{
+    const b=document.createElement('button');
+    b.className='stdrow'; b.type='button';
+    b.setAttribute('aria-pressed', String(S.mode==='registry' && S.standar===st.kode));
+    b.innerHTML='<span class="rad" aria-hidden="true"></span><span class="tx"><b></b><span></span><i></i></span>';
+    b.querySelector('b').textContent = lang==='en'?st.nama.en:st.nama.id;
+    b.querySelector('.tx span').textContent = lang==='en'?st.sk.en:st.sk.id;
+    b.querySelector('i').textContent = st.unit+' '+(lang==='en'?'competency units ready to use':'unit kompetensi siap dipakai');
+    b.onclick=()=>pilihStandar(st.kode);
+    box.appendChild(b);
+  });
+  $('btnTambahStd').setAttribute('aria-pressed', String(S.mode==='usul'));
+}
+async function pilihStandar(kode){
+  S.mode='registry'; S.standar=kode; S.unit=null; S.kuk=[];
+  if($('unitCari')) $('unitCari').value='';
+  $('sectUsul').hidden=true;
+  $('unitWrap').hidden=false;
+  isiStandar(); bersihkanPesan();
+  const f=REG.frameworks.find(x=>x.kode===kode);
+  if(f && (!f.units || !f.units.length)){
+    const sel=$('unitSel');
+    if(sel){ sel.innerHTML='<option>'+(lang==='en'?'Loading units…':'Memuat unit…')+'</option>'; sel.disabled=true; }
+    try{ await window.__muatBidang(kode); }
+    catch(e){ sorot('stdList','errUnit', lang==='en'
+      ? 'The unit list could not be loaded. Check your connection and pick the field again.'
+      : 'Daftar unitnya gagal dimuat. Periksa koneksi Anda lalu pilih bidangnya lagi.'); }
+    if(sel) sel.disabled=false;
+  }
+  isiUnit(); gambarKuk(); aturFoot();
+}
+function modeUsul(on){
+  S.mode = on?'usul':null;
+  if(on){ S.standar=null; S.unit=null; S.kuk=[];
+    $('unitWrap').hidden=true; $('kukWrap').hidden=true; $('sectUsul').hidden=false;
+    isiStandar(); bersihkanPesan();
+    setTimeout(()=>{ $('sectUsul').scrollIntoView({behavior:'smooth',block:'center'}); $('sJudul').focus(); },80);
+  }
+  aturFoot();
+}
+function bersihkanPesan(){ ['errUnit','errKuk','errUsul','errPerilaku'].forEach(id=>{ if($(id)) $(id).classList.remove('on'); }); }
+function filterUnit(){
+  const q=($('unitCari').value||'').toLowerCase().trim();
+  const sel=$('unitSel'); const kini=sel.value;
+  sel.innerHTML='';
+  const o0=document.createElement('option'); o0.value='';
+  o0.textContent = lang==='en'?'Choose a unit...':'Pilih unit...'; sel.appendChild(o0);
+  let n=0;
+  unitBidang(S.standar).forEach(u=>{
+    const cocok = !q || (u.kode+' '+u.judul).toLowerCase().includes(q);
+    if(!cocok) return; n++;
+    const o=document.createElement('option'); o.value=u.kode;
+    const kuk=REG.kuk[u.kode] ? ' ('+REG.kuk[u.kode].length+' KUK)' : '';
+    o.textContent=u.kode+' · '+u.judul+kuk; sel.appendChild(o);
+  });
+  if(kini && [...sel.options].some(o=>o.value===kini)) sel.value=kini;
+  const tot=unitBidang(S.standar).length;
+  $('unitCap').textContent = q
+    ? (lang==='en'?n+' of '+tot+' units match':n+' dari '+tot+' unit cocok')
+    : (lang==='en'?tot+' units in this field':tot+' unit di bidang ini');
+}
+function isiUnit(){ filterUnit(); }
+function pilihUnit(){
+  const k=$('unitSel').value; S.unit=k||null; S.kuk=[];
+  gambarKuk();
+}
+function gambarKuk(){
+  const k=S.unit, box=$('kukBox');
+  $('kukWrap').hidden=!k;
+  box.innerHTML='';
+  if(!k){ $('btnSemuaKuk').hidden=true; $('kukCnt').textContent=''; aturFoot(); return; }
+  const list=REG.kuk[k];
+  if(!list){
+    box.innerHTML='<div class="kukrow"><span class="st">'+(lang==='en'
+      ?'Criteria for this unit load from the registry when the module opens. For this prototype, KUK detail is embedded for the four Track Staf units.'
+      :'Kriteria unit ini dimuat dari registry saat modul dibuka. Di prototipe ini, detail KUK disematkan untuk empat unit Track Staf.')+'</span></div>';
+    $('btnSemuaKuk').hidden=true; $('kukCnt').textContent=''; aturFoot(); return;
+  }
+  $('btnSemuaKuk').hidden=false;
+  list.forEach(([kd,st])=>{
+    const r=document.createElement('div'); r.className='kukrow';
+    r.innerHTML='<span class="kd">KUK '+kd+'</span><span class="st"></span>';
+    r.querySelector('.st').textContent=st;
+    const id=k+'/'+kd, aktif=S.kuk.includes(id);
+    const b=document.createElement('button'); b.className='pill sm';
+    b.setAttribute('aria-pressed',String(aktif));
+    b.textContent = aktif ? (lang==='en'?'Trained':'Dilatih') : (lang==='en'?'Train this':'Latih ini');
+    b.onclick=()=>{ const n=S.kuk.indexOf(id);
+      if(n<0) S.kuk.push(id); else S.kuk.splice(n,1);
+      b.setAttribute('aria-pressed',String(n<0));
+      b.textContent = n<0 ? (lang==='en'?'Trained':'Dilatih') : (lang==='en'?'Train this':'Latih ini');
+      hitungKuk(); aturFoot(); };
+    r.appendChild(b); box.appendChild(r);
+  });
+  hitungKuk(); aturFoot();
+}
+
+function hitungKuk(){
+  const u=REG.kuk[S.unit]; if(!u) { $('kukCnt').textContent=''; return; }
+  const n=S.kuk.filter(x=>x.startsWith(S.unit+'/')).length;
+  $('kukCnt').textContent = lang==='en' ? n+' of '+u.length+' selected' : n+' dari '+u.length+' dipilih';
+  $('btnSemuaKuk').textContent = n===u.length
+    ? (lang==='en'?'Clear all':'Kosongkan semua')
+    : (lang==='en'?'Train all criteria':'Latih semua kriteria');
+  if(n>0) $('errKuk').classList.remove('on');
+}
+function semuaKuk(){
+  const u=REG.kuk[S.unit]; if(!u) return;
+  const n=S.kuk.filter(x=>x.startsWith(S.unit+'/')).length;
+  S.kuk=S.kuk.filter(x=>!x.startsWith(S.unit+'/'));
+  if(n<u.length) u.forEach(([kd])=>S.kuk.push(S.unit+'/'+kd));
+  gambarKuk();
+}
+function tambahUsulKuk(){
+  const kd=$('uKd').value.trim(), st=$('uSt').value.trim();
+  if(!kd||!st){ toast(lang==='en'?'Fill code and statement':'Isi kode dan pernyataan'); return; }
+  S.usulKuk.push([kd,st]); $('uKd').value=''; $('uSt').value='';
+  gambarList('usulKuk','listUsul',x=>'KUK '+x[0]+' · '+x[1]); aturFoot();
+}
+function isiSkill(){
+  const box=$('skillPills'); box.innerHTML='';
+  SKILL.forEach(n=>{
+    const b=document.createElement('button'); b.className='pill';
+    b.setAttribute('aria-pressed',String(S.skill.includes(n))); b.textContent=n;
+    b.onclick=()=>{ const i=S.skill.indexOf(n); i<0?S.skill.push(n):S.skill.splice(i,1);
+      b.setAttribute('aria-pressed',String(i<0)); aturFoot(); };
+    box.appendChild(b);
+  });
+}
+function tambahIndikator(){
+  const t=$('iText').value.trim(); if(!t) return;
+  S.indikator.push(t); $('iText').value='';
+  gambarList('indikator','listIndikator'); aturFoot();
+}
+function isiSeg(){
+  const box=$('pillSeg'); box.innerHTML='';
+  SEG.forEach(([k,nm])=>{
+    const b=document.createElement('button'); b.className='pill';
+    b.setAttribute('aria-pressed',String(S.seg.includes(k))); b.textContent=segNama(nm);
+    b.onclick=()=>{ const i=S.seg.indexOf(k); i<0?S.seg.push(k):S.seg.splice(i,1); isiSeg(); hintHarga(); cek(); };
+    box.appendChild(b);
+  });
+  hintHarga();
+}
+function hintHarga(){
+  const jab=SEG.filter(([k,,h])=>h && S.seg.includes(k));
+  if(!jab.length){ $('hargaHint').textContent = lang==='en'
+    ? 'You set the price. Nothing here is fixed by Nusva.'
+    : 'Harga Anda yang menentukan. Tidak ada yang dipatok Nusva.'; return; }
+  const tertinggi=jab.reduce((a,b)=>b[2]>a[2]?b:a);
+  $('hargaHint').textContent = (lang==='en'?'Reference for ':'Acuan untuk ')+segNama(tertinggi[1])+': Rp '+rp(tertinggi[2]);
+  if(!$('harga').value) $('harga').value=tertinggi[2];
+}
+function setTingkat(v,el){ S.tingkat=v;
+  el.parentElement.querySelectorAll('.pill').forEach(b=>b.setAttribute('aria-pressed',String(b===el))); cek(); }
+function tog(k,el){ S[k]=!S[k]; el.setAttribute('aria-pressed',String(S[k])); cek(); }
+function kritCap(){
+  $('kritCap').textContent = S.jenis==='perilaku'
+    ? (lang==='en'?'We already carried over the indicators you wrote in step 3. Add more if something is missing.'
+                  :'Indikator yang Anda tulis di langkah 3 sudah kami bawa ke sini. Tambah lagi kalau ada yang kurang.')
+    : (lang==='en'?'Write the checks you would run: what must be right for this to count as done properly.'
+                  :'Tulis pemeriksaan yang Anda lakukan: apa yang harus tepat supaya ini dianggap benar.');
+  if(S.jenis==='perilaku' && S.kriteria.length===0 && S.indikator.length){
+    S.kriteria=[...S.indikator]; gambarKriteria();
+  }
+}
+
+/* ---------- sub-modul ---------- */
+const KERANGKA=[
+ {id:'Kenapa ini penting',en:'Why this matters',mnt:4,jenis:'artikel',gratis:true},
+ {id:'Konsep inti',en:'The core idea',mnt:6,jenis:'artikel'},
+ {id:'Contoh dikerjakan',en:'A worked example',mnt:8,jenis:'video'},
+ {id:'Latihan mandiri',en:'Practice on your own',mnt:10,jenis:'latihan'},
+ {id:'Terapkan di pekerjaan Anda',en:'Apply it at work',mnt:5,jenis:'artikel'}
+];
+const MAKS_PART=5, MAKS_MNT=20, NYAMAN_MNT=10;
+const JENIS={artikel:{id:'Artikel',en:'Article'},video:{id:'Video + Audio',en:'Video + Audio'},
+  audio:{id:'Audio',en:'Audio'},diagram:{id:'Diagram',en:'Diagram'},
+  latihan:{id:'Latihan Workshop',en:'Workshop exercise'}};
+const teksKosong=()=>lang==='en'?'Untitled sub-module':'Sub-modul tanpa judul';
+
+function partBaru(o){
+  o=o||{};
+  return {judul:o.judul||'',desk:'',jenis:o.jenis||'artikel',mnt:o.mnt||5,
+          quiz:{on:false,posisi:'sesudah',soal:[]},diskusi:{on:false,baca:false},
+          gratis:!!o.gratis,buka:false};
+}
+/* Keputusan 24: penempatan quiz DIDERIVASI dari urutan, tidak diisi manual.
+   Bagian pertama jalan sebagai pertanyaan pembuka (sebelum materi dibaca),
+   sisanya sebagai checkpoint sesudah materi. */
+function posisiQuiz(i){ return i===0 ? 'sebelum' : 'sesudah'; }
+function pakaiKerangka(){
+  S.parts=KERANGKA.map(k=>partBaru({judul:lang==='en'?k.en:k.id,mnt:k.mnt,jenis:k.jenis,gratis:k.gratis}));
+  S.parts[0].buka=true; gambarParts(); cek();
+  toast(lang==='en'?'Outline added. Rename anything you like.':'Kerangka terpasang. Ganti judulnya sesuka Anda.');
+}
+function tambahPart(){
+  if(S.parts.length>=MAKS_PART){
+    toast(lang==='en'?'Five is the ceiling. Beyond that it is probably two modules.'
+                     :'Lima adalah batasnya. Lebih dari itu sebaiknya jadi dua modul.'); return; }
+  S.parts.forEach(p=>p.buka=false);
+  const p=partBaru(); p.buka=true; S.parts.push(p); gambarParts(); cek();
+  const el=document.getElementById('pj'+(S.parts.length-1)); if(el) el.focus();
+}
+function bukaPart(i){ const t=!S.parts[i].buka; S.parts.forEach(p=>p.buka=false); S.parts[i].buka=t; gambarParts(); }
+function geser(i,arah){ const j=i+arah; if(j<0||j>=S.parts.length) return;
+  const t=S.parts[i]; S.parts[i]=S.parts[j]; S.parts[j]=t; gambarParts(); cek(); }
+function duplikat(i){
+  if(S.parts.length>=MAKS_PART){ toast(lang==='en'?'Five is the ceiling.':'Lima adalah batasnya.'); return; }
+  const c=JSON.parse(JSON.stringify(S.parts[i])); c.buka=false;
+  S.parts.splice(i+1,0,c); gambarParts(); cek();
+}
+function hapusPart(i){ S.parts.splice(i,1); gambarParts(); cek(); }
+function ubahPart(i,k,v){
+  const p=S.parts[i];
+  if(k==='mnt') p.mnt=Math.max(1,Math.min(MAKS_MNT,parseInt(v||'1',10)));
+  else if(k==='quizOn'){ p.quiz.on=v; if(v && p.quiz.soal.length===0) p.quiz.soal.push(soalBaru()); }
+
+  else if(k==='gratis') p.gratis=v;
+  else if(k==='diskOn') p.diskusi.on=v;
+  else if(k==='diskBaca') p.diskusi.baca=v;
+  else p[k]=v;
+  if(k==='judul'){
+    const h=document.querySelector('#ph'+i+' .ptitle');
+    if(h){ h.textContent=p.judul||teksKosong(); h.classList.toggle('kosong',!p.judul); }
+    cek(); return;
+  }
+  if(k==='desk'){ cek(); return; }
+  gambarParts(); cek();
+}
+function gambarParts(){
+  const box=$('listPart'); if(!box) return;
+  box.innerHTML='';
+  S.parts.forEach((p,i)=>{
+    const el=document.createElement('div');
+    el.className='part'+(p.mnt>NYAMAN_MNT?' warn':'')+(p.gratis?' gratis':''); el.dataset.open=p.buka?'1':'0';
+    const opt=Object.keys(JENIS).map(function(k){
+      return '<option value="'+k+'"'+(p.jenis===k?' selected':'')+'>'+(lang==='en'?JENIS[k].en:JENIS[k].id)+'</option>'; }).join('');
+    const warn = p.mnt>NYAMAN_MNT
+      ? '<div class="pwarn">'+(lang==='en'
+        ?'Past ten minutes in one sitting, completion starts sliding. Split this in two and more of them reach the end.'
+        :'Lewat sepuluh menit sekali duduk, angka penuntasan mulai turun. Pecah jadi dua, lebih banyak yang sampai akhir.')+'</div>' : '';
+    p.quiz.posisi = posisiQuiz(i);
+    let quizJml='', quizCap='';
+    if(p.quiz.on){
+      const akhirPart = i===S.parts.length-1;
+      const POS = p.quiz.posisi==='sebelum'
+        ? {tag:lang==='en'?'Before':'Sebelum',
+           b:lang==='en'?'Runs before this part is read':'Jalan sebelum bagian ini dibaca',
+           t:lang==='en'?'This is the first part, so the question opens it. Guessing first makes what follows land harder, even when the guess is wrong.'
+                        :'Ini bagian pertama, jadi soalnya yang membuka. Menebak lebih dulu membuat materi sesudahnya lebih menancap, bahkan ketika tebakannya keliru.'}
+        : {tag:lang==='en'?'After':'Sesudah',
+           b:lang==='en'?'Runs after this part is read':'Jalan sesudah bagian ini dibaca',
+           t:akhirPart
+             ? (lang==='en'?'Last part, so this one settles what was learned.'
+                           :'Bagian terakhir, jadi soal ini mengendapkan yang sudah dipelajari.')
+             : (lang==='en'?'Middle part, so this one catches whoever started drifting.'
+                           :'Bagian tengah, jadi soal ini menangkap siapa yang mulai kabur.')};
+      var posBadge='<div class="qpos"><span class="tag">'+POS.tag+'</span><span><b>'+POS.b+'</b> '+POS.t+
+        ' '+(lang==='en'?'Move this part and the placement moves with it.'
+                        :'Geser bagian ini, penempatannya ikut.')+'</span></div>';
+      const badan = p.quiz.soal.map((q,j)=>{
+        const isiOpsi = q.jenis==='pg'
+          ? q.opsi.map((o,z)=>'<div class="qopt">'+
+              '<input type="radio" name="bnr'+i+'_'+j+'"'+(q.benar===z?' checked':'')+' onchange="ubahSoal('+i+','+j+',\'benar\','+z+')" aria-label="'+(lang==='en'?'Correct answer':'Jawaban benar')+'">'+
+              '<input class="f" value="" data-v="'+z+'" id="qo'+i+'_'+j+'_'+z+'" placeholder="'+(lang==='en'?'Option ':'Opsi ')+String.fromCharCode(65+z)+'" oninput="ubahSoal('+i+','+j+',\'opsi'+z+'\',this.value)"></div>').join('')
+          : '<div class="qopt" style="padding-left:25px"><input class="f" id="qk'+i+'_'+j+'" value="" placeholder="'+(lang==='en'?'Accepted answer':'Jawaban yang diterima')+'" oninput="ubahSoal('+i+','+j+',\'kunci\',this.value)"></div>';
+        return '<div class="qbox">'+
+          '<div class="qhd"><b>'+(lang==='en'?'Question ':'Soal ')+(j+1)+'</b>'+
+            '<select class="f" style="max-width:150px;min-height:32px;padding:4px 8px;font-size:12.5px" onchange="ubahSoal('+i+','+j+',\'jenis\',this.value)">'+
+              '<option value="pg"'+(q.jenis==='pg'?' selected':'')+'>'+(lang==='en'?'Multiple choice':'Pilihan ganda')+'</option>'+
+              '<option value="pendek"'+(q.jenis==='pendek'?' selected':'')+'>'+(lang==='en'?'Short answer':'Isian pendek')+'</option>'+
+            '</select>'+
+            '<button class="x" aria-label="Hapus" onclick="hapusSoal('+i+','+j+')">&times;</button></div>'+
+          '<input class="f" id="qt'+i+'_'+j+'" value="" placeholder="'+(lang==='en'?'Write the question':'Tulis pertanyaannya')+'" oninput="ubahSoal('+i+','+j+',\'t\',this.value)">'+
+          isiOpsi+
+          (q.jenis==='pg'?'<p class="qcap">'+(lang==='en'?'Tick the circle next to the correct option.':'Centang bulatan di sebelah opsi yang benar.')+'</p>':'')+
+        '</div>';
+      }).join('');
+      const tombol = p.quiz.soal.length<3
+        ? '<button class="btn btn-quiet" style="margin-top:8px" onclick="tambahSoal('+i+')">'+(lang==='en'?'Add question':'Tambah soal')+'</button>' : '';
+      quizJml='';
+      quizCap = posBadge + badan + tombol + '<p class="cap" style="margin-top:7px">'+(lang==='en'
+        ?'Two or three is the sweet spot. The correct answer is revealed the moment they answer, always, and whatever you write here also comes back the next morning.'
+        :'Dua sampai tiga paling pas. Jawaban benarnya diperlihatkan begitu mereka menjawab, selalu, dan yang Anda tulis di sini juga datang lagi besok pagi.')+'</p>';
+    }
+    const latihanCue = (p.jenis==='latihan' && S.kriteria.length===0)
+      ? '<div class="pwarn">'+(lang==='en'
+        ?'This part is a Workshop exercise, but there is no criterion yet for the rubric to check it against. Add one under Workshop exercise below.'
+        :'Bagian ini berupa latihan Workshop, tapi belum ada kriteria yang bisa dipakai rubrik untuk memeriksanya. Tambahkan satu di Latihan Workshop di bawah.')+'</div>' : '';
+    const diskBaca = p.diskusi.on
+      ? '<button class="pill sm" aria-pressed="'+p.diskusi.baca+'" onclick="ubahPart('+i+',\'diskBaca\','+(!p.diskusi.baca)+')">'+(lang==='en'?'Must read two answers first':'Wajib baca dua jawaban dulu')+'</button>' : '';
+    const diskCap = p.diskusi.on
+      ? '<p class="cap" style="margin-top:6px">'+(lang==='en'
+        ?'Their cohort can see it, and so can you. Their employer never can, and there are no likes or rankings.'
+        :'Sesama peserta bisa melihatnya, Anda juga. Perusahaan mereka tidak pernah bisa, dan tidak ada suka atau peringkat.')+'</p>' : '';
+    el.innerHTML=
+      '<button class="phead" id="ph'+i+'" onclick="bukaPart('+i+')" aria-expanded="'+p.buka+'">'+
+        '<span class="pnum">'+(lang==='en'?'Part':'Bagian')+' '+(i+1)+'</span>'+
+        '<span class="ptitle'+(p.judul?'':' kosong')+'"></span>'+
+        '<span class="pmin">'+p.mnt+' '+(lang==='en'?'min':'mnt')+'</span>'+
+        '<svg class="pcar" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>'+
+      '</button>'+
+      '<div class="pbody">'+
+        '<label class="f" for="pj'+i+'">'+(lang==='en'?'Sub-module title':'Judul sub-modul')+'</label>'+
+        '<input class="f" id="pj'+i+'" oninput="ubahPart('+i+',\'judul\',this.value)">'+
+        '<label class="f" for="pd'+i+'">'+(lang==='en'?'What happens in this part':'Apa yang terjadi di bagian ini')+'</label>'+
+        '<textarea class="f" id="pd'+i+'" style="min-height:58px" oninput="ubahPart('+i+',\'desk\',this.value)"></textarea>'+
+        '<div class="psub" style="margin-top:4px">'+
+          '<div><label class="f" for="pt'+i+'">'+(lang==='en'?'Format':'Jenis')+'</label>'+
+            '<select class="f" id="pt'+i+'" onchange="ubahPart('+i+',\'jenis\',this.value)">'+opt+'</select></div>'+
+          '<div><label class="f" for="pm'+i+'">'+(lang==='en'?'Minutes (max 20)':'Menit (maks 20)')+'</label>'+
+            '<input class="f" id="pm'+i+'" type="number" min="1" max="20" value="'+p.mnt+'" onchange="ubahPart('+i+',\'mnt\',this.value)"></div>'+
+        '</div>'+ warn + latihanCue +
+        '<div class="popt">'+
+          '<div class="pills">'+
+            '<button class="pill sm" aria-pressed="'+p.quiz.on+'" onclick="ubahPart('+i+',\'quizOn\','+(!p.quiz.on)+')">'+(lang==='en'?'Checkpoint quiz':'Quiz checkpoint')+'</button>'+quizJml+
+          '</div>'+quizCap+
+          '<div class="pills" style="margin-top:9px">'+
+            '<button class="pill sm" aria-pressed="'+p.diskusi.on+'" onclick="ubahPart('+i+',\'diskOn\','+(!p.diskusi.on)+')">'+(lang==='en'?'Open discussion':'Diskusi terbuka')+'</button>'+diskBaca+
+          '</div>'+diskCap+
+          '<div class="pills" style="margin-top:9px">'+
+            '<button class="pill sm" aria-pressed="'+p.gratis+'" onclick="ubahPart('+i+',\'gratis\','+(!p.gratis)+')">'+(lang==='en'?'Open before purchase':'Buka sebelum dibeli')+'</button>'+
+          '</div>'+
+          (p.gratis
+            ? '<div class="gcue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6v.2"/></svg><span>'+(lang==='en'
+              ?'Anyone can open this part in full without paying, exercise included. Their submission is marked as usual, and they keep it.'
+              :'Siapa pun bisa membuka bagian ini secara penuh tanpa membayar, termasuk latihannya. Karyanya tetap diperiksa seperti biasa, dan tetap jadi milik mereka.')+'</span></div>'
+            : '')+
+        '</div>'+
+        '<div class="pact">'+
+          '<button class="btn btn-quiet" onclick="geser('+i+',-1)"'+(i===0?' disabled':'')+'>'+(lang==='en'?'Move up':'Naik')+'</button>'+
+          '<button class="btn btn-quiet" onclick="geser('+i+',1)"'+(i===S.parts.length-1?' disabled':'')+'>'+(lang==='en'?'Move down':'Turun')+'</button>'+
+          '<button class="btn btn-quiet" onclick="duplikat('+i+')">'+(lang==='en'?'Duplicate':'Duplikat')+'</button>'+
+          '<button class="btn btn-quiet" onclick="hapusPart('+i+')">'+(lang==='en'?'Remove':'Hapus')+'</button>'+
+        '</div>'+
+      '</div>';
+    el.querySelector('.ptitle').textContent = p.judul || teksKosong();
+    el.querySelector('#pj'+i).value = p.judul;
+    el.querySelector('#pd'+i).value = p.desk;
+    p.quiz.soal.forEach((q,j)=>{
+      const t=el.querySelector('#qt'+i+'_'+j); if(t) t.value=q.t;
+      if(q.jenis==='pg') q.opsi.forEach((o,z)=>{ const oe=el.querySelector('#qo'+i+'_'+j+'_'+z); if(oe) oe.value=o; });
+      else { const ke=el.querySelector('#qk'+i+'_'+j); if(ke) ke.value=q.kunci; }
+    });
+    box.appendChild(el);
+  });
+  const ada=S.parts.length>0;
+  $('kerangkaBox').hidden=ada; $('btnAddPart').hidden=!ada; $('totBox').hidden=!ada;
+  if(ada){
+    const tot=S.parts.reduce((a,b)=>a+b.mnt,0);
+    const mg=S.parts.filter(p=>p.gratis).reduce((a,b)=>a+b.mnt,0);
+    const pg=tot?Math.round(mg/tot*100):0;
+    const gb=$('gratisBox');
+    if(gb){
+      if(mg===0){
+        gb.className='gsum a'; gb.hidden=false;
+        gb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.4v.2"/></svg><span>'+(lang==='en'
+          ?'<b>Nothing is open before purchase.</b> People decide from doing a piece, not from reading a description. Opening the first part is usually enough.'
+          :'<b>Belum ada bagian yang terbuka sebelum dibeli.</b> Orang memutuskan setelah mengerjakan sepotong, bukan setelah membaca deskripsi. Membuka bagian pertama biasanya sudah cukup.')+'</span>';
+      } else if(pg>50){
+        gb.className='gsum a'; gb.hidden=false;
+        gb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.4v.2"/></svg><span>'+(lang==='en'
+          ?'<b>'+pg+'% of the module is open.</b> Past half, most people feel they already got what they came for. Your call, but it usually costs sales rather than winning them.'
+          :'<b>'+pg+'% modul ini terbuka.</b> Lewat separuh, sebagian besar orang merasa sudah mendapat yang mereka cari. Terserah Anda, tapi biasanya itu menghilangkan penjualan, bukan mendatangkannya.')+'</span>';
+      } else {
+        gb.className='gsum b'; gb.hidden=false;
+        gb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>'+(lang==='en'
+          ?'<b>'+mg+' of '+tot+' minutes are open before purchase ('+pg+'%).</b> Calon peserta can try that much for free.'
+          :'<b>'+mg+' dari '+tot+' menit terbuka sebelum dibeli ('+pg+'%).</b> Calon peserta bisa mencoba sebanyak itu tanpa membayar.')+'</span>';
+      }
+    }
+    $('totMnt').textContent=tot+' '+(lang==='en'?'min':'mnt');
+    $('totLbl').textContent = lang==='en'
+      ? 'across '+S.parts.length+' sub-module'+(S.parts.length>1?'s':'')+(S.parts.length>=MAKS_PART?' · five is the ceiling':'')
+      : 'dalam '+S.parts.length+' sub-modul'+(S.parts.length>=MAKS_PART?' · lima adalah batasnya':'');
+    $('estimasi').value=tot+' '+(lang==='en'?'minutes':'menit');
+  } else { $('estimasi').value=''; const gb=$('gratisBox'); if(gb) gb.hidden=true; }
+}
+function soalBaru(){ return {t:'',jenis:'pg',opsi:['','',''],benar:0,kunci:''}; }
+function tambahSoal(i){
+  const p=S.parts[i];
+  if(p.quiz.soal.length>=3){ toast(lang==='en'?'Three questions per part is the ceiling.':'Tiga soal per bagian adalah batasnya.'); return; }
+  p.quiz.soal.push(soalBaru()); gambarParts(); cek();
+  const el=document.getElementById('qt'+i+'_'+(p.quiz.soal.length-1)); if(el) el.focus();
+}
+function hapusSoal(i,j){ S.parts[i].quiz.soal.splice(j,1); gambarParts(); cek(); }
+function ubahSoal(i,j,k,v){
+  const q=S.parts[i].quiz.soal[j];
+  if(k==='jenis'){ q.jenis=v; gambarParts(); cek(); return; }
+  if(k==='benar'){ q.benar=+v; cek(); return; }
+  if(k.startsWith('opsi')) q.opsi[+k.slice(4)]=v;
+  else q[k]=v;
+  cek();
+}
+function togTes(k,el){ S[k].on=!S[k].on; el.setAttribute('aria-pressed',String(S[k].on)); cek(); }
+
+/* ---------- berkas ---------- */
+function setKat(v,el){
+  S.kat=v; if(el) el.parentElement.querySelectorAll('.pill').forEach(b=>b.setAttribute('aria-pressed',String(b===el)));
+  const t={materi:{id:'Upload materi PPTX atau PDF',en:'Upload PPTX or PDF material'},
+           tools:{id:'Upload bahan/alat kerja DOCX, XLSX, PPTX, PDF',en:'Upload work tools DOCX, XLSX, PPTX, PDF'}}[v];
+  const h={materi:'PPTX · PDF · '+(lang==='en'?'max 20 MB':'maks 20 MB'),
+           tools:'DOCX · XLSX · PPTX · PDF · '+(lang==='en'?'max 20 MB':'maks 20 MB')}[v];
+  $('dzTitle').textContent = lang==='en'?t.en:t.id; $('dzHint').textContent=h;
+}
+function hot(e,on){ e.preventDefault(); $('dz').classList.toggle('hot',!!on); }
+function jatuh(e){ e.preventDefault(); hot(e,0); terima([...e.dataTransfer.files]); }
+function pilihBerkas(e){ terima([...e.target.files]); e.target.value=''; }
+function terima(files){
+  let tolak=0;
+  files.forEach(f=>{
+    const ext=(f.name.split('.').pop()||'').toLowerCase();
+    if(!WHITE[S.kat].includes(ext) || f.size>MAKS[S.kat]){ tolak++; return; }
+    const ada=S.dok.find(d=>d.nama===f.name && d.kat===S.kat);
+    if(ada){ ada.versi++; ada.ukuran=f.size; }
+    else { const rec={nama:f.name,ukuran:f.size,ext,kat:S.kat,versi:1,prev:null};
+      S.dok.push(rec);
+      window.__pratinjauBerkas(f).then(p=>{ if(p){ rec.prev=p; gambarDok(); } }); }
+  });
+  gambarDok(); cek();
+  if(tolak) toast(lang==='en'?tolak+' file rejected: type or size not allowed'
+                             :tolak+' berkas ditolak: tipe atau ukuran tidak diizinkan');
+}
+/* Sampul: diunggah trainer, atau dibangkitkan dari judul supaya tidak pernah kosong. */
+function gambarSampul(){
+  const img=$('sampulPrev'); if(!img) return;
+  const judul=$('judul').value.trim() || (lang==='en'?'Untitled module':'Modul tanpa judul');
+  img.src = S.sampul ? S.sampul.data : window.__sampulCadangan(judul, judul, 640, 400);
+  img.alt = lang==='en' ? 'Module cover preview' : 'Pratinjau sampul modul';
+  $('btnHapusSampul').hidden = !S.sampul;
+  $('sampulKet').textContent = S.sampul
+    ? (lang==='en'?'Your image · '+S.sampul.nama:'Gambar Anda · '+S.sampul.nama)
+    : (lang==='en'?'Generated from the module title. JPG, PNG, or WEBP, max 3 MB, 16:10 works best.'
+                  :'Dibangkitkan dari judul modul. JPG, PNG, atau WEBP, maks 3 MB, paling pas 16:10.');
+}
+function pilihSampul(e){
+  const f=e.target.files&&e.target.files[0]; e.target.value='';
+  if(!f) return;
+  if(!['image/png','image/jpeg','image/webp'].includes(f.type)){
+    toast(lang==='en'?'Cover must be JPG, PNG, or WEBP':'Sampul harus JPG, PNG, atau WEBP'); return; }
+  if(f.size>3*1024*1024){
+    toast(lang==='en'?'Cover is over 3 MB. Pick a smaller one.':'Sampul lebih dari 3 MB. Pilih yang lebih kecil.'); return; }
+  const r=new FileReader();
+  r.onload=()=>{ S.sampul={nama:f.name,data:r.result}; gambarSampul(); cek();
+    toast(lang==='en'?'Cover updated':'Sampul diperbarui'); };
+  r.readAsDataURL(f);
+}
+function hapusSampul(){ S.sampul=null; gambarSampul(); cek(); }
+
+function gambarDok(){
+  const box=$('listDok'); box.innerHTML='';
+  const nm={materi:'Materi',tools:lang==='en'?'Work tools':'Bahan/alat kerja'};
+  S.dok.forEach((d,i)=>{
+    const uk=d.ukuran<1048576?Math.max(1,Math.round(d.ukuran/1024))+' KB':(d.ukuran/1048576).toFixed(1)+' MB';
+    const el=document.createElement('div'); el.className='fitem';
+    el.innerHTML='<img class="fthumb" alt="" src="'+(d.prev||window.__ikonBerkas(d.ext,44))+'">'+
+      '<span class="nm"><b></b><span>'+nm[d.kat]+' · '+uk+' · v'+d.versi+'</span></span>'+
+      '<button class="x" aria-label="Hapus" onclick="hapus(\'dok\','+i+')">&times;</button>';
+    el.querySelector('b').textContent=d.nama; box.appendChild(el);
+  });
+}
+
+/* ---------- quiz, kriteria ---------- */
+function segarkanCueLatihan(){ if(S.parts.some(p=>p.jenis==='latihan')) gambarParts(); }
+function tambahKriteria(){
+  const t=$('rText').value.trim(); if(!t) return;
+  S.kriteria.push(t); $('rText').value=''; gambarKriteria(); segarkanCueLatihan(); cek();
+}
+function gambarKriteria(){ if($('listKriteria')) gambarList('kriteria','listKriteria'); }
+function gambarList(key,boxId,fmt){
+  const box=$(boxId); box.innerHTML='';
+  S[key].forEach((t,i)=>{
+    const d=document.createElement('div'); d.className='fitem';
+    d.innerHTML=`<span class="ico">${i+1}</span><span class="nm"><b></b></span>
+      <button class="x" aria-label="Hapus" onclick="hapus('${key}',${i})">&times;</button>`;
+    d.querySelector('b').textContent = fmt?fmt(t):t; box.appendChild(d);
+  });
+}
+function hapus(key,i){
+  S[key].splice(i,1);
+  if(key==='dok') gambarDok();
+  else if(key==='usulKuk') gambarList('usulKuk','listUsul',x=>'KUK '+x[0]+' · '+x[1]);
+  else if(key==='kriteria'){ gambarKriteria(); segarkanCueLatihan(); }
+  else gambarList(key,'listIndikator');
+  cek(); aturFoot();
+}
+
+/* ---------- gerbang terbit ---------- */
+function aturan(){
+  const judul=$('judul').value.trim(), desk=$('desk').value.trim();
+  const tot=S.parts.reduce((a,b)=>a+b.mnt,0);
+  const adaMateri=S.dok.some(d=>d.kat==='materi');
+  const soalLengkap=q=>q.t.trim().length>=8 && (q.jenis==='pg'
+        ? q.opsi.filter(o=>o.trim()).length>=2 && (q.opsi[q.benar]||'').trim().length>=1
+        : q.kunci.trim().length>=1);
+  const quizPart=S.parts.some(p=>p.quiz.on && p.quiz.soal.length>=1 && p.quiz.soal.every(soalLengkap));
+  const quizTanggung=S.parts.some(p=>p.quiz.on && (p.quiz.soal.length===0 || !p.quiz.soal.every(soalLengkap)));
+  const aktivitas = quizPart || S.kriteria.length>=1;
+  const partLengkap = S.parts.length>=1 && S.parts.every(p=>p.judul.trim().length>=4 && p.mnt>=1 && p.mnt<=20);
+  const esaiOk = !(S.post.on && $('postTipe') && $('postTipe').value==='esai' && S.kriteria.length===0);
+  const L=[
+   {t:{id:'Nama dan deskripsi modul',en:'Module name and description'},ok:judul.length>=4&&desk.length>=20,
+    kur:{id:'Deskripsi minimal 20 karakter dan menyebut hasil belajarnya.',en:'Description needs 20+ characters naming the outcome.'}},
+   {t:{id:'Segmen dan tingkat',en:'Segment and level'},ok:S.seg.length>=1&&!!S.tingkat,
+    kur:{id:'Pilih minimal satu segmen peserta dan tingkat Dasar/Menengah/Mahir.',en:'Pick at least one audience segment and the level.'}},
+   {t:{id:'Materi terunggah',en:'Material uploaded'},ok:adaMateri,
+    kur:{id:'Unggah minimal satu materi berformat PPTX atau PDF.',en:'Upload at least one PPTX or PDF material.'}},
+   {t:{id:'Sub-modul lengkap',en:'Sub-modules complete'},ok:partLengkap,
+    kur:{id:'Minimal satu sub-modul, masing-masing berjudul dan berdurasi 1 sampai 20 menit.',en:'At least one sub-module, each titled and between 1 and 20 minutes.'}},
+   {t:{id:'Esai punya kriteria',en:'Essay has criteria'},ok:esaiOk,
+    kur:{id:'Tes Akhir berbentuk esai butuh minimal satu kriteria latihan, kalau tidak tidak ada yang bisa diperiksa.',en:'An essay Tes Akhir needs at least one practice criterion, otherwise there is nothing to check against.'}},
+   {t:{id:'Quiz yang dinyalakan sudah lengkap',en:'Enabled quizzes are complete'},ok:!quizTanggung,
+    kur:{id:'Ada quiz yang dinyalakan tapi soalnya belum lengkap: pertanyaan, opsi, dan jawaban benarnya perlu terisi.',en:'A quiz is switched on but its questions are unfinished: text, options, and the correct answer are needed.'}},
+   {t:{id:'Minimal 1 aktivitas',en:'At least 1 activity'},ok:aktivitas,
+    kur:{id:'Nyalakan quiz checkpoint di salah satu sub-modul, atau tulis satu kriteria latihan Workshop.',en:'Turn on a checkpoint quiz in one sub-module, or write one Workshop criterion.'}},
+   {t:{id:'Sampul modul',en:'Module cover'},ok:true,
+    kur:{id:'',en:''},cat:{id:'Opsional. Tanpa unggahan, sampul dibangkitkan dari judul.',en:'Optional. Without an upload, the cover is generated from the title.'}},
+   {t:{id:'Harga ditetapkan',en:'Price set'},ok:(+$('harga').value||0)>0,
+    kur:{id:'Isi harga per training; Anda yang menetapkan.',en:'Set the price per training; the trainer decides it.'}},
+  ];
+  if(S.jenis==='teknis'&&S.basis==='skkni'){
+    L.push({t:{id:'Pemetaan kriteria SKKNI',en:'SKKNI criteria mapping'},ok:S.kuk.length>=1||S.usulKuk.length>=1,
+      kur:{id:'Centang KUK yang dilatih, atau petakan unit usulan.',en:'Tick the KUK trained, or map a proposed unit.'}});
+    L.push({t:{id:'Latihan Workshop wajib',en:'Workshop exercise required'},ok:S.kriteria.length>=1,
+      kur:{id:'Basis SKKNI butuh karya yang bisa dinilai rubrik, bukan hanya quiz.',en:'SKKNI basis needs work a rubric can assess, not only a quiz.'}});
+  }
+  if(S.jenis==='perilaku'){
+    L.push({t:{id:'Tag skill dan indikator',en:'Skill tags and indicators'},ok:S.skill.length>=1&&S.kriteria.length>=1,
+      kur:{id:'Pilih skill dan tulis minimal satu indikator teramati.',en:'Pick a skill and write at least one observable indicator.'}});
+  }
+  return L;
+}
+function cek(){
+  if($('sc5').hidden){ aturFoot(); return; }
+  const L=aturan(), box=$('glist'); box.innerHTML='';
+  L.forEach(x=>{
+    const d=document.createElement('div'); d.className='gitem'; d.dataset.ok=x.ok?'1':'0';
+    d.innerHTML=`<span class="dot">${x.ok
+      ?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
+      :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M12 7v7"/><path d="M12 17.6v.2"/></svg>'}</span>
+      <span class="tx"><b>${lang==='en'?x.t.en:x.t.id}</b>${x.ok?'':`<span>${lang==='en'?x.kur.en:x.kur.id}</span>`}</span>`;
+    box.appendChild(d);
+  });
+  const tot=S.parts.reduce((a,b)=>a+b.mnt,0);
+  const qPart=S.parts.filter(p=>p.quiz.on).length, dPart=S.parts.filter(p=>p.diskusi.on).length;
+  const qSoal=S.parts.reduce((a,p)=>a+(p.quiz.on?p.quiz.soal.length:0),0);
+  const qPre=S.parts.filter((p,i)=>p.quiz.on && posisiQuiz(i)==='sebelum').length;
+  const qPost=qPart-qPre;
+  const tools=S.dok.filter(d=>d.kat==='tools').length;
+  const jalur = S.jenis==='perilaku' ? (lang==='en'?'behaviour indicators':'indikator perilaku')
+    : (S.basis==='skkni' ? (lang==='en'?'KUK criteria':'kriteria KUK') : (lang==='en'?'your own criteria':'kriteria Anda sendiri'));
+  $('prevText').textContent = lang==='en'
+    ? `${S.parts.length} sub-module(s), ${tot} min in total, ${S.parts.filter(p=>p.gratis).length} open before purchase, ${qPart} with a checkpoint quiz (${qSoal} question(s)) and ${dPart} with discussion. Placement is derived from the order: ${qPre} run before the material is read, ${qPost} after. The correct answer is revealed the moment they answer, and all of it comes back the next morning. Materials ${S.dok.filter(d=>d.kat==='materi').length} file(s), work tools ${tools}. Rubric: ${S.kriteria.length} row(s) judged against ${jalur}. Tes Awal ${S.pre.on?'on':'off'}, Tes Akhir ${S.post.on?'on':'off'}.`
+    : `${S.parts.length} sub-modul, total ${tot} mnt, ${S.parts.filter(p=>p.gratis).length} bagian terbuka sebelum dibeli, ${qPart} punya quiz checkpoint (${qSoal} soal) dan ${dPart} punya diskusi. Penempatannya diderivasi dari urutan: ${qPre} jalan sebelum materinya dibaca, ${qPost} sesudah. Jawaban benarnya diperlihatkan begitu mereka menjawab, dan semuanya datang lagi besok pagi. Materi ${S.dok.filter(d=>d.kat==='materi').length} berkas, alat kerja ${tools}. Rubrik: ${S.kriteria.length} baris dinilai terhadap ${jalur}. Tes Awal ${S.pre.on?'aktif':'tidak'}, Tes Akhir ${S.post.on?'aktif':'tidak'}.`;
+  aturFoot();
+}
+function terbit(){
+  S.terbit=true; $('okBox').hidden=false;
+  document.dispatchEvent(new CustomEvent('nusva:hapusDraf'));
+  toast(lang==='en'?'Module published':'Modul terbit');
+}
+/* foto trainer: JPG/PNG/WEBP, maks 2 MB, pratinjau lokal tanpa unggah di prototipe */
+function pilihFoto(e){
+  const f=e.target.files&&e.target.files[0]; e.target.value='';
+  if(!f) return;
+  if(!['image/png','image/jpeg','image/webp'].includes(f.type)){
+    toast(lang==='en'?'Photo must be JPG, PNG, or WEBP':'Foto harus JPG, PNG, atau WEBP'); return; }
+  if(f.size>2*1024*1024){
+    toast(lang==='en'?'Photo is over 2 MB. Pick a smaller one.':'Foto lebih dari 2 MB. Pilih yang lebih kecil.'); return; }
+  const r=new FileReader();
+  r.onload=()=>{ const ph=$('avaPh'); ph.innerHTML='';
+    const im=document.createElement('img'); im.src=r.result; im.alt=lang==='en'?'Trainer photo':'Foto trainer'; ph.appendChild(im);
+    toast(lang==='en'?'Photo updated':'Foto diperbarui'); };
+  r.readAsDataURL(f);
+}
+function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on');
+  clearTimeout(t._x); t._x=setTimeout(()=>t.classList.remove('on'),2000); }
+
+/* ---------- pratinjau cepat ---------- */
+function isiDasar(){
+  $('judul').value = lang==='en'?'Payroll administration that survives an audit':'Administrasi pengupahan yang tahan audit';
+  $('desk').value = lang==='en'?'After this training the learner can run a payroll cycle and document every payment so an auditor can trace it.'
+    :'Setelah training ini learner dapat menjalankan siklus pengupahan dan mendokumentasikan setiap pembayaran agar bisa ditelusuri auditor.';
+  S.seg=['staf']; S.tingkat='dasar'; isiSeg(); $('harga').value=50000;
+  $('pillTingkat').querySelectorAll('.pill').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===0)));
+  S.parts=[partBaru({judul:lang==='en'?'Why payroll mistakes get expensive':'Kenapa keliru hitung upah jadi mahal',mnt:4,jenis:'artikel'}),
+           partBaru({judul:lang==='en'?'Overtime worked example':'Contoh hitung lembur',mnt:8,jenis:'video'}),
+           partBaru({judul:lang==='en'?'Run one yourself':'Kerjakan satu sendiri',mnt:10,jenis:'artikel'})];
+  S.parts[1].quiz.on=true;
+  S.parts[1].quiz.soal=[{t:lang==='en'?'What divisor turns a monthly wage into an hourly wage?':'Pembagi apa yang mengubah upah bulanan jadi upah sejam?',
+    jenis:'pg',opsi:['173','160','200'],benar:0,kunci:''}];
+  S.parts[2].diskusi.on=true; S.parts[2].diskusi.baca=true;
+  S.dok=[{nama:'materi-pengupahan.pptx',ukuran:2400000,ext:'pptx',kat:'materi',versi:1},
+         {nama:'lembar-hitung-upah.xlsx',ukuran:38000,ext:'xlsx',kat:'tools',versi:1}];
+  S.kriteria=[lang==='en'?'Overtime computed with the correct divisor and multipliers'
+                        :'Lembur dihitung dengan pembagi dan pengali yang benar'];
+  S.pre.on=true; S.post.on=true;
+  $('pkPre').setAttribute('aria-pressed','true'); $('pkPost').setAttribute('aria-pressed','true');
+  gambarParts(); gambarDok(); gambarKriteria(); cek();
+}
+/* ---------- bahasa: penukaran teks dikerjakan chrome bersama, di sini tinggal menggambar ulang ---------- */
+function segarkanBahasa(){
+  isiStandar(); if(S.standar){ isiUnit(); if(S.unit){ $('unitSel').value=S.unit; gambarKuk(); } }
+  isiSkill(); isiSeg(); gambarParts(); gambarDok();
+  gambarKriteria(); gambarList('indikator','listIndikator');
+  gambarList('usulKuk','listUsul',x=>'KUK '+x[0]+' · '+x[1]);
+  setKat(S.kat,null); kritCap(); gambarSampul(); gambarBar(); cek();
+}
+document.addEventListener('nusva:bahasa', e => { lang = e.detail.lang; segarkanBahasa(); });
+[['uSt',()=>tambahUsulKuk()],['iText',()=>tambahIndikator()],['rText',()=>tambahKriteria()]].forEach(([id,fn])=>{
+  const el=$(id); if(el) el.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); fn(); } });
+});
+
+/* ---------- jembatan ke modul ES: registry, draf, dan mulai ---------- */
+window.NW = {
+  pasangBidang(list){ STANDAR=list; REG.frameworks=list.map(x=>({kode:x.kode,nama:x.nama,sk:x.sk,units:[]})); isiStandar(); },
+  pasangIsiBidang(kode, units, kuk){
+    const f=REG.frameworks.find(x=>x.kode===kode); if(f) f.units=units;
+    Object.assign(REG.kuk, kuk||{});
+  },
+  mulai(){ isiSkill(); setKat('materi',null); gambarSampul(); go(1); },
+  isi(){ return { S, judul:$('judul').value, desk:$('desk').value, harga:$('harga').value, langkah }; },
+  pasangIsi(d){
+    if(!d || !d.S) return;
+    Object.keys(d.S).forEach(k => { S[k] = d.S[k]; });
+    if(d.judul) $('judul').value=d.judul;
+    if(d.desk) $('desk').value=d.desk;
+    if(d.harga) $('harga').value=d.harga;
+    isiStandar(); isiSkill(); isiSeg(); gambarParts(); gambarDok();
+    gambarKriteria(); gambarList('indikator','listIndikator');
+    gambarList('usulKuk','listUsul',x=>'KUK '+x[0]+' · '+x[1]);
+    if(S.tingkat){ const p=$('pillTingkat').querySelectorAll('.pill');
+      ['dasar','menengah','mahir'].forEach((t,i)=>p[i].setAttribute('aria-pressed',String(t===S.tingkat))); }
+    if(S.jenis){ $('pkTeknis').setAttribute('aria-pressed',String(S.jenis==='teknis'));
+      $('pkPerilaku').setAttribute('aria-pressed',String(S.jenis==='perilaku')); }
+    if(S.basis){ $('pkSkkni').setAttribute('aria-pressed',String(S.basis==='skkni'));
+      $('pkNon').setAttribute('aria-pressed',String(S.basis==='non')); }
+    kritCap(); gambarSampul(); go(d.langkah && urutan().includes(d.langkah) ? d.langkah : 1);
+  },
+  onUbah:null
+};
+/* setiap perubahan state memanggil cek(), jadi itulah tempat paling tepat memicu autosave */
+const _cek = cek;
+cek = function(){ _cek.apply(null, arguments); if(window.NW.onUbah) window.NW.onUbah(); };
+</script>
+
+<script type="module">
+import { pasangChrome, pitaPratinjau, ambilBidang, ambilBidangIsi,
+         simpanDraf, ambilDraf, hapusDraf, tandaSimpan } from '../assets/trainer.js';
+import { T, toast } from '../assets/app.js';
+import { sampulCadangan, ikonBerkas, pratinjauBerkas } from '../assets/sampul.js';
+window.__sampulCadangan = sampulCadangan;
+window.__ikonBerkas = ikonBerkas;
+window.__pratinjauBerkas = pratinjauBerkas;
+
+const modulId = new URLSearchParams(location.search).get('id');
+
+/* pilihStandar memanggil ini saat bidang dipilih, jadi hanya unit bidang itu yang diunduh */
+window.__muatBidang = async kode => {
+  const d = await ambilBidangIsi(kode);
+  window.NW.pasangIsiBidang(kode, d.units, d.kuk);
+};
+
+(async () => {
+  const u = await pasangChrome('modul');
+  pitaPratinjau(Boolean(u), 'trainer/modul.html' + (modulId ? '?id=' + modulId : ''));
+
+  try{
+    window.NW.pasangBidang(await ambilBidang());
+  }catch(e){
+    toast(T('Daftar bidang SKKNI gagal dimuat. Jalur non SKKNI dan perilaku tetap bisa dipakai.',
+            'The SKKNI field list failed to load. The non SKKNI and behaviour paths still work.'));
+  }
+
+  window.NW.mulai();
+
+  const draf = await ambilDraf(modulId ? Number(modulId) : null);
+  if(draf){
+    window.NW.pasangIsi(draf);
+    tandaSimpan(T('Draf sebelumnya dipulihkan','Earlier draft restored'));
+  }
+
+  /* Autosave: Zeigarnik hanya memotivasi kalau tugasnya bisa dilanjutkan. */
+  window.NW.onUbah = () => {
+    tandaSimpan(T('Menyimpan…','Saving…'));
+    simpanDraf(() => window.NW.isi(), modulId ? Number(modulId) : null);
+  };
+
+  document.addEventListener('nusva:hapusDraf', () => hapusDraf(modulId ? Number(modulId) : null));
+})();
+</script>
+</body>
+</html>

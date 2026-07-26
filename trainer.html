@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="id" data-product="learning" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="assets/logo-color.svg">
+<title>Nusva Learning · Jadi Trainer</title>
+<style>
+
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:200 800;font-display:swap;src:url('assets/fonts/PlusJakartaSans-var.woff2') format('woff2');}
+:root{
+  --samudra-500:#0A3D62;--samudra-900:#05192B;--laguna-500:#0FA3B1;--kristal-500:#1ECAD3;
+  --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#F7F9FA;--surface-3:#EEF3F5;
+  --border:#E2EAEE;--border-strong:#CFDCE2;--ink:#0A3D62;--ink-2:#3E5A6E;--ink-3:#7C93A1;
+  --focus:#14A7B0;--accent:#0FA3B1;
+  --success:#1E9E6A;--success-tint:#E7F6EF;--success-deep:#15784F;
+  --warning:#D9920E;--warning-tint:#FDF3E0;--warning-deep:#A8680C;
+  --danger:#C8382F;--danger-tint:#FBECEA;--danger-deep:#A93A2D;
+  --info:#1E6FA8;--info-tint:#E8F2F9;--info-deep:#14547E;
+}
+html[data-theme="dark"]{
+  --bg:#071018;--surface:#0D1B26;--surface-2:#122430;--surface-3:#17303E;
+  --border:#1D3C4C;--border-strong:#275063;--ink:#FFFFFF;--ink-2:#D6E4EC;--ink-3:#A3BBC7;
+  --success-tint:#0D2A1E;--warning-tint:#2A1F09;--danger-tint:#2A1210;--info-tint:#0C2436;
+  --success-deep:#63D3A2;--warning-deep:#F0BC5E;--danger-deep:#F0928A;--info-deep:#7FC0EC;
+}
+html[data-product="learning"]{
+  --w-heading:650;--w-subhead:600;--w-body-strong:600;--w-caption:500;--ls-heading:-.015em;
+  --fs-ui:15px;--lh-ui:1.6;--r-control:10px;--r-field:12px;--r-card:18px;--r-panel:24px;
+  --hit-min:44px;--hit-compact:36px;--spring:cubic-bezier(.30,1.08,.35,1);
+  --grad-pasang:linear-gradient(135deg,#0B6B77 0%,#0FA3B1 55%,#1ECAD3 100%);
+  --nav:62px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  font-size:var(--fs-ui);line-height:var(--lh-ui);-webkit-font-smoothing:antialiased;overflow:hidden}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:8px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- nav tetap ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:40;height:var(--nav);display:flex;align-items:center;gap:12px;
+  padding:0 24px;background:var(--surface);border-bottom:1px solid var(--border)}
+@media (max-width:560px){ .nav{padding:0 16px} }
+.lockup{display:flex;align-items:center;flex:none}
+.lockup img{height:31px;width:92px;display:block}
+.lockup .w{display:none}
+html[data-theme="dark"] .lockup .c{display:none}
+html[data-theme="dark"] .lockup .w{display:block}
+.nav .sp{flex:1}
+.chip{min-height:32px;padding:5px 11px;border-radius:999px;border:1px solid var(--border);
+  background:transparent;color:var(--ink-2);font-size:12.5px;font-weight:var(--w-body-strong)}
+.count{font-size:12px;color:var(--ink-3);font-weight:700;letter-spacing:.06em;margin-right:2px}
+@media (max-width:460px){ .count{display:none} }
+
+/* ---------- deck ---------- */
+.deck{height:100dvh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth;
+  scrollbar-width:none;overscroll-behavior-y:contain}
+.deck::-webkit-scrollbar{display:none}
+.pg{min-height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;
+  padding:calc(var(--nav) + 26px) 24px 92px}
+@media (max-width:560px){ .pg{padding:calc(var(--nav) + 18px) 18px 112px} }
+/* di layar sempit atau pendek, isi yang lebih tinggi dari layar harus bisa digulir bebas:
+   snap dilonggarkan supaya tidak berkelahi dengan jari pengguna */
+@media (max-width:880px),(max-height:620px){
+  .deck{scroll-snap-type:y proximity}
+  .pg{scroll-snap-stop:normal;align-items:flex-start}
+}
+.in{width:100%;max-width:1000px;margin:0 auto}
+.pg.tint{background:var(--surface-2)}
+.pg.grad{background:var(--grad-pasang);color:#fff}
+.pg.foto{color:#fff;position:relative;isolation:isolate;overflow:hidden}
+.pg.foto img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% 50%;z-index:-2}
+.pg.foto::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(100deg,rgba(4,14,22,.95) 0%,rgba(4,14,22,.84) 36%,rgba(4,14,22,.36) 68%,rgba(4,14,22,.22) 100%)}
+.pg.foto .eyebrow{color:#7FE3EA}
+.pg.foto h1,.pg.foto h2{color:#fff}
+.pg.foto .sub{color:rgba(255,255,255,.9)}
+.pg.foto .cap{color:rgba(255,255,255,.74)}
+.pg.foto .btn-secondary{background:#fff;border-color:#fff;color:var(--samudra-900)}
+.pg.foto .btn-quiet{border-color:rgba(255,255,255,.48);color:#fff}
+@media (max-width:700px){ .pg.foto img.bg{object-position:66% 50%}
+  .pg.foto::after{background:linear-gradient(180deg,rgba(4,14,22,.92) 0%,rgba(4,14,22,.74) 55%,rgba(4,14,22,.9) 100%)} }
+
+/* ---------- tipografi ---------- */
+.eyebrow{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);display:block}
+.pg.grad .eyebrow{color:rgba(255,255,255,.82)}
+h1{font-size:clamp(32px,5.4vw,52px);font-weight:750;letter-spacing:-.03em;line-height:1.08;margin:16px 0 0;max-width:16ch}
+h2{font-size:clamp(27px,4.2vw,42px);font-weight:700;letter-spacing:-.028em;line-height:1.13;margin:16px 0 0;max-width:19ch}
+.sub{font-size:clamp(15.5px,1.6vw,18px);color:var(--ink-2);line-height:1.6;margin:18px 0 0;max-width:50ch}
+.pg.grad .sub{color:rgba(255,255,255,.92)}
+h3{font-size:15.5px;font-weight:var(--w-subhead);margin:0}
+.cap{font-size:12.5px;color:var(--ink-3);font-weight:var(--w-caption);line-height:1.5}
+
+/* ---------- tombol ---------- */
+.btn{min-height:var(--hit-min);border-radius:var(--r-control);border:1px solid transparent;font-weight:700;font-size:15px;
+  padding:11px 20px;display:inline-flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;
+  transition:transform .18s var(--spring),filter .18s ease}
+.btn:active{transform:scale(.985)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-secondary{background:var(--surface);border-color:var(--border-strong);color:var(--ink)}
+.btn-quiet{background:transparent;border-color:var(--border);color:var(--ink-2)}
+.btn.sm{min-height:var(--hit-compact);font-size:13.5px;padding:7px 14px}
+.btn svg{width:15px;height:15px;flex:none}
+.pg.grad .btn-secondary{background:#fff;border-color:#fff;color:var(--samudra-900)}
+.pg.grad .btn-quiet{border-color:rgba(255,255,255,.45);color:#fff}
+.cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:30px}
+
+/* ---------- kolom ---------- */
+.two{display:grid;grid-template-columns:1.02fr .98fr;gap:44px;align-items:center}
+@media (max-width:880px){ .two{grid-template-columns:1fr;gap:28px} }
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px}
+@media (max-width:700px){ .duo{grid-template-columns:1fr;gap:10px} }
+.box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:19px 20px 20px}
+.box.dim{background:transparent;border-style:dashed}
+.li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:14px;color:var(--ink-2);line-height:1.45}
+.li svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--accent)}
+.box h3{margin-bottom:9px}
+
+/* langkah */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
+@media (max-width:880px){ .steps{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:460px){ .steps{grid-template-columns:1fr;gap:9px} }
+.step{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:16px 16px 17px}
+.step .n{width:25px;height:25px;border-radius:8px;background:var(--accent);color:#fff;display:grid;place-items:center;
+  font-size:12.5px;font-weight:800;margin-bottom:10px}
+.step p{font-size:13px;color:var(--ink-2);margin:6px 0 0;line-height:1.45}
+
+/* angka besar */
+.big{font-size:clamp(76px,13vw,150px);font-weight:800;letter-spacing:-.05em;line-height:.9;display:block}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:34px}
+@media (max-width:700px){ .facts{grid-template-columns:1fr;gap:9px} }
+.fact{border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:14px 15px}
+.fact b{display:block;font-size:14.5px;font-weight:700}
+.fact span{display:block;font-size:12.5px;color:rgba(255,255,255,.86);margin-top:3px;line-height:1.45}
+
+/* kalkulator */
+.calc{display:grid;grid-template-columns:.92fr 1.08fr;gap:16px;margin-top:28px;align-items:start}
+@media (max-width:880px){ .calc{grid-template-columns:1fr} }
+label{display:block;font-size:12.5px;font-weight:var(--w-body-strong);color:var(--ink-2);margin-bottom:5px}
+.fld{margin-bottom:13px}.fld:last-child{margin-bottom:0}
+input[type=text],select{width:100%;min-height:42px;border-radius:var(--r-field);border:1px solid var(--border-strong);
+  background:var(--surface);padding:9px 12px;font-size:15px}
+input[type=range]{width:100%;accent-color:var(--accent);min-height:24px}
+.rr{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3);margin-top:1px}
+.rr b{color:var(--ink);font-weight:700;font-size:14px}
+.out{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:17px 19px 18px}
+.orow{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border)}
+.orow:last-of-type{border-bottom:0}
+.orow .k{flex:1;font-size:13.5px;color:var(--ink-2)}
+.orow .v{font-size:14.5px;font-weight:var(--w-body-strong);text-align:right;white-space:nowrap}
+.orow.neg .v{color:var(--danger-deep)}
+.orow.tot{border-top:1px solid var(--border-strong);border-bottom:0;margin-top:5px;padding-top:11px}
+.orow.tot .k{font-weight:var(--w-body-strong);color:var(--ink)}
+.orow.tot .v{font-size:23px;font-weight:800;letter-spacing:-.02em}
+
+.note{display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.5;border-radius:11px;padding:10px 12px;margin-top:14px}
+.note svg{width:13px;height:13px;flex:none;margin-top:3px}
+.note.warn{background:var(--warning-tint);color:var(--warning-deep)}
+.note b{font-weight:700}
+
+/* ---------- kendali halaman ---------- */
+.rail{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:35;display:flex;flex-direction:column;gap:4px}
+@media (max-width:900px){ .rail{display:none} }
+.rail button{width:26px;height:26px;border:0;background:transparent;padding:0;display:grid;place-items:center;border-radius:50%}
+.rail i{display:block;width:7px;height:7px;border-radius:50%;background:var(--border-strong);transition:all .2s ease}
+.rail button[aria-current="true"] i{background:var(--accent);width:8px;height:20px;border-radius:5px}
+.rail button:hover i{background:var(--ink-3)}
+/* panel bergradient: kendali ikut menyesuaikan supaya tetap terbaca */
+body.on-grad .rail i{background:rgba(255,255,255,.42)}
+body.on-grad .rail button[aria-current="true"] i{background:#fff}
+body.on-grad .rail button:hover i{background:rgba(255,255,255,.75)}
+body.on-grad .hintkey{color:rgba(255,255,255,.72)}
+
+.pager{position:fixed;right:20px;bottom:20px;z-index:35;display:flex;gap:7px}
+@media (max-width:560px){ .pager{right:12px;bottom:12px;gap:6px}
+  .pager button{width:38px;height:38px} }
+.pager button{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--surface);
+  color:var(--ink-2);display:grid;place-items:center;box-shadow:0 6px 18px -10px rgba(5,25,43,.4)}
+.pager button:disabled{opacity:.34;cursor:default}
+.pager svg{width:15px;height:15px}
+.hintkey{position:fixed;left:24px;bottom:22px;z-index:35;font-size:11.5px;color:var(--ink-3);font-weight:var(--w-caption)}
+@media (max-width:900px){ .hintkey{display:none} }
+
+/* ---------- dialog tanya jawab ---------- */
+dialog{border:0;border-radius:var(--r-panel);padding:0;max-width:660px;width:calc(100% - 32px);
+  background:var(--surface);color:var(--ink);box-shadow:0 30px 70px -30px rgba(5,25,43,.5)}
+dialog::backdrop{background:rgba(5,25,43,.5)}
+.dhd{display:flex;gap:12px;align-items:center;padding:18px 22px;border-bottom:1px solid var(--border)}
+.dhd h3{flex:1;font-size:18px;font-weight:var(--w-heading)}
+.dbd{padding:6px 22px 20px;max-height:64vh;overflow:auto}
+details{border-bottom:1px solid var(--border)}
+details:last-child{border-bottom:0}
+summary{list-style:none;cursor:pointer;padding:15px 34px 15px 0;position:relative;font-size:15px;font-weight:var(--w-subhead);line-height:1.4}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";position:absolute;right:6px;top:21px;width:8px;height:8px;border-right:2px solid var(--ink-3);
+  border-bottom:2px solid var(--ink-3);transform:rotate(45deg);transition:transform .2s ease}
+details[open] summary::after{transform:rotate(-135deg)}
+details .ans{padding:0 0 15px;font-size:14px;color:var(--ink-2);line-height:1.6}
+.x{width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink-2);
+  display:grid;place-items:center;padding:0;font-size:17px;line-height:1}
+
+.legal{font-size:11.5px;color:var(--ink-3);line-height:1.55;margin-top:26px;max-width:78ch}
+@media (prefers-reduced-motion:reduce){ .deck{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+
+
+<header class="nav">
+  <a class="lockup" href="index.html" aria-label="Nusva Learning">
+    <img class="c" src="assets/logo-color.svg" alt="Nusva Learning">
+    <img class="w" src="assets/logo-white.svg" alt="Nusva Learning">
+  </a>
+  <span class="sp"></span>
+  <span class="count num" id="count">1 / 7</span>
+  <button class="chip" onclick="toggleLang(this)" aria-pressed="false">EN</button>
+  <button class="chip" onclick="toggleTheme(this)" aria-pressed="false">Gelap</button>
+  <a class="btn btn-primary sm" href="masuk.html?peran=trainer&amp;next=trainer/modul.html" data-en="Start">Mulai</a>
+</header>
+
+<main class="deck" id="deck" tabindex="-1">
+
+<!-- 1 -->
+<section class="pg foto" id="p1" data-nm="Pembuka" data-nm-en="Opening">
+  <img class="bg" src="assets/foto/hero-trainer.webp" width="1536" height="1024" fetchpriority="high"
+       alt="Seorang trainer meninjau materi ajarnya di dekat jendela">
+  <div class="in">
+    <span class="eyebrow" data-en="For trainers">Untuk trainer</span>
+    <h1 data-en="Your material is too good to sit in a folder.">Materi Anda terlalu bagus untuk berhenti di folder.</h1>
+    <p class="sub" data-en="Upload it once. The exercises, the marking, and the daily reminders are ours to handle.">Unggah sekali. Latihannya, penilaiannya, dan pengingat hariannya kami yang urus.</p>
+    <div class="cta">
+      <a class="btn btn-secondary" href="masuk.html?peran=trainer&amp;next=trainer/modul.html">
+        <span data-en="Prepare your first module">Siapkan modul pertama</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="M12.5 5.5L19 12l-6.5 6.5"/></svg>
+      </a>
+      <button class="btn btn-quiet" onclick="ke(2)" data-en="See how it works">Lihat cara kerjanya</button>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="pg tint" id="p2" data-nm="Pembagian kerja" data-nm-en="The split">
+  <div class="in">
+    <span class="eyebrow" data-en="The split">Pembagian kerja</span>
+    <h2 data-en="The hard part was never the material.">Yang berat tidak pernah materinya.</h2>
+    <p class="sub" data-en="What stops people is building the exercises, marking the work, and chasing them to come back. Those three are ours.">Yang menghentikan orang adalah menyusun latihannya, memeriksa hasilnya, dan mengejar mereka supaya kembali. Tiga hal itu bagian kami.</p>
+    <div class="duo">
+      <div class="box dim">
+        <h3 data-en="You bring">Anda bawa</h3>
+        <p class="li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-en="The material you already teach">Materi yang sudah Anda ajarkan</span></p>
+        <p class="li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-en="The criteria you use to tell good work from sloppy">Kriteria pembeda kerja rapi dan kerja asal</span></p>
+        <p class="li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-en="Two or three questions per part">Dua sampai tiga soal per bagian</span></p>
+      </div>
+      <div class="box">
+        <h3 data-en="We handle">Kami urus</h3>
+        <p class="li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-en="Marking every submission, with a specific reason">Memeriksa tiap karya, dengan alasan spesifik</span></p>
+        <p class="li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-en="Bringing them back tomorrow morning, and again after that">Membawa mereka kembali besok pagi, lalu lagi sesudahnya</span></p>
+        <p class="li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span data-en="Payments, escrow, and the tax withholding">Pembayaran, escrow, dan pemotongan pajaknya</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="pg" id="p3" data-nm="Empat langkah" data-nm-en="Four steps">
+  <div class="in">
+    <span class="eyebrow" data-en="How it works">Cara kerjanya</span>
+    <h2 data-en="Four steps, and sign in is not one of them.">Empat langkah, dan sign in tidak dihitung.</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3 data-en="Skill type">Jenis keterampilan</h3><p data-en="Right or wrong, or how it was handled.">Tepat atau keliru, atau caranya menangani.</p></div>
+      <div class="step"><div class="n">2</div><h3 data-en="Standard">Standar</h3><p data-en="An SKKNI unit, or your own criteria.">Unit SKKNI, atau kriteria Anda sendiri.</p></div>
+      <div class="step"><div class="n">3</div><h3 data-en="Module details">Detail modul</h3><p data-en="Up to five parts, each done in one sitting.">Maksimal lima bagian, sekali duduk selesai.</p></div>
+      <div class="step"><div class="n">4</div><h3 data-en="Publish gate">Gerbang terbit</h3><p data-en="Every rule says what is still missing.">Tiap aturan menyebut apa yang masih kurang.</p></div>
+    </div>
+    <div class="cta">
+      <a class="btn btn-secondary" href="masuk.html?peran=trainer&amp;next=trainer/modul.html" data-en="Walk through the flow">Coba alurnya</a>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="pg grad" id="p4" data-nm="Bagi hasil" data-nm-en="The split">
+  <div class="in">
+    <span class="eyebrow" data-en="Revenue share">Bagi hasil</span>
+    <span class="big num">50%</span>
+    <h2 style="color:#fff" data-en="of every sale is yours.">dari tiap penjualan milik Anda.</h2>
+    <div class="facts">
+      <div class="fact"><b data-en="You set the price">Harga Anda yang menetapkan</b><span data-en="No floor, no ceiling, no discount without asking you.">Tanpa batas bawah, tanpa batas atas, tanpa diskon tanpa bertanya.</span></div>
+      <div class="fact"><b data-en="Released every 14 days">Cair tiap 14 hari</b><span data-en="Escrow buffers refunds, then the money is released.">Escrow menyangga refund, lalu uangnya dirilis.</span></div>
+      <div class="fact"><b data-en="Tax slip attached">Bukti potong terlampir</b><span data-en="We withhold PPh 23, remit it, and issue the slip.">Kami memotong PPh 23, menyetorkan, dan menerbitkan buktinya.</span></div>
+    </div>
+    <div class="cta"><button class="btn btn-secondary" onclick="ke(5)" data-en="Work out your own number">Hitung angka Anda sendiri</button></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="pg tint" id="p5" data-nm="Kalkulator" data-nm-en="Calculator">
+  <div class="in">
+    <span class="eyebrow" data-en="The money, out loud">Uangnya, terbuka</span>
+    <h2 data-en="What actually lands in your account.">Yang benar-benar masuk ke rekening.</h2>
+    <div class="calc">
+      <div class="box">
+        <div class="fld">
+          <label for="cHarga" data-en="Price per training">Harga per training</label>
+          <input type="text" id="cHarga" inputmode="numeric" autocomplete="off" value="50.000" oninput="ubahHarga(this)">
+        </div>
+        <div class="fld">
+          <label for="cJual" data-en="Sales per month (your assumption)">Penjualan per bulan (asumsi Anda)</label>
+          <input type="range" id="cJual" min="1" max="300" value="60" oninput="hitung()">
+          <span class="rr"><span>1</span><b id="lblJual" class="num">60</b><span>300</span></span>
+        </div>
+        <div class="fld">
+          <label for="cModul" data-en="Published trainings">Training terbit</label>
+          <input type="range" id="cModul" min="1" max="12" value="4" oninput="hitung()">
+          <span class="rr"><span>1</span><b id="lblModul" class="num">4</b><span>12</span></span>
+        </div>
+        <div class="fld">
+          <label for="cPajak" data-en="Your tax status">Status pajak Anda</label>
+          <select id="cPajak" onchange="hitung()">
+            <option value="nppn" data-en="NPWP + NPPN certificate (6% effective)">NPWP dan surat NPPN (efektif 6%)</option>
+            <option value="npwp" data-en="NPWP only (15% of gross)">NPWP saja (15% dari bruto)</option>
+            <option value="tanpa" data-en="No NPWP (30%)">Tanpa NPWP (30%)</option>
+          </select>
+        </div>
+      </div>
+      <div class="out">
+        <div class="orow"><span class="k" data-en="Gross sales per month">Penjualan bruto per bulan</span><span class="v num" id="oBruto"></span></div>
+        <div class="orow neg"><span class="k" data-en="Nusva platform fee (50%)">Bagian platform Nusva (50%)</span><span class="v num" id="oFee"></span></div>
+        <div class="orow"><span class="k" data-en="Your share (50%)">Bagian Anda (50%)</span><span class="v num" id="oBagian"></span></div>
+        <div class="orow neg"><span class="k" id="kPajak"></span><span class="v num" id="oPajak"></span></div>
+        <div class="orow tot"><span class="k" data-en="Lands in your account monthly">Masuk rekening tiap bulan</span><span class="v num" id="oNet"></span></div>
+        <div class="orow"><span class="k" data-en="Over twelve months">Dalam dua belas bulan</span><span class="v num" id="oTahun"></span></div>
+        <div class="note warn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.4v.2"/></svg>
+          <span data-en="<b>Arithmetic, not a promise.</b> The sales figure is the one you typed. Nusva does not promise traffic and does not guarantee sales."><b>Aritmetika, bukan janji.</b> Angka penjualannya adalah angka yang Anda ketik. Nusva tidak menjanjikan trafik dan tidak menjamin penjualan.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="pg" id="p6" data-nm="Sengaja tidak ada" data-nm-en="Absent on purpose">
+  <div class="in">
+    <span class="eyebrow" data-en="Absent on purpose">Sengaja tidak ada</span>
+    <h2 data-en="Four things we will not build.">Empat hal yang tidak akan kami bangun.</h2>
+    <div class="duo">
+      <div class="box"><h3 data-en="No trainer rankings">Tanpa peringkat trainer</h3>
+        <p class="cap" style="margin-top:7px" data-en="The only comparison we show is you against you last month.">Pembanding satu-satunya yang kami tampilkan adalah Anda terhadap Anda bulan lalu.</p></div>
+      <div class="box"><h3 data-en="No exclusivity trap">Tanpa jebakan eksklusivitas</h3>
+        <p class="cap" style="margin-top:7px" data-en="Your material stays yours. Teach it anywhere else, and withdraw it whenever you like.">Materi tetap milik Anda. Ajarkan di mana pun, dan tarik kapan pun.</p></div>
+      <div class="box"><h3 data-en="No surprise discounting">Tanpa diskon dadakan</h3>
+        <p class="cap" style="margin-top:7px" data-en="No countdown timers, and no price war you did not enter.">Tanpa hitung mundur, dan tanpa perang harga yang tidak Anda ikuti.</p></div>
+      <div class="box"><h3 data-en="No learner surveillance">Tanpa mengintai peserta</h3>
+        <p class="cap" style="margin-top:7px" data-en="Aggregates only. Never a name, an employer, a raw answer, or an attempt count.">Agregat saja. Tidak pernah nama, perusahaan, jawaban mentah, atau jumlah percobaan.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="pg" id="p7" data-nm="Mulai" data-nm-en="Start">
+  <div class="in">
+    <span class="eyebrow" data-en="Start here">Mulai dari sini</span>
+    <h2 data-en="One module is enough to find out.">Satu modul sudah cukup untuk tahu.</h2>
+    <p class="sub" data-en="Publishing costs nothing, and nothing is locked.">Menerbitkan tidak dipungut biaya, dan tidak ada yang terkunci.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="masuk.html?peran=trainer&amp;next=trainer/modul.html" data-en="Prepare your first module">Siapkan modul pertama</a>
+      <a class="btn btn-quiet" href="masuk.html?peran=trainer&amp;next=trainer/dashboard.html" data-en="See the dashboard">Lihat dashboard</a>
+      <button class="btn btn-quiet" onclick="bukaFaq()" data-en="Still have questions?">Masih ada pertanyaan?</button>
+    </div>
+    <p class="legal" data-en="Nusva Learning is a training provider using SKKNI as a curriculum framework. Nusva does not provide assessment services, assessors, competency testing, or competency certification, all of which belong to BNSP licensed LSPs. Nusva is not affiliated with any LSP or with BNSP, and claims no Kemnaker endorsement. PT Nusva Digital Talenta.">Nusva Learning adalah penyedia pelatihan yang memakai SKKNI sebagai kerangka kurikulum. Nusva tidak menyediakan jasa asesmen, jasa asesor, uji kompetensi, maupun sertifikasi kompetensi, yang seluruhnya wilayah LSP berlisensi BNSP. Nusva tidak berafiliasi dengan LSP maupun BNSP, dan tidak mengklaim endorsement Kemnaker. PT Nusva Digital Talenta.</p>
+  </div>
+</section>
+
+</main>
+
+<nav class="rail" id="rail" aria-label="Pindah halaman"></nav>
+
+<div class="pager">
+  <button id="prev" onclick="ke(now-1)" aria-label="Halaman sebelumnya">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg></button>
+  <button id="next" onclick="ke(now+1)" aria-label="Halaman berikutnya">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+</div>
+<span class="hintkey" id="hintkey" data-en="Arrow keys or scroll to move">Panah atas bawah atau gulir untuk berpindah</span>
+
+<dialog id="faq" aria-labelledby="faqTtl">
+  <div class="dhd">
+    <h3 id="faqTtl" data-en="Questions people actually ask">Yang biasanya ditanyakan</h3>
+    <button class="x" onclick="document.getElementById('faq').close()" aria-label="Tutup">&times;</button>
+  </div>
+  <div class="dbd">
+    <details open><summary data-en="Do I need to be a certified assessor?">Apakah saya harus asesor bersertifikat?</summary>
+      <div class="ans" data-en="No. Nusva is a training provider, not an LSP. You teach and set the criteria for the exercises. Competency assessment, assessors, and competency certificates belong to BNSP licensed LSPs.">Tidak. Nusva adalah penyedia pelatihan, bukan LSP. Anda mengajar dan menetapkan kriteria latihannya. Asesmen kompetensi, asesor, dan sertifikat kompetensi adalah wilayah LSP berlisensi BNSP.</div></details>
+    <details><summary data-en="Who owns my material?">Siapa pemilik materi saya?</summary>
+      <div class="ans" data-en="You do. Nusva holds a non exclusive licence to run it while the module is live. You can teach the same content anywhere else and withdraw the module whenever you like. Learners who already paid keep access until they finish.">Anda. Nusva memegang lisensi non-eksklusif untuk menayangkannya selama modul terbit. Anda tetap boleh mengajarkan isi yang sama di mana pun dan menarik modulnya kapan saja. Peserta yang sudah membayar tetap bisa mengaksesnya sampai selesai.</div></details>
+    <details><summary data-en="When exactly do I get paid?">Kapan tepatnya saya dibayar?</summary>
+      <div class="ans" data-en="Each sale sits in escrow for 14 days as a buffer against refunds, then joins the next release with PPh 23 withheld and the slip attached. Changing your bank account holds payouts for 24 hours and asks you to verify again.">Tiap penjualan duduk di escrow 14 hari sebagai penyangga refund, lalu ikut rilis berikutnya dengan PPh 23 sudah dipotong dan bukti potongnya terlampir. Mengubah rekening menahan pencairan 24 jam dan meminta verifikasi ulang.</div></details>
+    <details><summary data-en="How much work is a module, honestly?">Sejujurnya, seberapa berat menyiapkan satu modul?</summary>
+      <div class="ans" data-en="If the material exists, the flow is built to finish in one sitting. What takes real thought is the criteria, because that is what the rubric engine marks against, and that is the part only you can do.">Kalau materinya sudah ada, alurnya dirancang selesai sekali duduk. Yang butuh pikiran sungguhan adalah kriterianya, karena itulah yang dipakai mesin rubrik memeriksa, dan justru itu bagian yang cuma bisa Anda kerjakan.</div></details>
+    <details><summary data-en="Can I teach soft skills instead of SKKNI?">Bisakah saya mengajar soft skill, bukan SKKNI?</summary>
+      <div class="ans" data-en="Yes, with no SKKNI obligation. You tag the skill and write what it looks like when someone handles it well, and those observable indicators become your rubric rows. SKKNI is our differentiator on curated tracks, not a fence around the platform.">Bisa, tanpa kewajiban SKKNI. Anda menandai skill-nya dan menulis seperti apa kelihatannya kalau seseorang menanganinya dengan baik, dan indikator teramati itu jadi baris rubrik Anda. SKKNI adalah pembeda kami di track kurasi, bukan pagar platform.</div></details>
+    <details><summary data-en="What if someone copies my module?">Bagaimana kalau modul saya ditiru?</summary>
+      <div class="ans" data-en="Copying slides is easy and always will be. What is hard to copy is the criteria calibrated against real submissions, the chain of learner evidence, and the daily recall loop. A copied module also has to pass the same instructional review as yours.">Menyalin slide itu mudah dan akan selalu mudah. Yang sulit disalin adalah kriteria yang terkalibrasi terhadap karya sungguhan, rantai bukti peserta, dan putaran pengingat harian. Modul jiplakan juga harus melewati review instruksional yang sama dengan modul Anda.</div></details>
+  </div>
+</dialog>
+
+<script>
+const $=id=>document.getElementById(id);
+let lang='id', now=1;
+const TOTAL=7;
+const nf=n=>new Intl.NumberFormat('id-ID').format(Math.round(n));
+const rp=n=>'Rp'+nf(n);
+const T=(id,en)=>lang==='en'?en:id;
+const TARIF={nppn:0.06,npwp:0.15,tanpa:0.30};
+const deck=$('deck');
+const pages=[...document.querySelectorAll('.pg')];
+
+/* ---------- navigasi halaman ---------- */
+function ke(n){
+  n=Math.min(TOTAL,Math.max(1,n));
+  const el=$('p'+n); if(!el) return;
+  deck.scrollTo({top:el.offsetTop,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+}
+function gambarRail(){
+  const r=$('rail'); r.innerHTML='';
+  pages.forEach((p,i)=>{
+    const b=document.createElement('button');
+    const nm=lang==='en'?p.dataset.nmEn:p.dataset.nm;
+    b.setAttribute('aria-label',(lang==='en'?'Go to ':'Ke ')+nm);
+    b.setAttribute('aria-current',String(i+1===now));
+    b.title=nm; b.innerHTML='<i></i>';
+    b.onclick=()=>ke(i+1);
+    r.appendChild(b);
+  });
+}
+function tandai(n){
+  now=n;
+  const pg = pages[n-1];
+  document.body.classList.toggle('on-grad', Boolean(pg && (pg.classList.contains('grad') || pg.classList.contains('foto'))));
+  $('count').textContent=n+' / '+TOTAL;
+  $('prev').disabled = n<=1; $('next').disabled = n>=TOTAL;
+  [...$('rail').children].forEach((b,i)=>b.setAttribute('aria-current',String(i+1===n)));
+}
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting) tandai(pages.indexOf(e.target)+1); });
+},{root:deck,threshold:.55});
+pages.forEach(p=>io.observe(p));
+
+addEventListener('keydown',e=>{
+  if($('faq').open) return;
+  const t=e.target.tagName;
+  if(t==='INPUT'||t==='SELECT'||t==='TEXTAREA') return;
+  if(e.key==='ArrowDown'||e.key==='PageDown'){ e.preventDefault(); ke(now+1); }
+  if(e.key==='ArrowUp'||e.key==='PageUp'){ e.preventDefault(); ke(now-1); }
+  if(e.key==='Home'){ e.preventDefault(); ke(1); }
+  if(e.key==='End'){ e.preventDefault(); ke(TOTAL); }
+});
+function bukaFaq(){ $('faq').showModal(); }
+
+/* ---------- kalkulator ---------- */
+let hargaVal=50000;
+function ubahHarga(el){
+  const pos=el.selectionStart, panjang=el.value.length;
+  const digit=(el.value.match(/\d/g)||[]).join('');
+  hargaVal=Math.min(99999999,+digit||0);
+  el.value = digit ? nf(hargaVal) : '';
+  const geser=el.value.length-panjang;
+  try{ el.setSelectionRange(Math.max(0,pos+geser),Math.max(0,pos+geser)); }catch(e){}
+  hitung();
+}
+function hitung(){
+  const jual=+$('cJual').value, modul=+$('cModul').value, sk=$('cPajak').value;
+  $('lblJual').textContent=nf(jual); $('lblModul').textContent=nf(modul);
+  const bruto=hargaVal*jual*modul, fee=bruto*0.50, bagian=bruto-fee;
+  const tarif=TARIF[sk], pajak=bagian*tarif, net=bagian-pajak;
+  $('oBruto').textContent=rp(bruto); $('oFee').textContent='-'+rp(fee);
+  $('oBagian').textContent=rp(bagian);
+  $('kPajak').textContent=T('PPh 23 dipotong ('+String(tarif*100).replace('.',',')+'%)',
+                           'PPh 23 withheld ('+String(tarif*100).replace('.',',')+'%)');
+  $('oPajak').textContent='-'+rp(pajak);
+  $('oNet').textContent=rp(net); $('oTahun').textContent=rp(net*12);
+}
+
+/* ---------- lain ---------- */
+function toggleLang(btn){
+  lang = lang==='id'?'en':'id';
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-en]').forEach(n=>{ const s=n.innerHTML; n.innerHTML=n.dataset.en; n.dataset.en=s; });
+  btn.textContent = lang==='en'?'ID':'EN'; btn.setAttribute('aria-pressed',String(lang==='en'));
+  gambarRail(); tandai(now); hitung();
+}
+function toggleTheme(btn){
+  const g=document.documentElement.dataset.theme==='dark';
+  document.documentElement.dataset.theme = g?'light':'dark';
+  btn.textContent = g?'Gelap':'Terang'; btn.setAttribute('aria-pressed',String(!g));
+}
+gambarRail(); tandai(1); hitung();
+</script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Belajar · Nusva Learning</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/logo-color.svg">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/PlusJakartaSans-var.woff2" crossorigin>
+<link rel="stylesheet" href="assets/nusva.css">
+<style>
+main{padding:26px 0 72px}
+.sapa{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+h1{font-size:clamp(26px,3.4vw,38px);margin:10px 0 0;max-width:22ch}
+.lead{font-size:14.5px;color:var(--ink-2);margin:10px 0 0;max-width:58ch;line-height:1.6}
+.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;margin-top:26px;align-items:start}
+@media (max-width:900px){ .grid{grid-template-columns:1fr} }
+
+.blok{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden}
+.bhd{display:flex;gap:10px;align-items:center;padding:14px 17px;border-bottom:1px solid var(--border)}
+.bhd h2{flex:1;font-size:15.5px;font-weight:var(--w-subhead);margin:0}
+.bbd{padding:16px 17px 18px}
+
+/* daily recall */
+.recall{background:var(--grad-pasang);color:#fff;border:0}
+.recall .bhd{border-bottom-color:rgba(255,255,255,.22)}
+.recall .soon{background:rgba(255,255,255,.22);color:#fff}
+.recall .q{font-size:18px;font-weight:var(--w-subhead);line-height:1.4;margin:0}
+.recall .opt{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.recall .opt button{border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.1);color:#fff;
+  border-radius:10px;padding:9px 13px;font-size:13.5px;font-weight:var(--w-body-strong);min-height:var(--hit-compact)}
+.recall .opt button[data-st="benar"]{background:#fff;color:var(--samudra-900);border-color:#fff}
+.recall .opt button[data-st="salah"]{background:rgba(0,0,0,.22);border-color:rgba(255,255,255,.5)}
+.recall .fb{font-size:12.5px;line-height:1.5;margin:12px 0 0;color:rgba(255,255,255,.92)}
+
+/* modul saya */
+.kosong{padding:30px 18px;text-align:center}
+.kosong h3{font-size:16.5px;font-weight:var(--w-subhead);margin:0}
+.kosong p{font-size:13.5px;color:var(--ink-2);margin:8px auto 0;max-width:44ch;line-height:1.55}
+
+/* jejak harian */
+.jejak{display:flex;gap:7px;margin-top:4px}
+.jejak i{flex:1;height:30px;border-radius:8px;background:var(--surface-3)}
+.jejak i.on{background:var(--accent)}
+.jhari{display:flex;gap:7px;margin-top:6px}
+.jhari span{flex:1;text-align:center;font-size:10.5px;color:var(--ink-3);font-weight:var(--w-caption)}
+
+/* katalog */
+.kat{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px;margin-top:18px}
+a.mod{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-card);overflow:hidden;transition:border-color .18s ease,transform .18s var(--spring)}
+a.mod:hover{border-color:var(--accent);transform:translateY(-2px)}
+a.mod .gb{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--surface-3)}
+a.mod .isi{padding:14px 15px 16px}
+a.mod .tg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+a.mod h3{font-size:15.5px;font-weight:var(--w-subhead);line-height:1.35;margin:0}
+a.mod .ft{display:flex;gap:10px;align-items:baseline;margin-top:11px;font-size:12px;color:var(--ink-3)}
+a.mod .ft .hrg{margin-left:auto;font-size:14.5px;font-weight:800;color:var(--ink)}
+
+.baris{display:flex;gap:10px;align-items:center;padding:11px 0;border-top:1px dashed var(--border)}
+.baris:first-of-type{border-top:0}
+.baris .ic{width:32px;height:32px;border-radius:9px;background:var(--surface-3);color:var(--ink-2);
+  display:grid;place-items:center;flex:none}
+.baris .ic svg{width:15px;height:15px}
+.baris .tx{flex:1;min-width:0}
+.baris .tx b{display:block;font-size:13.5px;font-weight:var(--w-body-strong)}
+.baris .tx span{display:block;font-size:11.5px;color:var(--ink-3);margin-top:1px;line-height:1.45}
+</style>
+</head>
+<body>
+
+<header id="nav"></header>
+
+<main class="wrap">
+  <div class="sapa">
+    <div>
+      <span class="eyebrow" id="waktu">Selamat pagi</span>
+      <h1 id="judul">Belum ada yang perlu diingat hari ini.</h1>
+      <p class="lead" id="lead">Begitu Anda mulai satu modul, halaman ini berubah jadi tempat paling pendek yang perlu Anda buka tiap hari: dua pertanyaan, tiga puluh detik, lalu selesai.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Daily Recall -->
+      <section class="blok recall" id="recall">
+        <div class="bhd">
+          <h2 data-en="Daily Recall">Daily Recall</h2>
+          <span class="soon" data-en="Coming soon">Coming soon</span>
+        </div>
+        <div class="bbd">
+          <p class="q" id="rq">Mana yang termasuk isi uraian jabatan, dan mana yang bukan?</p>
+          <div class="opt" id="ropt"></div>
+          <p class="fb" id="rfb"></p>
+        </div>
+      </section>
+
+      <!-- Modul saya -->
+      <section class="blok" style="margin-top:14px" id="modulsaya">
+        <div class="bhd">
+          <h2 data-en="My modules">Modul saya</h2>
+          <a class="btn btn-quiet sm" href="index.html#katalog" data-en="Browse catalogue">Lihat katalog</a>
+        </div>
+        <div id="isiModul"></div>
+      </section>
+
+      <!-- Katalog -->
+      <section style="margin-top:26px" id="katalog">
+        <div class="bhd" style="border:0;padding:0 0 4px">
+          <h2 style="font-size:19px" data-en="Available modules">Modul yang tersedia</h2>
+        </div>
+        <p class="cap" data-en="Open any of them to read the detail. Parts marked free can be opened without an account.">Buka mana pun untuk membaca detailnya. Bagian bertanda gratis bisa dibuka tanpa akun.</p>
+        <div class="kat" id="kat"></div>
+      </section>
+    </div>
+
+    <aside>
+      <!-- Progres -->
+      <section class="blok" id="progres">
+        <div class="bhd">
+          <h2 data-en="Progress">Progres</h2>
+          <span class="soon" data-en="Coming soon">Coming soon</span>
+        </div>
+        <div class="bbd">
+          <p class="cap" style="margin-bottom:10px" data-en="Jejak Harian, seven rolling days. A blank day stays blank, and nothing scolds you.">Jejak Harian, tujuh hari bergulir. Hari yang bolong dibiarkan bolong dan tidak ada yang memarahi Anda.</p>
+          <div class="jejak" id="jejak"></div>
+          <div class="jhari" id="jhari"></div>
+          <div class="baris" style="margin-top:14px">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 3.5v17"/><path d="M3.5 12h17"/></svg></span>
+            <span class="tx"><b data-en="Radar of five dimensions">Radar lima dimensi</b><span data-en="Appears after your first module.">Muncul setelah modul pertama Anda.</span></span>
+            <span class="soon" data-en="Coming soon">Coming soon</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dokumen -->
+      <section class="blok" style="margin-top:14px">
+        <div class="bhd"><h2 data-en="Your documents">Dokumen Anda</h2></div>
+        <div class="bbd" style="padding-top:6px">
+          <div class="baris">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2.5"/><path d="M8 9h8"/><path d="M8 13h5"/></svg></span>
+            <span class="tx"><b data-en="Training Completion Certificate">Sertifikat Penyelesaian Pelatihan</b><span data-en="Issued when a unit reaches Complete.">Terbit saat sebuah unit mencapai Complete.</span></span>
+            <span class="soon" data-en="Coming soon">Coming soon</span>
+          </div>
+          <div class="baris">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2.5h5.5A2.5 2.5 0 0 1 20 10v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17z"/></svg></span>
+            <span class="tx"><b data-en="Evidence Portfolio">Paket Bukti Karya</b><span data-en="Your submissions arranged per criterion. Free forever.">Karya Anda tersusun per kriteria. Gratis selamanya.</span></span>
+            <span class="soon" data-en="Coming soon">Coming soon</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="note info" style="margin-top:14px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6v.2"/></svg>
+        <span data-en="<b>What Coming soon means here.</b> The screen is built and the rule behind it is decided, but it is not wired to live data yet. Nothing on this page is pretending to be real."><b>Arti Coming soon di sini.</b> Layarnya sudah dibangun dan aturannya sudah diputuskan, tetapi belum tersambung ke data sungguhan. Tidak ada di halaman ini yang berpura-pura sudah jalan.</span>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="fnav">
+      <a class="lockup" href="index.html" aria-label="Nusva Learning">
+        <img class="c" src="assets/logo-color.svg" alt="Nusva Learning">
+        <img class="w" src="assets/logo-white.svg" alt="Nusva Learning">
+      </a>
+      <span class="sp"></span>
+      <a href="index.html#katalog" data-en="Catalogue">Katalog</a>
+      <a href="trainer.html" data-en="For trainers">Untuk trainer</a>
+    </div>
+    <p class="legal" data-en="Complete means the learner finished the exercises to the stated criteria. It is not a competency verdict. Competency assessment belongs to BNSP licensed LSPs. PT Nusva Digital Talenta.">Complete berarti peserta menuntaskan latihannya sesuai kriteria yang tertulis. Itu bukan vonis kompetensi. Asesmen kompetensi adalah wilayah LSP berlisensi BNSP. PT Nusva Digital Talenta.</p>
+  </div>
+</footer>
+
+<script type="module">
+import { pasangKepala, pasangAkun, T, rp, nf, KATALOG, pengguna } from './assets/app.js';
+import { pasangNav } from './assets/nav.js';
+import { sampulCadangan } from './assets/sampul.js';
+
+pasangNav({ prefix:'' });
+pasangKepala();
+pasangAkun(document.getElementById('aakun'));
+
+/* ---------- sapaan sesuai jam, tanpa memaksa ---------- */
+function sapa(){
+  const j = new Date().getHours();
+  const t = j < 11 ? {id:'Selamat pagi',en:'Good morning'}
+          : j < 15 ? {id:'Selamat siang',en:'Good afternoon'}
+          : j < 19 ? {id:'Selamat sore',en:'Good afternoon'}
+                   : {id:'Selamat malam',en:'Good evening'};
+  document.getElementById('waktu').textContent = T(t.id, t.en);
+}
+
+/* ---------- contoh retrieval, boleh dicoba, tidak dicatat ---------- */
+const OPSI = [
+  { t:{id:'Tanggung jawab utama',en:'Main responsibilities'}, benar:true },
+  { t:{id:'Gaji orangnya',en:'The person salary'}, benar:false },
+  { t:{id:'Kompetensi yang dibutuhkan',en:'Required competencies'}, benar:true }
+];
+function gambarRecall(){
+  document.getElementById('rq').textContent = T(
+    'Mana yang termasuk isi uraian jabatan, dan mana yang bukan?',
+    'Which of these belongs in a job description, and which does not?');
+  const box = document.getElementById('ropt'); box.innerHTML = '';
+  OPSI.forEach((o,i) => {
+    const b = document.createElement('button');
+    b.textContent = T(o.t.id, o.t.en);
+    b.onclick = () => {
+      b.dataset.st = o.benar ? 'benar' : 'salah';
+      document.getElementById('rfb').textContent = o.benar
+        ? T('Tepat. Uraian jabatan menjelaskan pekerjaannya, bukan orangnya.',
+            'Right. A job description describes the job, not the person.')
+        : T('Belum. Gaji melekat pada orang dan struktur upah, bukan pada uraian jabatannya.',
+            'Not yet. Salary attaches to the person and the pay structure, not the job description.');
+    };
+    box.appendChild(b);
+  });
+  document.getElementById('rfb').textContent = T(
+    'Contoh saja. Jawaban di sini tidak dicatat dan tidak masuk progres siapa pun.',
+    'Just a taste. Answers here are not recorded and do not enter anyone progress.');
+}
+
+/* ---------- jejak harian, netral ---------- */
+function gambarJejak(){
+  const nama = T('S,S,R,K,J,S,M','M,T,W,T,F,S,S').split(',');
+  const j = document.getElementById('jejak'), h = document.getElementById('jhari');
+  j.innerHTML = ''; h.innerHTML = '';
+  for(let i = 0; i < 7; i++){
+    j.insertAdjacentHTML('beforeend','<i></i>');
+    h.insertAdjacentHTML('beforeend','<span>' + nama[i] + '</span>');
+  }
+}
+
+/* ---------- modul saya ---------- */
+async function gambarModulSaya(){
+  const u = await pengguna();
+  const box = document.getElementById('isiModul');
+  box.innerHTML =
+    '<div class="kosong">' +
+      '<h3>' + (u ? T('Belum ada modul yang Anda mulai','You have not started a module yet')
+                  : T('Masuk untuk menyimpan progres','Sign in to keep your progress')) + '</h3>' +
+      '<p>' + (u ? T('Pilih satu dari katalog di bawah. Bagian pertama sebagian besar modul bisa Anda coba tanpa membeli.',
+                     'Pick one from the catalogue below. The first part of most modules can be tried without buying.')
+                 : T('Detail modul tetap bisa Anda baca tanpa akun. Akun baru diperlukan saat mulai mengerjakan, supaya karya Anda punya tempat tersimpan.',
+                     'You can read module detail without an account. An account is only needed when you start working, so your submissions have somewhere to live.')) + '</p>' +
+      (u ? '' : '<a class="btn btn-primary" style="margin-top:16px" href="masuk.html?peran=learner&next=belajar.html">' +
+                T('Masuk atau daftar','Sign in or sign up') + '</a>') +
+    '</div>';
+}
+
+/* ---------- katalog dengan sampul ---------- */
+function gambarKatalog(){
+  const box = document.getElementById('kat'); box.innerHTML = '';
+  KATALOG.forEach(m => {
+    const buka = m.bagian.filter(b => b.buka).length;
+    const a = document.createElement('a');
+    a.className = 'mod'; a.href = 'modul.html?m=' + m.slug;
+    a.innerHTML =
+      '<img class="gb" alt="" src="' + (m.sampul || sampulCadangan(m.judul, m.slug, 640, 400)) + '">' +
+      '<span class="isi">' +
+        '<span class="tg"><span class="badge mut">' + m.bidang + '</span>' +
+          (buka ? '<span class="badge acc">' + T(buka + ' bagian gratis', buka + ' free parts') + '</span>' : '') +
+        '</span>' +
+        '<h3></h3>' +
+        '<span class="ft"><span>' + nf(m.menit) + ' ' + T('mnt','min') + '</span>' +
+        '<span class="hrg num">' + rp(m.harga) + '</span></span>' +
+      '</span>';
+    a.querySelector('h3').textContent = m.judul;
+    box.appendChild(a);
+  });
+}
+
+function gambarSemua(){ sapa(); gambarRecall(); gambarJejak(); gambarModulSaya(); gambarKatalog(); }
+document.addEventListener('nusva:bahasa', gambarSemua);
+gambarSemua();
+</script>
+</body>
+</html>

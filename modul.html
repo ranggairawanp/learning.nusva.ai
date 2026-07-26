@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Modul · Nusva Learning</title>
+<link rel="icon" href="assets/logo-color.svg">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/PlusJakartaSans-var.woff2" crossorigin>
+<link rel="stylesheet" href="assets/nusva.css">
+<style>
+main{padding:30px 0 70px}
+.crumb{display:inline-flex;gap:7px;align-items:center;font-size:13px;color:var(--ink-2);text-decoration:none}
+.crumb svg{width:14px;height:14px}
+.lay{display:grid;grid-template-columns:1fr 336px;gap:26px;align-items:start;margin-top:18px}
+@media (max-width:940px){ .lay{grid-template-columns:1fr} }
+h1{font-size:clamp(27px,3.6vw,38px);max-width:20ch;margin:12px 0 0}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.sampul{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;border-radius:var(--r-card);
+  margin-top:14px;background:var(--surface-3)}
+.rk{font-size:15.5px;color:var(--ink-2);line-height:1.6;margin:14px 0 0;max-width:60ch}
+.by{display:flex;gap:10px;align-items:center;margin-top:20px;font-size:13px;color:var(--ink-2)}
+.by > span:last-child{display:block}
+.by .ini{width:34px;height:34px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;
+  font-size:12px;font-weight:800;color:var(--ink-2);flex:none}
+.by b{display:block;font-weight:var(--w-body-strong);color:var(--ink)}
+
+h2.sec{font-size:19px;font-weight:var(--w-heading);margin:34px 0 0}
+.bagian{margin-top:14px;border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;background:var(--surface)}
+.brow{display:flex;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;border-left:0;border-right:0;border-top:0;text-align:left}
+.bagian .brow:last-child{border-bottom:0}
+.brow .n{width:26px;height:26px;border-radius:8px;background:var(--surface-3);color:var(--ink-2);flex:none;
+  display:grid;place-items:center;font-size:12px;font-weight:800}
+.brow.buka .n{background:var(--accent);color:#fff}
+.brow .tx{flex:1;min-width:0}
+.brow .tx b{display:block;font-size:14.5px;font-weight:var(--w-body-strong);line-height:1.4}
+.brow .tx span{display:block;font-size:12px;color:var(--ink-3);margin-top:2px}
+.brow .kanan{display:flex;gap:9px;align-items:center;flex:none}
+.brow .gem{width:15px;height:15px;color:var(--ink-3)}
+.brow.buka{cursor:pointer}
+.brow.buka:hover{background:var(--surface-2)}
+.isi{padding:0 16px 16px 54px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.isi p{font-size:14px;color:var(--ink-2);line-height:1.65;margin:12px 0 0}
+
+.beli{position:sticky;top:84px}
+.beli .hrg{display:block;font-size:32px;font-weight:800;letter-spacing:-.028em;line-height:1.1}
+.beli .sat{display:block;font-size:12.5px;color:var(--ink-3);margin-top:3px}
+.beli ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:10px}
+.beli li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.beli li svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--success)}
+.akun{display:flex;gap:9px;align-items:center;font-size:13px;color:var(--ink-2)}
+.akun .ini{width:30px;height:30px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;
+  font-size:11.5px;font-weight:800;flex:none}
+.akun .nm{max-width:20ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:var(--w-body-strong)}
+@media (max-width:640px){ .akun .nm{display:none} }
+.kosong{padding:50px 20px;text-align:center}
+</style>
+</head>
+<body>
+
+<header id="nav"></header>
+
+<main class="wrap" id="main"></main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="fnav">
+      <a class="lockup" href="index.html" aria-label="Nusva Learning">
+        <img class="c" src="assets/logo-color.svg" alt="Nusva Learning">
+        <img class="w" src="assets/logo-white.svg" alt="Nusva Learning">
+      </a>
+      <span class="sp"></span>
+      <a href="index.html#katalog" data-en="Catalogue">Katalog</a>
+      <a href="trainer.html" data-en="For trainers">Untuk trainer</a>
+    </div>
+    <p class="legal" data-en="Complete means the learner finished the exercises to the stated criteria. It is not a competency verdict. Competency assessment belongs to BNSP licensed LSPs. PT Nusva Digital Talenta.">Complete berarti peserta menuntaskan latihannya sesuai kriteria yang tertulis. Itu bukan vonis kompetensi. Asesmen kompetensi adalah wilayah LSP berlisensi BNSP. PT Nusva Digital Talenta.</p>
+  </div>
+</footer>
+
+<script type="module">
+import { pasangKepala, pasangAkun, T, rp, nf, cariModul, pengguna, keMasuk, toast } from './assets/app.js';
+import { pasangNav } from './assets/nav.js';
+import { sampulCadangan } from './assets/sampul.js';
+
+pasangNav({ prefix:'' });
+pasangKepala();
+pasangAkun(document.getElementById('aakun'));
+
+const slug = new URLSearchParams(location.search).get('m');
+const m = cariModul(slug);
+const JENIS = {
+  artikel:{id:'Artikel',en:'Article'}, video:{id:'Video',en:'Video'},
+  audio:{id:'Audio',en:'Audio'}, diagram:{id:'Diagram',en:'Diagram'},
+  latihan:{id:'Latihan Workshop',en:'Workshop exercise'}
+};
+const IC = {
+  cek:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+  gembok:'<svg class="gem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"/><path d="M8 10.5V7.6a4 4 0 0 1 8 0v2.9"/></svg>',
+  balik:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6"/><path d="M11.5 5.5L5 12l6.5 6.5"/></svg>'
+};
+const inisial = n => n.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+
+function gambar(){
+  const main = document.getElementById('main');
+  if(!m){
+    main.innerHTML = '<div class="card kosong"><h2 class="sec" style="margin:0">'+
+      T('Modul itu tidak ada','That module does not exist')+'</h2>'+
+      '<p class="cap" style="margin-top:9px">'+T('Tautannya mungkin sudah berubah. Katalognya masih lengkap.','The link may have changed. The catalogue is still there.')+'</p>'+
+      '<a class="btn btn-primary" style="margin-top:18px" href="index.html#katalog">'+T('Kembali ke katalog','Back to the catalogue')+'</a></div>';
+    return;
+  }
+  document.title = m.judul + ' · Nusva Learning';
+  const buka = m.bagian.filter(b=>b.buka);
+  const menitBuka = buka.reduce((a,b)=>a+b.menit,0);
+
+  main.innerHTML =
+  '<a class="crumb" href="index.html#katalog">'+IC.balik+'<span>'+T('Semua modul','All modules')+'</span></a>'+
+  '<div class="lay">'+
+    '<div>'+
+      '<div class="meta">'+
+        '<span class="badge mut">'+m.bidang+'</span>'+
+        '<span class="badge info">'+m.tingkat+'</span>'+
+        (m.kode?'<span class="badge mut">'+m.kode+'</span>':'')+
+        (buka.length?'<span class="badge acc">'+T(buka.length+' bagian gratis',buka.length+' free parts')+'</span>':'')+
+      '</div>'+
+      '<img class="sampul" alt="" src="'+(m.sampul||sampulCadangan(m.judul,m.slug,1200,560))+'">'+
+      '<h1 id="jd"></h1>'+
+      '<p class="rk" id="rk"></p>'+
+      '<div class="by"><span class="ini">'+inisial(m.trainer)+'</span>'+
+        '<span><b id="tr"></b><span class="cap">'+T('Trainer terdaftar','Registered trainer')+'</span></span></div>'+
+
+      '<h2 class="sec">'+T('Isi modul','What is inside')+'</h2>'+
+      '<p class="cap" style="margin-top:6px">'+
+        T(nf(m.bagian.length)+' bagian · total '+nf(m.menit)+' menit · '+nf(menitBuka)+' menit di antaranya dibuka gratis oleh trainernya',
+          nf(m.bagian.length)+' parts · '+nf(m.menit)+' minutes total · '+nf(menitBuka)+' of them opened for free by the trainer')+'</p>'+
+      '<div class="bagian" id="bagian"></div>'+
+
+      '<div class="note info" style="margin-top:16px">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6v.2"/></svg>'+
+        '<span><b>'+T('Kenapa sebagian terbuka','Why some parts are open')+'.</b> '+
+        T('Trainer yang menentukan bagian mana yang bisa dibuka sebelum dibeli. Maksudnya supaya Anda menilai gaya mengajarnya dengan mengerjakan, bukan dengan membaca janji.',
+          'The trainer decides which parts open before purchase. The point is that you judge the teaching by doing a piece of it, not by reading a promise.')+'</span></div>'+
+    '</div>'+
+
+    '<aside>'+
+      '<div class="card pad beli">'+
+        '<span class="hrg num">'+rp(m.harga)+'</span>'+
+        '<span class="sat">'+T('sekali bayar, akses selamanya','one payment, access for good')+'</span>'+
+        '<div id="aksi" style="margin-top:16px"></div>'+
+        '<ul>'+
+          '<li>'+IC.cek+'<span>'+T('Latihan diperiksa per kriteria dengan alasan spesifik','Exercises checked criterion by criterion with a specific reason')+'</span></li>'+
+          '<li>'+IC.cek+'<span>'+T('Percobaan tidak terbatas, tanpa penalti','Unlimited attempts, no penalty')+'</span></li>'+
+          '<li>'+IC.cek+'<span>'+T('Sertifikat Penyelesaian Pelatihan saat Complete','Training Completion Certificate when you Complete')+'</span></li>'+
+          '<li>'+IC.cek+'<span>'+T('Paket Bukti Karya, gratis selamanya','Evidence Portfolio, free forever')+'</span></li>'+
+        '</ul>'+
+      '</div>'+
+    '</aside>'+
+  '</div>';
+
+  document.getElementById('jd').textContent = m.judul;
+  document.getElementById('rk').textContent = m.ringkas;
+  document.getElementById('tr').textContent = m.trainer;
+  gambarBagian();
+  gambarAksi();
+}
+
+function gambarBagian(){
+  const box = document.getElementById('bagian'); box.innerHTML = '';
+  m.bagian.forEach((b,i) => {
+    const jn = T(JENIS[b.jenis].id, JENIS[b.jenis].en);
+    const el = document.createElement(b.buka ? 'button' : 'div');
+    el.className = 'brow' + (b.buka ? ' buka' : '');
+    if(b.buka){ el.type='button'; el.setAttribute('aria-expanded','false'); }
+    el.innerHTML =
+      '<span class="n">'+(i+1)+'</span>'+
+      '<span class="tx"><b></b><span>'+jn+' · '+nf(b.menit)+' '+T('mnt','min')+'</span></span>'+
+      '<span class="kanan">'+
+        (b.buka
+          ? '<span class="badge acc">'+T('Buka gratis','Free')+'</span>'
+          : IC.gembok)+
+      '</span>';
+    el.querySelector('b').textContent = b.judul;
+    if(b.buka){
+      el.addEventListener('click', () => bukaBagian(el, i));
+    }
+    box.appendChild(el);
+  });
+}
+
+function bukaBagian(el, i){
+  const b = m.bagian[i];
+  const sudah = el.nextElementSibling && el.nextElementSibling.classList.contains('isi');
+  if(sudah){ el.nextElementSibling.remove(); el.setAttribute('aria-expanded','false'); return; }
+  const d = document.createElement('div');
+  d.className = 'isi';
+  d.innerHTML = '<p></p>';
+  d.querySelector('p').textContent = T(
+    'Ini bagian pratinjau. Di versi berjalan, bagian ini terbuka penuh: konsepnya di panel kiri dan latihannya di panel kanan, dengan rubrik yang terlihat sebelum Anda mengerjakan.',
+    'This is the preview part. In the running version it opens fully: the concept on the left panel and the exercise on the right, with the rubric visible before you start.');
+  el.after(d);
+  el.setAttribute('aria-expanded','true');
+}
+
+async function gambarAksi(){
+  const box = document.getElementById('aksi');
+  const u = await pengguna();
+  const buka = m.bagian.filter(b=>b.buka).length;
+  box.innerHTML =
+    '<button class="btn btn-primary full" id="btnMulai">'+
+      (u ? T('Beli dan mulai belajar','Buy and start learning') : T('Masuk untuk mulai belajar','Sign in to start learning'))+'</button>'+
+    (buka ? '<button class="btn btn-quiet full" style="margin-top:9px" id="btnCoba">'+
+      T('Coba bagian gratisnya dulu','Try the free parts first')+'</button>' : '')+
+    '<p class="cap" style="margin-top:11px">'+
+      (u ? T('Pembayaran lewat Xendit. Bagian gratis tetap bisa dibuka tanpa membeli.','Payment via Xendit. The free parts stay open without buying.')
+         : T('Membaca halaman ini tidak perlu akun. Akun baru diperlukan saat Anda mulai mengerjakan, supaya progres dan karya Anda punya tempat tersimpan.',
+             'Reading this page needs no account. An account is only needed when you start working, so your progress and submissions have somewhere to live.'))+
+    '</p>';
+
+  document.getElementById('btnMulai').addEventListener('click', async () => {
+    const p = await pengguna();
+    if(!p){ keMasuk('learner', 'modul.html?m=' + m.slug); return; }
+    toast(T('Pembayaran Xendit belum tersambung di versi ini.','The Xendit payment step is not wired up in this build yet.'));
+  });
+  const cb = document.getElementById('btnCoba');
+  if(cb) cb.addEventListener('click', () => {
+    const el = document.querySelector('.brow.buka');
+    if(el){ el.scrollIntoView({block:'center'}); el.click(); }
+  });
+}
+
+document.addEventListener('nusva:bahasa', gambar);
+gambar();
+</script>
+</body>
+</html>

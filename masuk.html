@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Masuk · Nusva Learning</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/logo-color.svg">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/PlusJakartaSans-var.woff2" crossorigin>
+<link rel="stylesheet" href="assets/nusva.css">
+<style>
+body{min-height:100dvh;display:flex;flex-direction:column;background:var(--surface-2)}
+main{flex:1;display:grid;grid-template-columns:1.05fr .95fr;gap:0}
+@media (max-width:900px){ main{grid-template-columns:1fr} .sisi{display:none} }
+.kotak{display:flex;align-items:center;justify-content:center;padding:44px 24px 56px;background:var(--bg)}
+.form{width:100%;max-width:392px}
+h1{font-size:clamp(26px,3.4vw,33px);margin:14px 0 0;max-width:16ch}
+.lead{font-size:14.5px;color:var(--ink-2);line-height:1.6;margin:12px 0 0}
+.blok{margin-top:26px}
+.pisah{display:flex;gap:12px;align-items:center;margin:20px 0;color:var(--ink-3);font-size:12px;font-weight:var(--w-caption)}
+.pisah::before,.pisah::after{content:"";flex:1;height:1px;background:var(--border)}
+.gicon{width:17px;height:17px;flex:none}
+.peran{display:flex;gap:7px;margin-top:20px}
+.peran button{flex:1;border:1px solid var(--border-strong);background:var(--surface);border-radius:var(--r-field);
+  padding:11px 12px;text-align:left;min-height:var(--hit-min)}
+.peran button[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--surface)}
+.peran b{display:block;font-size:13.5px;font-weight:var(--w-body-strong)}
+.peran span{display:block;font-size:11.5px;color:var(--ink-3);margin-top:2px;line-height:1.4}
+.ok{display:none;text-align:left}
+.ok.on{display:block}
+.ok .ic{width:44px;height:44px;border-radius:50%;background:var(--success-tint);color:var(--success-deep);
+  display:grid;place-items:center;margin-bottom:16px}
+.ok .ic svg{width:22px;height:22px}
+.sisi{background:var(--grad-pasang);color:#fff;padding:52px 44px;display:flex;flex-direction:column;justify-content:center}
+.sisi h2{color:#fff;max-width:17ch;font-size:clamp(24px,2.6vw,32px)}
+.sisi .eyebrow{color:rgba(255,255,255,.82)}
+.sisi ul{list-style:none;padding:0;margin:26px 0 0;display:flex;flex-direction:column;gap:13px}
+.sisi li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:rgba(255,255,255,.94)}
+.sisi li svg{width:16px;height:16px;flex:none;margin-top:4px}
+.balik{display:inline-flex;gap:7px;align-items:center;font-size:13px;color:var(--ink-2);text-decoration:none;margin-bottom:8px}
+.balik svg{width:14px;height:14px}
+.legal{margin-top:26px}
+</style>
+</head>
+<body>
+
+<main>
+  <div class="kotak">
+    <div class="form">
+      <a class="balik" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6"/><path d="M11.5 5.5L5 12l6.5 6.5"/></svg>
+        <span data-en="Back to Nusva Learning">Kembali ke Nusva Learning</span>
+      </a>
+      <a class="lockup" href="index.html" style="display:block;margin:6px 0 4px" aria-label="Nusva Learning">
+        <img class="c" src="assets/logo-color.svg" alt="Nusva Learning">
+        <img class="w" src="assets/logo-white.svg" alt="Nusva Learning">
+      </a>
+
+      <div id="panelForm">
+        <h1 id="judul">Masuk ke Nusva Learning</h1>
+        <p class="lead" id="lead" data-en="One account for learning and for publishing. You can switch roles later without making a second account.">Satu akun untuk belajar dan untuk menerbitkan. Perannya bisa berpindah nanti tanpa membuat akun kedua.</p>
+
+        <div class="peran" role="group" aria-label="Peran">
+          <button id="prLearner" aria-pressed="true" onclick="setPeran('learner')">
+            <b data-en="I want to learn">Saya mau belajar</b><span data-en="Take modules and build a portfolio">Ikut modul dan menyusun portofolio</span>
+          </button>
+          <button id="prTrainer" aria-pressed="false" onclick="setPeran('trainer')">
+            <b data-en="I want to teach">Saya mau mengajar</b><span data-en="Publish your training and earn">Menerbitkan training dan berpenghasilan</span>
+          </button>
+        </div>
+
+        <div class="blok">
+          <button class="btn btn-google" id="btnGoogle">
+            <svg class="gicon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285F4" d="M23 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.2a5.3 5.3 0 0 1-2.3 3.48v2.9h3.7C21.76 18.92 23 15.92 23 12.27z"/>
+              <path fill="#34A853" d="M12 23.5c3.1 0 5.7-1.03 7.6-2.79l-3.7-2.88c-1.03.69-2.35 1.1-3.9 1.1-3 0-5.53-2.02-6.44-4.74H1.73v2.98A11.5 11.5 0 0 0 12 23.5z"/>
+              <path fill="#FBBC05" d="M5.56 14.19a6.9 6.9 0 0 1 0-4.38V6.83H1.73a11.5 11.5 0 0 0 0 10.34l3.83-2.98z"/>
+              <path fill="#EA4335" d="M12 5.07c1.69 0 3.2.58 4.4 1.72l3.28-3.28C17.7 1.6 15.1.5 12 .5A11.5 11.5 0 0 0 1.73 6.83l3.83 2.98C6.47 7.09 9 5.07 12 5.07z"/>
+            </svg>
+            <span data-en="Continue with Google">Masuk dengan Google</span>
+          </button>
+        </div>
+
+        <div class="pisah"><span data-en="or">atau</span></div>
+
+        <form id="formEmail" novalidate>
+          <label class="f" for="em" data-en="Email">Email</label>
+          <input class="f" id="em" type="email" autocomplete="email" inputmode="email"
+                 placeholder="nama@perusahaan.co.id" data-en-ph="name@company.com" required>
+          <p class="cap" id="errEm" style="color:var(--danger-deep);margin-top:7px;display:none"></p>
+          <button class="btn btn-primary full" style="margin-top:13px" id="btnEmail" type="submit">
+            <span data-en="Send me a sign in link">Kirimkan tautan masuk</span>
+          </button>
+          <p class="cap" style="margin-top:10px" data-en="We send a one time link instead of a password. Nothing to remember, and nothing to leak.">Kami mengirim tautan sekali pakai, bukan kata sandi. Tidak ada yang perlu diingat, dan tidak ada yang bisa bocor.</p>
+        </form>
+
+        <div class="note err" id="galat" style="display:none;margin-top:16px"></div>
+
+        <p class="legal cap" data-en="By continuing you agree to be bound by the Nusva Learning terms and privacy policy. Nusva trains and does not certify; competency assessment belongs to BNSP licensed LSPs.">Dengan melanjutkan, Anda terikat ketentuan layanan dan kebijakan privasi Nusva Learning. Nusva melatih dan tidak menyertifikasi; asesmen kompetensi adalah wilayah LSP berlisensi BNSP.</p>
+      </div>
+
+      <div class="ok" id="panelOk">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13l5 5L20 7"/></svg></div>
+        <h1 data-en="Check your inbox">Cek kotak masuk Anda</h1>
+        <p class="lead" id="okTeks"></p>
+        <button class="btn btn-quiet" style="margin-top:18px" onclick="kembaliForm()" data-en="Use a different email">Pakai email lain</button>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sisi" id="sisi">
+    <span class="eyebrow" data-en="Why an account">Kenapa perlu akun</span>
+    <h2 id="sisiJudul" data-en="So your work has somewhere to live.">Supaya karya Anda punya tempat tinggal.</h2>
+    <ul id="sisiList"></ul>
+  </aside>
+</main>
+
+<script type="module">
+import { klien, terkonfigurasi, T, pengguna } from './assets/app.js';
+
+const q = new URLSearchParams(location.search);
+let peran = q.get('peran') === 'trainer' ? 'trainer' : 'learner';
+const tujuan = q.get('next') || (peran === 'trainer' ? 'trainer/dashboard.html' : 'index.html');
+
+const ISI = {
+  learner: {
+    judul: { id:'Masuk ke Nusva Learning', en:'Sign in to Nusva Learning' },
+    sisi:  { id:'Supaya karya Anda punya tempat tinggal.', en:'So your work has somewhere to live.' },
+    poin: [
+      { id:'Progres per kriteria tersimpan, jadi Anda bisa berhenti di tengah dan melanjutkan besok.', en:'Progress is saved criterion by criterion, so you can stop midway and pick it up tomorrow.' },
+      { id:'Karya latihan Anda tersusun jadi Paket Bukti Karya yang bisa Anda bawa ke mana pun.', en:'Your submissions build into an Evidence Portfolio you can take anywhere.' },
+      { id:'Retrieval pagi tahu persis mana yang belum menempel untuk Anda, bukan untuk orang lain.', en:'The morning recall knows what has not stuck for you specifically, not for someone else.' }
+    ]
+  },
+  trainer: {
+    judul: { id:'Masuk untuk mendaftarkan training', en:'Sign in to register your training' },
+    sisi:  { id:'Empat langkah dari sini sampai modul Anda terbit.', en:'Four steps from here to your module going live.' },
+    poin: [
+      { id:'Materi Anda tetap milik Anda, dan modulnya bisa ditarik kapan saja.', en:'Your material stays yours, and the module can be withdrawn whenever you like.' },
+      { id:'Anda memegang 50% dari tiap penjualan, cair tiap 14 hari lengkap dengan bukti potong pajaknya.', en:'You keep 50% of every sale, released every 14 days with the tax slip attached.' },
+      { id:'Menerbitkan tidak dipungut biaya, dan tidak ada yang terkunci.', en:'Publishing costs nothing, and nothing is locked.' }
+    ]
+  }
+};
+
+window.setPeran = function(p){
+  peran = p;
+  document.getElementById('prLearner').setAttribute('aria-pressed', String(p === 'learner'));
+  document.getElementById('prTrainer').setAttribute('aria-pressed', String(p === 'trainer'));
+  isiTeks();
+};
+function isiTeks(){
+  const d = ISI[peran], en = document.documentElement.lang === 'en';
+  document.getElementById('judul').textContent = en ? d.judul.en : d.judul.id;
+  document.getElementById('sisiJudul').textContent = en ? d.sisi.en : d.sisi.id;
+  const ul = document.getElementById('sisiList'); ul.innerHTML = '';
+  d.poin.forEach(p => {
+    const li = document.createElement('li');
+    li.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span></span>';
+    li.querySelector('span').textContent = en ? p.en : p.id;
+    ul.appendChild(li);
+  });
+}
+window.kembaliForm = function(){
+  document.getElementById('panelOk').classList.remove('on');
+  document.getElementById('panelForm').style.display = '';
+};
+function galat(pesan){
+  const g = document.getElementById('galat');
+  g.style.display = 'flex';
+  g.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.4v.2"/></svg><span></span>';
+  g.querySelector('span').textContent = pesan;
+}
+const tujuanPenuh = () => new URL(tujuan, location.href).href;
+
+document.getElementById('btnGoogle').addEventListener('click', async () => {
+  if(!terkonfigurasi()){ galat(T('Supabase belum dikonfigurasi. Isi assets/config.js lebih dulu.','Supabase is not configured yet. Fill in assets/config.js first.')); return; }
+  const c = await klien();
+  if(!c){ galat(T('Layanan masuk gagal dimuat. Coba muat ulang halaman.','The sign in service failed to load. Try reloading the page.')); return; }
+  const { error } = await c.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: tujuanPenuh(), queryParams: { prompt: 'select_account' } }
+  });
+  if(error) galat(T('Google belum bisa dipakai: ','Google is not available yet: ') + error.message);
+});
+
+document.getElementById('formEmail').addEventListener('submit', async e => {
+  e.preventDefault();
+  const el = document.getElementById('em'), err = document.getElementById('errEm');
+  const nilai = el.value.trim();
+  const sah = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(nilai);
+  if(!sah){
+    err.style.display = 'block';
+    err.textContent = T('Alamat emailnya belum lengkap. Contoh: nama@perusahaan.co.id','That email is not complete yet. For example: name@company.com');
+    el.focus(); return;
+  }
+  err.style.display = 'none';
+  if(!terkonfigurasi()){ galat(T('Supabase belum dikonfigurasi. Isi assets/config.js lebih dulu.','Supabase is not configured yet. Fill in assets/config.js first.')); return; }
+  const btn = document.getElementById('btnEmail');
+  btn.disabled = true; btn.querySelector('span').textContent = T('Mengirim…','Sending…');
+  const c = await klien();
+  if(!c){ btn.disabled=false; galat(T('Layanan masuk gagal dimuat. Coba muat ulang halaman.','The sign in service failed to load. Try reloading the page.')); return; }
+  const { error } = await c.auth.signInWithOtp({
+    email: nilai,
+    options: { emailRedirectTo: tujuanPenuh(), data: { peran } }
+  });
+  btn.disabled = false; btn.querySelector('span').textContent = T('Kirimkan tautan masuk','Send me a sign in link');
+  if(error){ galat(error.message); return; }
+  document.getElementById('panelForm').style.display = 'none';
+  const ok = document.getElementById('panelOk'); ok.classList.add('on');
+  document.getElementById('okTeks').textContent =
+    T('Tautan masuk sudah dikirim ke ' + nilai + '. Buka dari perangkat yang sama, dan tautannya hanya berlaku sekali.',
+      'A sign in link is on its way to ' + nilai + '. Open it on this same device; the link works once.');
+});
+
+/* sudah masuk? langsung teruskan ke tujuan */
+(async () => {
+  const u = await pengguna();
+  if(u) location.replace(tujuan);
+})();
+
+document.addEventListener('nusva:bahasa', isiTeks);
+document.getElementById('prLearner').setAttribute('aria-pressed', String(peran === 'learner'));
+document.getElementById('prTrainer').setAttribute('aria-pressed', String(peran === 'trainer'));
+isiTeks();
+</script>
+</body>
+</html>

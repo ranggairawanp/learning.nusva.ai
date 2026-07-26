@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="id" data-product="learning" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="../assets/logo-color.svg">
+<link rel="stylesheet" href="../assets/nusva.css">
+<title>Dashboard · Nusva Learning</title>
+<style>
+
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:200 800;font-display:swap;src:url('../assets/fonts/PlusJakartaSans-var.woff2') format('woff2');}
+:root{
+  --samudra-500:#0A3D62;--samudra-900:#05192B;--laguna-500:#0FA3B1;--kristal-500:#1ECAD3;
+  --bg:#FFFFFF;--surface:#FFFFFF;--surface-2:#F7F9FA;--surface-3:#EEF3F5;
+  --border:#E2EAEE;--border-strong:#CFDCE2;--ink:#0A3D62;--ink-2:#3E5A6E;--ink-3:#7C93A1;
+  --focus:#14A7B0;--accent:#0FA3B1;
+  --success:#1E9E6A;--success-tint:#E7F6EF;--success-deep:#15784F;
+  --warning:#D9920E;--warning-tint:#FDF3E0;--warning-deep:#A8680C;
+  --danger:#C8382F;--danger-tint:#FBECEA;--danger-deep:#A93A2D;
+  --info:#1E6FA8;--info-tint:#E8F2F9;--info-deep:#14547E;
+}
+html[data-theme="dark"]{
+  --bg:#071018;--surface:#0D1B26;--surface-2:#122430;--surface-3:#17303E;
+  --border:#1D3C4C;--border-strong:#275063;--ink:#FFFFFF;--ink-2:#D6E4EC;--ink-3:#A3BBC7;
+  --success-tint:#0D2A1E;--warning-tint:#2A1F09;--danger-tint:#2A1210;--info-tint:#0C2436;
+  --success-deep:#63D3A2;--warning-deep:#F0BC5E;--danger-deep:#F0928A;--info-deep:#7FC0EC;
+}
+html[data-product="learning"]{
+  --w-heading:650;--w-subhead:600;--w-body-strong:600;--w-caption:500;--ls-heading:-.015em;
+  --fs-ui:15px;--lh-ui:1.5;--r-control:10px;--r-field:12px;--r-card:18px;--r-panel:24px;--r-window:32px;
+  --hit-min:44px;--hit-compact:36px;--spring:cubic-bezier(.30,1.08,.35,1);
+  --grad-pasang:linear-gradient(135deg,#0B6B77 0%,#0FA3B1 55%,#1ECAD3 100%);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{min-height:100dvh;display:flex;flex-direction:column;background:var(--surface-2);color:var(--ink);
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:var(--fs-ui);line-height:var(--lh-ui);
+  -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.num{font-variant-numeric:tabular-nums}
+
+/* chrome pratinjau */
+.prev{position:sticky;top:0;z-index:40;display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+  padding:8px 12px;background:var(--samudra-900);color:#fff}
+.prev b{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#6FE3EA;margin-right:4px}
+.prev button{min-height:30px;padding:4px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.22);
+  background:transparent;color:#fff;font-size:12.5px;font-weight:600}
+.prev button[aria-pressed="true"]{background:#fff;color:var(--samudra-900);border-color:#fff}
+.prev .sep{flex:1 1 auto}
+
+.stagewrap{flex:1;min-height:0;display:flex;justify-content:center;padding:20px 14px 34px}
+.device{width:100%;max-width:1080px;height:860px;max-height:100%;background:var(--bg);border-radius:var(--r-window);
+  border:1px solid var(--border);box-shadow:0 24px 60px -28px rgba(5,25,43,.42);overflow:hidden;
+  position:relative;display:flex;flex-direction:column}
+@media (max-width:640px){ .stagewrap{padding:0} .device{border-radius:0;border:0;height:100dvh} }
+
+/* kepala */
+.top{flex:none;display:flex;gap:12px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface)}
+.lockup{display:flex;align-items:center;flex:none}
+.lockup img{height:27px;width:80px;display:block;flex:none}
+.lockup .w{display:none}
+html[data-theme="dark"] .lockup .c{display:none}
+html[data-theme="dark"] .lockup .w{display:block}
+.top .sp{flex:1}
+
+/* avatar */
+.whoWrap{display:flex;gap:10px;align-items:center;min-width:0}
+.who{font-size:12px;color:var(--ink-3);font-weight:var(--w-caption);text-align:right;line-height:1.3;min-width:0}
+.who b{display:block;font-size:13px;color:var(--ink-2);font-weight:var(--w-body-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ava{position:relative;width:40px;height:40px;flex:none}
+.ava .ph{width:40px;height:40px;border-radius:50%;overflow:hidden;background:var(--surface-3);border:1px solid var(--border);
+  display:grid;place-items:center;font-size:14px;font-weight:800;color:var(--ink-2)}
+.ava .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ava .edit{position:absolute;right:-3px;bottom:-3px;width:19px;height:19px;border-radius:50%;border:1.5px solid var(--surface);
+  background:var(--accent);color:#fff;display:grid;place-items:center;padding:0}
+.ava .edit svg{width:9px;height:9px}
+.ava input[type=file]{display:none}
+.ava.drop .ph{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft,rgba(15,163,177,.18))}
+
+/* badan */
+.body{flex:1;min-height:0;overflow:auto;padding:18px 20px 26px;scroll-behavior:smooth}
+.hd{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:4px}
+h1.t{font-size:25px;font-weight:var(--w-heading);letter-spacing:var(--ls-heading);margin:0}
+.lead{font-size:13.5px;color:var(--ink-2);margin:5px 0 0;max-width:62ch;line-height:1.5}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+/* tombol */
+.btn{min-height:var(--hit-min);border-radius:var(--r-control);border:1px solid transparent;font-weight:700;font-size:15px;
+  padding:10px 18px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform .18s var(--spring),filter .18s ease}
+.btn:active{transform:scale(.985)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-secondary{background:var(--surface-2);border-color:var(--border-strong);color:var(--ink)}
+.btn-quiet{background:transparent;border-color:var(--border);color:var(--ink-2);min-height:var(--hit-compact);font-size:13.5px;padding:6px 13px}
+.btn svg{width:15px;height:15px}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 6px}
+@media (max-width:820px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:13px 14px 14px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--accent)}
+.kpi.mny::before{background:var(--grad-pasang)}
+.kpi .lbl{font-size:11.5px;color:var(--ink-3);font-weight:var(--w-caption);display:block;margin-top:4px}
+.kpi .val{font-size:26px;font-weight:800;letter-spacing:-.02em;display:block;margin-top:4px;line-height:1.15}
+.kpi .sub{font-size:11.5px;color:var(--ink-2);display:block;margin-top:4px;line-height:1.4}
+.kpi .lock{font-size:10px;font-weight:700;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;
+  display:inline-flex;gap:4px;align-items:center;position:absolute;top:11px;right:12px}
+.kpi .lock svg{width:9px;height:9px}
+.kpi.pinned .lbl{padding-right:74px}
+
+/* kartu */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px;align-items:start}
+@media (max-width:820px){ .cards{grid-template-columns:1fr} }
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;
+  transition:box-shadow .18s ease,opacity .18s ease}
+.card.wide{grid-column:1 / -1}
+.card.dragging{opacity:.45}
+.card.over{box-shadow:0 0 0 2px var(--accent)}
+.chd{display:flex;gap:9px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface)}
+.chd h2{font-size:14.5px;font-weight:var(--w-subhead);margin:0;flex:1;min-width:0}
+.grip{width:26px;height:26px;border-radius:7px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink-3);
+  display:grid;place-items:center;padding:0;flex:none;cursor:grab}
+.grip:active{cursor:grabbing}
+.grip svg{width:12px;height:12px}
+.chd .pin{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);
+  display:inline-flex;gap:4px;align-items:center}
+.chd .pin svg{width:9px;height:9px}
+.cbd{padding:13px 14px 15px}
+.cap{font-size:12px;color:var(--ink-3);font-weight:var(--w-caption);line-height:1.45}
+.cap.b{color:var(--ink-2)}
+
+/* baris angka */
+.rows{display:flex;flex-direction:column;gap:0}
+.row{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--border)}
+.row:last-child{border-bottom:0}
+.row .k{flex:1;font-size:13px;color:var(--ink-2);min-width:0}
+.row .v{font-size:13.5px;font-weight:var(--w-body-strong);text-align:right}
+.row.big .v{font-size:17px;font-weight:800}
+.row.neg .v{color:var(--danger-deep)}
+.row.tot{border-top:1px solid var(--border-strong);border-bottom:0;margin-top:4px;padding-top:10px}
+
+/* rekening */
+.acct{display:flex;gap:11px;align-items:center;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:11px 12px}
+.acct .bank{width:38px;height:38px;border-radius:9px;background:var(--surface);border:1px solid var(--border);
+  display:grid;place-items:center;font-size:10.5px;font-weight:800;color:var(--ink-2);flex:none}
+.acct .id{flex:1;min-width:0}
+.acct .no{font-size:14px;font-weight:700;letter-spacing:.03em}
+.acct .nm{font-size:11.5px;color:var(--ink-3);font-weight:var(--w-caption);margin-top:1px}
+.badge{display:inline-flex;gap:4px;align-items:center;font-size:11px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap}
+.badge svg{width:10px;height:10px}
+.badge.ok{background:var(--success-tint);color:var(--success-deep)}
+.badge.warn{background:var(--warning-tint);color:var(--warning-deep)}
+.badge.info{background:var(--info-tint);color:var(--info-deep)}
+.badge.mut{background:var(--surface-3);color:var(--ink-2)}
+
+/* tabel */
+.tblwrap{overflow-x:auto;margin:0 -2px}
+table{width:100%;min-width:520px;border-collapse:collapse;font-size:13px;table-layout:fixed}
+col.c1{width:auto}col.c2{width:96px}col.c3{width:78px}col.c4{width:86px}col.c5{width:124px}
+th{text-align:left;font-size:11px;font-weight:700;color:var(--ink-3);letter-spacing:.04em;text-transform:uppercase;
+  padding:0 14px 8px 0;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:bottom}
+td{padding:10px 14px 10px 0;border-bottom:1px solid var(--border);vertical-align:middle}
+td:first-child{padding-right:18px}
+tr:last-child td{border-bottom:0}
+th.r,td.r{text-align:right;padding-right:0}
+th:last-child,td:last-child{padding-right:0}
+td b{display:block;overflow-wrap:anywhere}
+td b{font-weight:var(--w-body-strong)}
+td .sub{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+
+/* heatmap */
+.heat{display:grid;grid-template-columns:34px repeat(8,1fr);gap:3px;margin-top:9px}
+.heat .hl{font-size:9.5px;color:var(--ink-3);font-weight:600;display:grid;place-items:center;height:16px}
+.heat .hd2{font-size:9.5px;color:var(--ink-3);font-weight:600;display:grid;place-items:center}
+.heat .c{height:22px;border-radius:5px;background:var(--surface-3);position:relative}
+.heat .c[data-v="1"]{background:rgba(15,163,177,.16)}
+.heat .c[data-v="2"]{background:rgba(15,163,177,.34)}
+.heat .c[data-v="3"]{background:rgba(15,163,177,.58)}
+.heat .c[data-v="4"]{background:rgba(15,163,177,.86)}
+.legend{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--ink-3);margin-top:9px}
+.legend i{width:14px;height:10px;border-radius:3px;display:inline-block}
+
+/* bar demografi */
+.bars{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+.bar{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:12.5px}
+.bar .t{color:var(--ink-2)}
+.bar .p{font-weight:var(--w-body-strong);font-size:12.5px}
+.bar .track{grid-column:1 / -1;height:7px;border-radius:4px;background:var(--surface-3);overflow:hidden}
+.bar .fill{display:block;height:100%;border-radius:4px;background:var(--accent)}
+.bar.mut .fill{background:var(--border-strong)}
+
+/* sinyal mutu */
+.sig{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--border)}
+.sig:last-of-type{border-bottom:0}
+.sig .ic{width:26px;height:26px;border-radius:8px;flex:none;display:grid;place-items:center}
+.sig .ic svg{width:13px;height:13px}
+.sig.a .ic{background:var(--warning-tint);color:var(--warning-deep)}
+.sig.b .ic{background:var(--info-tint);color:var(--info-deep)}
+.sig .tx{flex:1;min-width:0}
+.sig .tx b{display:block;font-size:13px;font-weight:var(--w-body-strong)}
+.sig .tx span{display:block;font-size:11.5px;color:var(--ink-2);line-height:1.45;margin-top:2px}
+.sig .tx .act{margin-top:6px}
+
+/* berkas */
+.fitem{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--border)}
+.fitem:last-child{border-bottom:0}
+.fitem .ico{width:32px;height:32px;border-radius:8px;background:var(--surface-3);color:var(--ink-2);
+  display:grid;place-items:center;font-size:9px;font-weight:800;flex:none}
+.fitem .nm{flex:1;min-width:0}
+.fitem .nm b{display:block;font-size:12.5px;font-weight:var(--w-body-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fitem .nm span{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+.prog{height:4px;border-radius:3px;background:var(--surface-3);overflow:hidden;margin-top:5px}
+.prog i{display:block;height:100%;background:var(--accent);border-radius:3px}
+
+/* pesan panel */
+.note{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.45;border-radius:9px;padding:8px 10px;margin-top:10px}
+.note svg{width:13px;height:13px;flex:none;margin-top:2px}
+.note.info{background:var(--info-tint);color:var(--info-deep)}
+.note.ok{background:var(--success-tint);color:var(--success-deep)}
+.note.warn{background:var(--warning-tint);color:var(--warning-deep)}
+.note b{font-weight:700}
+
+/* state */
+.skel{background:linear-gradient(90deg,var(--surface-3) 25%,var(--surface-2) 50%,var(--surface-3) 75%);
+  background-size:200% 100%;animation:sh 1.3s linear infinite;border-radius:8px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.errpanel{display:flex;flex-direction:column;gap:9px;align-items:flex-start;padding:16px 14px;text-align:left}
+.errpanel .ttl{font-size:13px;font-weight:var(--w-body-strong);color:var(--danger-deep)}
+.empty{display:flex;flex-direction:column;gap:11px;align-items:flex-start;padding:30px 22px}
+.empty h3{font-size:19px;font-weight:var(--w-heading);margin:0}
+.empty p{font-size:13.5px;color:var(--ink-2);margin:0;max-width:52ch;line-height:1.5}
+
+.toast{position:absolute;left:50%;bottom:20px;transform:translate(-50%,14px);background:var(--samudra-900);color:#fff;
+  font-size:13px;font-weight:600;padding:10px 15px;border-radius:11px;opacity:0;pointer-events:none;
+  transition:opacity .2s ease,transform .2s var(--spring);z-index:50;max-width:82%;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+.tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.tools .sp{flex:1}
+.tools > .cap{flex:1 1 320px;min-width:0;max-width:62ch}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} .body{scroll-behavior:auto} }
+
+/* ---- tata letak aplikasi: bingkai prototipe diganti halaman penuh ---- */
+.stagewrap{padding:0;flex:1;min-height:0}
+.device{max-width:none;width:100%;height:calc(100dvh - var(--nav));max-height:none;
+  border-radius:0;border:0;box-shadow:none}
+html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
+.body{padding-left:max(20px,calc((100% - 1160px)/2));padding-right:max(20px,calc((100% - 1160px)/2))}
+</style>
+</head>
+<body>
+
+
+
+<header id="topbar"></header>
+
+
+<div class="stagewrap">
+<div class="device">
+
+  <div class="body" id="body">
+    <div class="hd">
+      <div>
+        <span class="eyebrow" data-en="Trainer">Trainer</span>
+        <h1 class="t" data-en="Your dashboard">Dashboard Anda</h1>
+        <p class="lead" id="lead" data-en="Four trainings live, and the money and the quality signals sit side by side. Numbers refresh every hour; the payout figures are final at each release.">Empat training hidup, dan angka uang serta sinyal mutunya duduk berdampingan. Angka disegarkan tiap jam; angka pencairan bersifat final di setiap rilis.</p>
+      </div>
+      <span class="sp" style="flex:1"></span>
+      <button class="btn btn-primary" onclick="location.href='modul.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+        <span data-en="New training">Training baru</span>
+      </button>
+    </div>
+
+    <div id="stateBox"></div>
+
+    <div id="live">
+      <div class="kpis" id="kpis"></div>
+      <div class="tools">
+        <span class="cap" id="susunCap"></span>
+        <span class="sp"></span>
+        <button class="btn btn-quiet" onclick="resetSusun()" data-en="Reset layout">Kembalikan susunan awal</button>
+      </div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let lang='id', state='data';
+const rp=n=>'Rp'+new Intl.NumberFormat('id-ID').format(n);
+const nf=n=>new Intl.NumberFormat('id-ID').format(n);
+const T=(id,en)=>lang==='en'?en:id;
+
+/* ---------- data contoh ---------- */
+const D={
+  training:[
+    {judul:'Menyusun Uraian Jabatan',kode:'M.70SDM01.010.2',status:'terbit',harga:50000,jual:24,peserta:38,complete:24},
+    {judul:'Melaksanakan Analisis Beban Kerja',kode:'M.70SDM01.011.2',status:'terbit',harga:50000,jual:15,peserta:21,complete:12},
+    {judul:'Menyusun Kebutuhan SDM',kode:'M.70SDM01.012.2',status:'terbit',harga:50000,jual:9,peserta:9,complete:3},
+    {judul:'Melakukan Administrasi Pengupahan',kode:'M.70SDM01.057.2',status:'terbit',harga:50000,jual:21,peserta:15,complete:11},
+    {judul:'Menangani Keluhan Pekerja',kode:'M.70SDM01.047.2',status:'draf',harga:50000,jual:0,peserta:0,complete:0}
+  ],
+  bagiHasil:0.50,
+  siapCair:1200000, tertahan:525000, rilisBerikut:'8 Agustus 2026',
+  pajak:{skema:'nppn', npwp:true},
+  rek:{bank:'BCA',no:'2740114821',nama:'RANGGA IRAWAN PRASETYO',cocok:true},
+  /* akses: 7 hari x 8 blok 3 jam, skala 0-4 */
+  akses:[[0,0,4,2,2,2,3,1],[0,0,4,2,2,2,3,1],[0,0,4,3,2,2,3,1],[0,0,4,2,2,3,3,1],[0,0,3,2,2,2,2,1],[0,1,1,2,3,2,2,2],[0,1,1,2,3,3,2,2]],
+  beli:[[0,0,1,2,3,2,2,1],[0,0,1,2,2,2,2,1],[0,0,1,2,2,2,2,1],[0,0,1,2,2,2,3,1],[0,0,1,3,3,3,3,2],[0,0,1,2,2,2,2,1],[0,0,1,1,2,2,4,2]],
+  segmen:[['Staf',58],['Supervisor',24],['Umum',11],['Lainnya',7]],
+  provinsi:[['Jawa Barat',31],['DKI Jakarta',27],['Jawa Timur',14],['Banten',11],['Lainnya',17]],
+  usia:[['21 sampai 25',22],['26 sampai 30',44],['31 sampai 35',21],['36 ke atas',13]],
+  berkas:[
+    {nama:'uraian-jabatan-materi.pptx',ext:'PPTX',uk:'8,4 MB',versi:3,st:'aktif'},
+    {nama:'template-uraian-jabatan.docx',ext:'DOCX',uk:'240 KB',versi:2,st:'aktif'},
+    {nama:'beban-kerja-rekaman.mp4',ext:'MP4',uk:'186 MB',versi:1,st:'proses',pct:64},
+    {nama:'pengupahan-materi.pdf',ext:'PDF',uk:'3,1 MB',versi:1,st:'gagal'}
+  ]
+};
+const jual=()=>D.training.reduce((a,t)=>a+t.jual*t.harga,0);
+const bagian=()=>Math.round(jual()*D.bagiHasil);
+const tarifPajak=()=>!D.pajak.npwp?0.30:(D.pajak.skema==='nppn'?0.06:0.15);
+
+/* ---------- susunan kartu ---------- */
+const DEF=['uang','mutu','training','waktu','siapa','berkas'];
+let susun=[...DEF];
+const KUNCI=['uang','mutu'];   /* tidak boleh disembunyikan: kewajiban finansial dan cermin mutu */
+
+/* ---------- ikon ---------- */
+const IC={
+  gembok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"/><path d="M8 10.5V7.6a4 4 0 0 1 8 0v2.9"/></svg>',
+  grip:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>',
+  cek:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6v.2"/></svg>',
+  seru:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.4v.2"/></svg>',
+  mata:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.7"/></svg>',
+  unduh:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7.5 11L12 15.5 16.5 11"/><path d="M5 19.5h14"/></svg>'
+};
+
+/* ---------- KPI ---------- */
+function gambarKpi(){
+  const terbit=D.training.filter(t=>t.status==='terbit').length, draf=D.training.length-terbit;
+  const peserta=D.training.reduce((a,t)=>a+t.peserta,0);
+  const items=[
+    {lbl:T('Training terbit','Published trainings'),val:nf(terbit),
+     sub:draf?T(draf+' masih draf','1 still a draft'):T('Semua terbit','All published'),lock:false},
+    {lbl:T('Peserta aktif','Active learners'),val:nf(peserta),
+     sub:T(nf(D.training.reduce((a,t)=>a+t.complete,0))+' sudah Complete',nf(D.training.reduce((a,t)=>a+t.complete,0))+' already Complete'),lock:false},
+    {lbl:T('Penjualan bruto bulan ini','Gross sales this month'),val:rp(jual()),
+     sub:T('Sebelum bagi hasil','Before the revenue split'),lock:true,mny:true},
+    {lbl:T('Bagian Anda (50%)','Your share (50%)'),val:rp(bagian()),
+     sub:T('Rincian dan pajaknya di kartu Pencairan','Breakdown and tax in the Payout card'),lock:true,mny:true}
+  ];
+  $('kpis').innerHTML=items.map(x=>
+    '<div class="kpi'+(x.mny?' mny':'')+(x.lock?' pinned':'')+'">'+
+      (x.lock?'<span class="lock">'+IC.gembok+T('terkunci','pinned')+'</span>':'')+
+      '<span class="lbl">'+x.lbl+'</span><span class="val num">'+x.val+'</span><span class="sub">'+x.sub+'</span>'+
+    '</div>').join('');
+}
+
+/* ---------- isi kartu ---------- */
+function kartuUang(){
+  const b=bagian(), tarif=tarifPajak(), pot=Math.round(D.siapCair*tarif), net=D.siapCair-pot;
+  const r=D.rek;
+  const skemaTeks = !D.pajak.npwp
+    ? T('Tanpa NPWP tarifnya naik 100% menjadi 30%. Lengkapi NPWP untuk turun ke 15%, atau 6% bila Anda menyerahkan surat keterangan NPPN.',
+        'Without an NPWP the rate doubles to 30%. Add your NPWP to drop to 15%, or 6% with an NPPN certificate.')
+    : (D.pajak.skema==='nppn'
+      ? T('Tarif 6% berlaku karena surat keterangan NPPN Anda tercatat: 15% dikenakan atas 40% bruto. Tanpa surat itu tarifnya 15% penuh.',
+          'The 6% rate applies because your NPPN certificate is on file: 15% charged on 40% of gross. Without it the rate is a full 15%.')
+      : T('Tarif 15% dari bruto. Bila Anda memakai norma penghitungan dan menyerahkan surat keterangan NPPN, tarifnya turun menjadi efektif 6%.',
+          'A flat 15% of gross. If you use the deemed profit norm and file an NPPN certificate, the effective rate drops to 6%.'));
+  return `
+  <div class="acct">
+    <span class="bank">${r.bank}</span>
+    <span class="id">
+      <span class="no num" id="rekNo">•••• ${r.no.slice(-4)}</span>
+      <span class="nm">a.n. ${r.nama}</span>
+    </span>
+    <span class="badge ${r.cocok?'ok':'warn'}">${r.cocok?IC.cek:IC.seru}${r.cocok?T('Nama cocok','Name matches'):T('Nama beda','Name mismatch')}</span>
+  </div>
+  <div class="tools" style="margin-top:9px">
+    <button class="btn btn-quiet" onclick="bukaRek()">${IC.mata}<span id="rekBtnTx">${T('Lihat nomor','Show number')}</span></button>
+    <button class="btn btn-quiet" onclick="ubahRek()">${T('Ubah rekening','Change account')}</button>
+  </div>
+
+  <div class="rows" style="margin-top:12px">
+    <div class="row"><span class="k">${T('Bagian Anda bulan ini','Your share this month')}</span><span class="v num">${rp(b)}</span></div>
+    <div class="row"><span class="k">${T('Masih tertahan escrow 14 hari','Still held in the 14 day escrow')}</span><span class="v num">${rp(D.tertahan)}</span></div>
+    <div class="row"><span class="k">${T('Siap cair','Ready to release')}</span><span class="v num">${rp(D.siapCair)}</span></div>
+    <div class="row neg"><span class="k">${T('PPh 23 royalti dipotong','PPh 23 royalty withheld')} (${(tarif*100).toString().replace('.',',')}%)</span><span class="v num">-${rp(pot)}</span></div>
+    <div class="row big tot"><span class="k">${T('Masuk rekening '+D.rilisBerikut,'Lands in your account on '+D.rilisBerikut)}</span><span class="v num">${rp(net)}</span></div>
+  </div>
+
+  <div class="tools" style="margin-top:10px">
+    <button class="btn btn-quiet" onclick="toast(T('Bukti potong e-Bupot diunduh','Withholding certificate downloaded'))">${IC.unduh}${T('Bukti potong','Withholding slip')}</button>
+    <button class="btn btn-quiet" onclick="toast(T('Rincian per transaksi diunduh','Per transaction breakdown downloaded'))">${IC.unduh}${T('Rincian transaksi','Transaction detail')}</button>
+  </div>
+
+  <div class="note info">${IC.info}<span><b>${T('Kenapa tarifnya begitu','Why this rate')}.</b> ${skemaTeks} ${T('Nusva yang memotong dan menyetorkannya, dan bukti potongnya terbit tiap bulan. Angka ini perlu Anda cocokkan dengan penasihat pajak Anda sendiri.','Nusva withholds and remits it, and the slip is issued monthly. Confirm these figures with your own tax adviser.')}</span></div>`;
+}
+
+function kartuTraining(){
+  const rows=D.training.map(t=>{
+    const pend=t.jual*t.harga;
+    return `<tr>
+      <td><b>${t.judul}</b><span class="sub">${t.kode}</span></td>
+      <td>${t.status==='terbit'
+        ?'<span class="badge ok">'+IC.cek+T('Terbit','Live')+'</span>'
+        :'<span class="badge mut">'+T('Draf','Draft')+'</span>'}</td>
+      <td class="r num">${nf(t.peserta)}</td>
+      <td class="r num">${nf(t.complete)}</td>
+      <td class="r num">${pend?rp(pend):'<span style="color:var(--ink-3)">'+T('belum ada','none yet')+'</span>'}</td>
+    </tr>`;}).join('');
+  return `<div class="tblwrap"><table>
+    <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"></colgroup>
+    <thead><tr>
+      <th>${T('Training','Training')}</th><th>${T('Status','Status')}</th>
+      <th class="r">${T('Peserta','Learners')}</th><th class="r">${T('Complete','Complete')}</th>
+      <th class="r">${T('Bulan ini','This month')}</th>
+    </tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="cap" style="margin-top:10px">${T('Complete artinya peserta menuntaskan latihannya, bukan vonis kompetensi. Asesmen kompetensi hanya oleh LSP berlisensi BNSP.','Complete means the learner finished the exercises, not a competency verdict. Competency assessment sits only with a BNSP licensed LSP.')}</p>`;
+}
+
+function kartuMutu(){
+  return `
+  <div class="sig a"><span class="ic">${IC.seru}</span><span class="tx">
+    <b>${T('63% memilih jawaban keliru yang sama','63% pick the same wrong answer')}</b>
+    <span>${T('Uraian Jabatan, Bagian 2, Soal 1. Kalau hampir semua orang keliru ke arah yang sama, biasanya soalnya tidak ambigu melainkan materinya belum mengajarkan bagian itu.','Uraian Jabatan, Part 2, Question 1. When nearly everyone errs in the same direction, the question is usually fine and the material has not taught that bit yet.')}</span>
+    <span class="act"><button class="btn btn-quiet" onclick="toast(T('Membuka Bagian 2','Opening Part 2'))">${T('Lihat bagiannya','Open that part')}</button></span>
+  </span></div>
+
+  <div class="sig a"><span class="ic">${IC.seru}</span><span class="tx">
+    <b>${T('41% berhenti di Bagian 3','41% stop at Part 3')}</b>
+    <span>${T('Analisis Beban Kerja, Bagian 3, ditulis 12 menit. Ini bagian terpanjang di modul itu, dan jam aksesnya menumpuk di 06.00 sampai 09.00.','Analisis Beban Kerja, Part 3, written as 12 minutes. It is the longest part in that module, and access peaks between 06.00 and 09.00.')}</span>
+  </span></div>
+
+  <div class="sig b"><span class="ic">${IC.info}</span><span class="tx">
+    <b>${T('KUK 2.2 paling sering belum tuntas','KUK 2.2 is the one most often not yet met')}</b>
+    <span>${T('58% belum tuntas di percobaan pertama, lalu 91% tuntas di percobaan kedua. Polanya sehat: orang belajar dari umpan baliknya, bukan tersesat.','58% do not meet it on the first attempt, then 91% do on the second. That pattern is healthy: people are learning from the feedback rather than getting lost.')}</span>
+  </span></div>
+
+  <div class="sig b"><span class="ic">${IC.info}</span><span class="tx">
+    <b>${T('Anda menulis 33 menit, sungguhannya 51','You wrote 33 minutes, the real median is 51')}</b>
+    <span>${T('Selisihnya besar, dan peserta memakai angka Anda untuk memutuskan mulai atau tidak. Kami bisa menyesuaikannya, atau Anda perbaiki sendiri.','That gap is wide, and learners use your number to decide whether to start. We can adjust it, or you can edit it yourself.')}</span>
+    <span class="act"><button class="btn btn-quiet" onclick="toast(T('Estimasi diubah ke 51 menit','Estimate set to 51 minutes'))">${T('Sesuaikan ke 51 menit','Set it to 51 minutes')}</button></span>
+  </span></div>
+
+  <div class="note ok">${IC.cek}<span>${T('Yang sengaja tidak ada di sini: peringkat trainer, badge, dan grafik yang membandingkan Anda dengan trainer lain. Perbandingan satu-satunya yang kami tampilkan adalah Anda terhadap Anda bulan lalu.','Deliberately absent: trainer rankings, badges, and charts comparing you to other trainers. The only comparison we show is you against you last month.')}</span></div>`;
+}
+
+let modeWaktu='akses';
+function kartuWaktu(){
+  const hari=[T('Sen','Mon'),T('Sel','Tue'),T('Rab','Wed'),T('Kam','Thu'),T('Jum','Fri'),T('Sab','Sat'),T('Min','Sun')];
+  const jam=['00','03','06','09','12','15','18','21'];
+  const m=modeWaktu==='akses'?D.akses:D.beli;
+  let g='<div class="heat"><span class="hl"></span>'+jam.map(j=>'<span class="hd2">'+j+'</span>').join('');
+  m.forEach((baris,i)=>{
+    g+='<span class="hl">'+hari[i]+'</span>';
+    baris.forEach((v,k)=>{ g+='<span class="c" data-v="'+v+'" title="'+hari[i]+' '+jam[k]+'.00 WIB"></span>'; });
+  });
+  g+='</div>';
+  const insight = modeWaktu==='akses'
+    ? T('Puncaknya Senin sampai Jumat 06.00 sampai 09.00, jam komuter. Bagian yang lewat sepuluh menit paling sering ditinggalkan di jam itu.','It peaks Monday to Friday between 06.00 and 09.00, the commute. Parts running past ten minutes are the ones most often abandoned in that window.')
+    : T('Pembelian menumpuk Jumat sore dan Minggu malam, saat orang menata minggu berikutnya. Itu jendela yang tepat untuk menerbitkan modul baru.','Purchases cluster on Friday afternoon and Sunday night, when people are setting up the week ahead. That is the right window to publish something new.');
+  return `<div class="tools" style="margin-top:0">
+      <button class="btn btn-quiet" aria-pressed="${modeWaktu==='akses'}" onclick="setWaktu('akses')">${T('Kapan diakses','When they learn')}</button>
+      <button class="btn btn-quiet" aria-pressed="${modeWaktu==='beli'}" onclick="setWaktu('beli')">${T('Kapan dibeli','When they buy')}</button>
+    </div>
+    ${g}
+    <div class="legend"><span>${T('Sepi','Quiet')}</span>
+      <i style="background:var(--surface-3)"></i><i style="background:rgba(15,163,177,.16)"></i>
+      <i style="background:rgba(15,163,177,.34)"></i><i style="background:rgba(15,163,177,.58)"></i>
+      <i style="background:rgba(15,163,177,.86)"></i><span>${T('Ramai','Busy')}</span>
+      <span style="flex:1"></span><span>${T('WIB','WIB')}</span></div>
+    <div class="note info">${IC.info}<span>${insight}</span></div>`;
+}
+function setWaktu(v){ modeWaktu=v; gambarKartu(); }
+
+function bar(list,mutTerakhir){
+  return '<div class="bars">'+list.map(([t,p],i)=>{
+    const mut = mutTerakhir && i===list.length-1;
+    return '<div class="bar'+(mut?' mut':'')+'"><span class="t">'+t+'</span><span class="p num">'+String(p).replace('.',',')+'%</span>'+
+           '<span class="track"><span class="fill" style="width:'+p+'%"></span></span></div>';
+  }).join('')+'</div>';
+}
+function kartuSiapa(){
+  return `
+  <p class="cap b" style="margin-bottom:9px">${T('Segmen peserta','Learner segment')}</p>${bar(D.segmen,true)}
+  <p class="cap b" style="margin:14px 0 9px">${T('Provinsi','Province')}</p>${bar(D.provinsi,true)}
+  <p class="cap b" style="margin:14px 0 9px">${T('Rentang usia','Age range')}</p>${bar(D.usia,false)}
+  <div class="note warn">${IC.gembok}<span><b>${T('Batas yang kami pegang','The line we hold')}.</b> ${T('Potongan mana pun yang berisi kurang dari 10 peserta digabung ke Lainnya, bukan disembunyikan diam-diam, supaya tidak ada orang yang bisa ditebak dari angkanya. Kota tidak ditampilkan karena terlalu sempit. Yang tidak pernah Anda lihat: nama, perusahaan, jawaban mentah, dan jumlah percobaan siapa pun.','Any slice holding fewer than 10 learners is folded into Other rather than quietly dropped, so nobody can be inferred from the numbers. City is not shown because it is too narrow. What you never see: names, employers, raw answers, and the attempt count of any individual.')}</span></div>`;
+}
+
+function kartuBerkas(){
+  const st={
+    aktif:{cls:'ok',tx:T('Aktif','Live'),ic:IC.cek},
+    proses:{cls:'info',tx:T('Diproses','Processing'),ic:IC.info},
+    gagal:{cls:'warn',tx:T('Perlu tindakan','Needs action'),ic:IC.seru}
+  };
+  const list=D.berkas.map(f=>{
+    const s=st[f.st];
+    const detail = f.st==='proses'
+      ? T('Audio sudah diekstrak, transkrip sedang didraf','Audio extracted, transcript being drafted')
+      : f.st==='gagal'
+        ? T('Pemindaian berkas tidak selesai','The file scan did not finish')
+        : f.uk+' · v'+f.versi;
+    return `<div class="fitem">
+      <span class="ico">${f.ext}</span>
+      <span class="nm"><b>${f.nama}</b><span>${detail}</span>
+        ${f.st==='proses'?'<span class="prog"><i style="width:'+f.pct+'%"></i></span>':''}</span>
+      <span class="badge ${s.cls}">${s.ic}${s.tx}</span>
+      ${f.st==='gagal'?'<button class="btn btn-quiet" onclick="toast(T(\'Pemindaian diulang\',\'Rescanning\'))">'+T('Coba lagi','Retry')+'</button>':''}
+    </div>`;}).join('');
+  return list+`
+  <div class="tools" style="margin-top:11px">
+    <button class="btn btn-secondary" onclick="toast(T('Pilih berkas untuk versi baru','Pick a file for the new version'))">${T('Unggah versi baru','Upload a new version')}</button>
+    <span class="cap">${T('Materi PPTX atau PDF, alat kerja DOCX, XLSX, PPTX, PDF. Maks 50 MB. Video terpisah, maks 500 MB.','Material PPTX or PDF, work tools DOCX, XLSX, PPTX, PDF. Max 50 MB. Video separate, max 500 MB.')}</span>
+  </div>
+  <div class="note info">${IC.info}<span>${T('Peserta yang sedang berjalan tetap memakai versi lama sampai mereka Complete. Mengganti materi di tengah jalan membuat orang kehilangan jejak, jadi versi baru hanya dipakai peserta yang mulai setelahnya.','Learners already in progress stay on the old version until they Complete. Swapping material mid-way makes people lose the thread, so a new version only serves learners who start after it.')}</span></div>`;
+}
+
+const KARTU={
+  uang:{judul:{id:'Pencairan dan rekening',en:'Payout and bank account'},wide:false,isi:kartuUang},
+  training:{judul:{id:'Training saya',en:'My trainings'},wide:true,isi:kartuTraining},
+  mutu:{judul:{id:'Sinyal mutu',en:'Quality signals'},wide:false,isi:kartuMutu},
+  waktu:{judul:{id:'Kapan mereka belajar dan membeli',en:'When they learn and buy'},wide:false,isi:kartuWaktu},
+  siapa:{judul:{id:'Siapa peserta Anda',en:'Who your learners are'},wide:false,isi:kartuSiapa},
+  berkas:{judul:{id:'Berkas dan versi',en:'Files and versions'},wide:true,isi:kartuBerkas}
+};
+
+/* ---------- render kartu + seret ---------- */
+function gambarKartu(){
+  const box=$('cards'); box.innerHTML='';
+  susun.forEach((key,i)=>{
+    const k=KARTU[key]; if(!k) return;
+    const kunci=KUNCI.includes(key);
+    const el=document.createElement('section');
+    el.className='card'+(k.wide?' wide':''); el.dataset.key=key; el.draggable=false;
+    el.innerHTML=
+      '<div class="chd">'+
+        '<button class="grip" draggable="true" aria-label="'+T('Geser kartu '+(lang==='en'?k.judul.en:k.judul.id),'Move card '+k.judul.en)+'" '+
+          'onkeydown="geserKey(event,\''+key+'\')">'+IC.grip+'</button>'+
+        '<h2>'+(lang==='en'?k.judul.en:k.judul.id)+'</h2>'+
+        (kunci?'<span class="pin">'+IC.gembok+T('selalu tampil','always on')+'</span>':'')+
+      '</div>'+
+      '<div class="cbd">'+(state==='error'&&key==='siapa'?panelError():k.isi())+'</div>';
+    const grip=el.querySelector('.grip');
+    grip.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain',key); e.dataTransfer.effectAllowed='move';
+      el.classList.add('dragging'); });
+    grip.addEventListener('dragend',()=>{ el.classList.remove('dragging');
+      document.querySelectorAll('.card.over').forEach(c=>c.classList.remove('over')); });
+    el.addEventListener('dragover',e=>{ e.preventDefault(); e.dataTransfer.dropEffect='move'; el.classList.add('over'); });
+    el.addEventListener('dragleave',()=>el.classList.remove('over'));
+    el.addEventListener('drop',e=>{ e.preventDefault(); el.classList.remove('over');
+      const dari=e.dataTransfer.getData('text/plain'); pindah(dari,key); });
+    box.appendChild(el);
+  });
+  $('susunCap').textContent=T('Seret pegangan di kiri judul untuk menyusun ulang, atau fokuskan pegangannya lalu tekan panah atas dan bawah. Susunannya tersimpan untuk Anda.',
+    'Drag the handle left of each title to rearrange, or focus a handle and press the up and down arrows. Your layout is saved.');
+}
+function pindah(dari,ke){
+  if(!dari||dari===ke) return;
+  const a=susun.indexOf(dari), b=susun.indexOf(ke); if(a<0||b<0) return;
+  susun.splice(a,1); susun.splice(b,0,dari); gambarKartu(); simpan();
+  toast(T('Susunan disimpan','Layout saved'));
+}
+function geserKey(e,key){
+  const i=susun.indexOf(key);
+  if(e.key==='ArrowUp'&&i>0){ e.preventDefault(); susun.splice(i,1); susun.splice(i-1,0,key); gambarKartu(); simpan(); fokusGrip(key); }
+  if(e.key==='ArrowDown'&&i<susun.length-1){ e.preventDefault(); susun.splice(i,1); susun.splice(i+1,0,key); gambarKartu(); simpan(); fokusGrip(key); }
+}
+function fokusGrip(key){ const el=document.querySelector('.card[data-key="'+key+'"] .grip'); if(el) el.focus(); }
+function simpan(){ /* prototipe: susunan disimpan di memori, produksi menyimpannya per trainer */ }
+function resetSusun(){ susun=[...DEF]; gambarKartu(); toast(T('Susunan awal dikembalikan','Layout reset')); }
+
+/* ---------- state ---------- */
+function panelError(){
+  return '<div class="errpanel">'+
+    '<span class="ttl">'+T('Data demografi tidak bisa dimuat','Demographic data could not load')+'</span>'+
+    '<span class="cap">'+T('Panel lain di halaman ini tetap hidup dan angkanya tetap benar. Yang gagal hanya panel ini.','Every other panel on this page is still live and its numbers are still correct. Only this panel failed.')+'</span>'+
+    '<button class="btn btn-quiet" onclick="toast(T(\'Memuat ulang panel\',\'Reloading the panel\'))">'+T('Coba lagi','Try again')+'</button>'+
+  '</div>';
+}
+function skeleton(){
+  const k='<div class="kpis">'+Array(4).fill('<div class="kpi"><span class="skel" style="display:block;height:11px;width:60%"></span><span class="skel" style="display:block;height:26px;width:78%;margin-top:9px"></span><span class="skel" style="display:block;height:10px;width:50%;margin-top:9px"></span></div>').join('')+'</div>';
+  const c='<div class="cards" style="margin-top:14px">'+Array(4).fill('<div class="card"><div class="chd"><span class="skel" style="height:14px;width:44%"></span></div><div class="cbd"><span class="skel" style="display:block;height:80px"></span></div></div>').join('')+'</div>';
+  return k+c;
+}
+function kosong(){
+  return '<div class="card" style="margin-top:16px"><div class="empty">'+
+    '<h3>'+T('Belum ada training di sini','Nothing here yet')+'</h3>'+
+    '<p>'+T('Begitu training pertama Anda terbit, halaman ini terisi sendiri: penjualan, jadwal pencairan, dan yang paling berguna, di bagian mana peserta tersendat.','The moment your first training goes live this page fills itself in: sales, the payout schedule, and the most useful part, where your learners get stuck.')+'</p>'+
+    '<button class="btn btn-primary" onclick="toast(T(\'Membuka alur trainer\',\'Opening the trainer wizard\'))">'+T('Buat training pertama','Create your first training')+'</button>'+
+  '</div></div>';
+}
+function setState(v,btn){
+  state=v;
+  const sb=$('stateBox'), live=$('live');
+  if(v==='loading'){ sb.innerHTML=skeleton(); live.hidden=true; return; }
+  if(v==='empty'){ sb.innerHTML=kosong(); live.hidden=true; return; }
+  sb.innerHTML=''; live.hidden=false; gambarKpi(); gambarKartu();
+}
+
+/* ---------- rekening ---------- */
+let rekBuka=false, rekTimer=null;
+function bukaRek(){
+  const el=$('rekNo'); if(!el) return;
+  rekBuka=!rekBuka; clearTimeout(rekTimer);
+  if(rekBuka){
+    el.textContent=D.rek.no.replace(/(\d{4})(?=\d)/g,'$1 ');
+    $('rekBtnTx').textContent=T('Sembunyikan','Hide');
+    toast(T('Nomor terbuka 30 detik, dan pembukaannya tercatat','Number shown for 30 seconds, and the reveal is logged'));
+    rekTimer=setTimeout(()=>{ rekBuka=false; const e2=$('rekNo'); if(e2) e2.textContent='•••• '+D.rek.no.slice(-4);
+      const b=$('rekBtnTx'); if(b) b.textContent=T('Lihat nomor','Show number'); },30000);
+  } else { el.textContent='•••• '+D.rek.no.slice(-4); $('rekBtnTx').textContent=T('Lihat nomor','Show number'); }
+}
+function ubahRek(){
+  toast(T('Mengubah rekening menahan pencairan 24 jam dan meminta verifikasi ulang','Changing the account holds payouts for 24 hours and asks you to verify again'));
+}
+
+/* ---------- foto ---------- */
+function pilihFoto(e){ const f=e.target.files&&e.target.files[0]; e.target.value=''; terimaFoto(f); }
+function hotFoto(e,on){ e.preventDefault(); $('ava').classList.toggle('drop',!!on); }
+function jatuhFoto(e){ e.preventDefault(); $('ava').classList.remove('drop'); terimaFoto(e.dataTransfer.files&&e.dataTransfer.files[0]); }
+function terimaFoto(f){
+  if(!f) return;
+  if(!['image/png','image/jpeg','image/webp'].includes(f.type)){
+    toast(T('Foto harus JPG, PNG, atau WEBP','Photo must be JPG, PNG, or WEBP')); return; }
+  if(f.size>2*1024*1024){ toast(T('Foto lebih dari 2 MB. Pilih yang lebih kecil.','Photo is over 2 MB. Pick a smaller one.')); return; }
+  const r=new FileReader();
+  r.onload=()=>{ const ph=$('avaPh'); ph.innerHTML='';
+    const im=document.createElement('img'); im.src=r.result; im.alt=T('Foto trainer','Trainer photo'); ph.appendChild(im);
+    toast(T('Foto diperbarui','Photo updated')); };
+  r.readAsDataURL(f);
+}
+
+/* ---------- lain ---------- */
+function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('on');
+  clearTimeout(t._x); t._x=setTimeout(()=>t.classList.remove('on'),4000); }
+document.addEventListener('nusva:bahasa', e => { lang = e.detail.lang; setState(state, null); });
+const _q=new URLSearchParams(location.search).get('state');
+setState(['loading','empty','error'].includes(_q)?_q:'data', null);
+</script>
+
+<script type="module">
+import { pasangChrome, pitaPratinjau } from '../assets/trainer.js';
+(async () => {
+  const u = await pasangChrome('dashboard');
+  pitaPratinjau(Boolean(u), 'trainer/dashboard.html');
+})();
+</script>
+</body>
+</html>
