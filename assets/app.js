@@ -43,7 +43,12 @@ export function pasangTema(btn){
   const gelap = document.documentElement.dataset.theme === 'dark';
   document.documentElement.dataset.theme = gelap ? 'light' : 'dark';
   try{ localStorage.setItem('nusva.theme', gelap ? 'light' : 'dark'); }catch(e){}
-  if(btn){ btn.textContent = gelap ? 'Gelap' : 'Terang'; btn.setAttribute('aria-pressed', String(!gelap)); }
+  if(btn){
+    btn.setAttribute('aria-pressed', String(!gelap));
+    btn.title = gelap ? 'Mode gelap' : 'Mode terang';
+    /* hanya tombol berteks yang labelnya ditukar; tombol berikon mempertahankan ikonnya */
+    if(btn.dataset.teks !== undefined) btn.textContent = gelap ? 'Gelap' : 'Terang';
+  }
 }
 (function temaAwal(){
   try{

@@ -28,7 +28,7 @@ export async function pasangChrome(aktif){
     '<span class="sp"></span>' +
     '<span id="simpanTanda" class="simpan" role="status"></span>' +
     '<button class="chip" data-aksi="bahasa" aria-pressed="false">EN</button>' +
-    '<button class="chip" data-aksi="tema" aria-pressed="false">Gelap</button>' +
+    '<button class="chip" data-aksi="tema" data-teks aria-pressed="false">Gelap</button>' +
     '<span class="whoWrap" id="whoWrap"></span>';
 
   bar.querySelector('[data-aksi="bahasa"]').addEventListener('click', e => pasangBahasa(e.currentTarget));

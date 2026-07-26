@@ -47,8 +47,11 @@ h1{font-size:clamp(26px,3.4vw,38px);margin:10px 0 0;max-width:22ch}
 
 /* katalog */
 .kat{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px;margin-top:18px}
-a.mod{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r-card);overflow:hidden;transition:border-color .18s ease,transform .18s var(--spring)}
+a.mod{display:flex;flex-direction:column;text-decoration:none;color:inherit;background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;height:100%;
+  transition:border-color .18s ease,transform .18s var(--spring)}
+a.mod .isi{display:flex;flex-direction:column;flex:1}
+a.mod .ft{margin-top:auto}
 a.mod:hover{border-color:var(--accent);transform:translateY(-2px)}
 a.mod .gb{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--surface-3)}
 a.mod .isi{padding:14px 15px 16px}

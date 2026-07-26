@@ -26,7 +26,7 @@
   --hit-min:44px;--hit-compact:36px;
   --spring:cubic-bezier(.30,1.08,.35,1);
   --grad-pasang:linear-gradient(135deg,#0B6B77 0%,#0FA3B1 55%,#1ECAD3 100%);
-  --wrap:1100px;--nav:64px;
+  --wrap:1180px;--nav:64px;
 }
 html[data-theme="dark"]{
   --bg:#071018;--surface:#0D1B26;--surface-2:#122430;--surface-3:#17303E;
@@ -36,6 +36,7 @@ html[data-theme="dark"]{
 }
 
 *{box-sizing:border-box}
+section[id],[id]{scroll-margin-top:74px}
 html,body{margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);
   font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
@@ -93,7 +94,9 @@ html[data-theme="dark"] .lockup .w{display:block}
 .eyebrow{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
   color:var(--accent);display:block}
 h1{font-size:clamp(31px,5vw,50px);font-weight:750;letter-spacing:-.03em;line-height:1.08;margin:14px 0 0}
-h2{font-size:clamp(24px,3.6vw,36px);font-weight:700;letter-spacing:-.026em;line-height:1.15;margin:12px 0 0}
+h2{font-size:clamp(24px,3.6vw,36px);font-weight:700;letter-spacing:-.026em;line-height:1.15;margin:12px 0 0;
+  max-width:24ch}
+h1{max-width:17ch}
 h3{font-size:16px;font-weight:var(--w-subhead);margin:0}
 .sub{font-size:clamp(15.5px,1.5vw,17.5px);color:var(--ink-2);line-height:1.6;margin:16px 0 0;max-width:54ch}
 .cap{font-size:12.5px;color:var(--ink-3);font-weight:var(--w-caption);line-height:1.5}
@@ -187,10 +190,11 @@ footer.site{padding:34px 0 46px;border-top:1px solid var(--border);background:va
 @media (max-width:600px){ .pita-pratinjau{padding:9px 14px} }
 
 /* ================= navigasi bersama (bar tipis + panel penuh lebar) ================= */
-.anav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--surface) 92%,transparent);
-  backdrop-filter:saturate(180%) blur(18px);border-bottom:1px solid var(--border)}
-.abar{max-width:1180px;margin:0 auto;height:52px;display:flex;align-items:center;gap:4px;padding:0 22px}
-@media (max-width:600px){ .abar{padding:0 14px} }
+.anav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--surface) 97%,transparent);
+  backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--border)}
+@supports not (backdrop-filter:blur(1px)){ .anav{background:var(--surface)} }
+.abar{max-width:var(--wrap);margin:0 auto;height:52px;display:flex;align-items:center;gap:4px;padding:0 24px}
+@media (max-width:560px){ .abar{padding:0 18px} }
 .alogo{display:flex;align-items:center;flex:none;margin-right:14px}
 .alogo img{height:24px;width:71px;display:block}
 .alogo .w{display:none}
@@ -202,6 +206,15 @@ html[data-theme="dark"] .alogo .w{display:block}
   font-size:13px;font-weight:var(--w-body-strong);color:var(--ink-2)}
 .atop:hover{color:var(--ink)}
 .atop[aria-expanded="true"]{color:var(--ink);background:var(--surface-2)}
+/* di layar sempit menu turun ke barisnya sendiri, bukan berdesakan dengan kendali kanan */
+@media (max-width:700px){
+  .abar{flex-wrap:wrap;height:auto;padding-top:9px;padding-bottom:7px;gap:8px}
+  .alogo{margin-right:6px}
+  .amenu{order:3;flex-basis:100%;margin:0 -18px;padding:0 18px 2px}
+  .atop{padding:6px 10px;font-size:12.5px}
+  .abar .asp{order:1}
+  .aakun{order:2;margin-left:0}
+}
 .abar .asp{flex:1}
 .aico{background:transparent;border:0;width:32px;height:32px;border-radius:8px;color:var(--ink-2);
   display:grid;place-items:center;font-size:11.5px;font-weight:800;flex:none}
@@ -213,9 +226,10 @@ html[data-theme="dark"] .alogo .w{display:block}
 
 .apanel{border-top:1px solid var(--border);background:var(--surface);animation:apop .22s var(--spring)}
 @keyframes apop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.apanel-in{max-width:1180px;margin:0 auto;padding:34px 22px 46px;display:grid;
+.apanel-in{max-width:var(--wrap);margin:0 auto;padding:34px 24px 46px;display:grid;
   grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px}
 @media (max-width:760px){ .apanel-in{grid-template-columns:1fr;gap:26px;padding:24px 18px 32px} }
+/* satu sumbu kiri untuk logo, menu, rail, dan seluruh isi halaman */
 .ahd{display:block;font-size:12px;color:var(--ink-3);font-weight:var(--w-caption);margin-bottom:14px}
 .abesar{display:flex;align-items:baseline;gap:9px;font-size:clamp(21px,2.4vw,26px);font-weight:600;
   letter-spacing:-.02em;color:var(--ink);text-decoration:none;padding:5px 0;line-height:1.35}
@@ -226,13 +240,12 @@ html[data-theme="dark"] .alogo .w{display:block}
 .asoon{opacity:.62;cursor:default;pointer-events:none}
 .asoonl{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
   background:var(--surface-3);color:var(--ink-3);border-radius:5px;padding:2px 6px;flex:none}
-.atirai{position:fixed;inset:0;z-index:-1;background:rgba(5,25,43,.28)}
+.atirai{position:fixed;inset:0;z-index:45;background:rgba(5,25,43,.22)}
 html.anav-buka .anav{background:var(--surface);backdrop-filter:none}
-html.anav-buka{overflow:hidden}
 
 /* rail thumbnail */
 .arail{border-bottom:1px solid var(--border);background:var(--surface)}
-.arail-in{max-width:1180px;margin:0 auto;padding:34px 22px 30px;display:flex;gap:8px;
+.arail-in{max-width:var(--wrap);margin:0 auto;padding:30px 24px 28px;display:flex;gap:8px;
   overflow-x:auto;scrollbar-width:none}
 .arail-in::-webkit-scrollbar{display:none}
 .aitem{flex:0 0 auto;width:126px;text-decoration:none;color:var(--ink);text-align:center;
@@ -242,7 +255,7 @@ html.anav-buka{overflow:hidden}
 .ath img,.ath svg{width:88px;height:88px;object-fit:cover;border-radius:14px;display:block}
 .atx{display:block;font-size:12.5px;font-weight:var(--w-body-strong);line-height:1.3}
 .atag{display:block;font-style:normal;font-size:11px;font-weight:700;color:var(--warning-deep);margin-top:2px}
-@media (max-width:600px){ .arail-in{padding:22px 14px 20px} .aitem{width:104px} .ath{height:70px} }
+@media (max-width:560px){ .arail-in{padding:22px 18px 20px} .aitem{width:104px} .ath{height:70px} }
 
 /* penanda fitur belum jadi, dipakai di badan halaman */
 .soon{display:inline-flex;gap:5px;align-items:center;font-size:10.5px;font-weight:800;letter-spacing:.08em;

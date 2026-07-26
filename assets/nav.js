@@ -67,7 +67,8 @@ const ic = {
   tutup:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>'
 };
 
-let terbuka = null;
+let terbuka = null, _tundaBuka = null, _tundaTutup = null;
+function batal(){ clearTimeout(_tundaBuka); clearTimeout(_tundaTutup); }
 
 export function pasangNav(opts){
   const o = opts || {};
@@ -95,14 +96,47 @@ export function pasangNav(opts){
       '</button>' +
       '<span class="aakun" id="aakun"></span>' +
     '</div>' +
-    menu.map(m => panel(m)).join('') +
-    '<div class="atirai" id="atirai" hidden></div>';
+    menu.map(m => panel(m)).join('');
+
+  let tirai = document.getElementById('atirai');
+  if(!tirai){
+    tirai = document.createElement('div');
+    tirai.className = 'atirai'; tirai.id = 'atirai'; tirai.hidden = true;
+    document.body.appendChild(tirai);
+  }
+
+  /* Perangkat berpenunjuk halus membuka panel saat kursor lewat, tanpa perlu diklik.
+     Layar sentuh dan perangkat tanpa hover tetap memakai klik, karena hover di sana tidak ada. */
+  const adaHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   el.querySelectorAll('.atop').forEach(b => {
-    b.addEventListener('click', () => buka(b.dataset.m === terbuka ? null : b.dataset.m));
+    b.addEventListener('click', e => { e.preventDefault(); buka(b.dataset.m === terbuka ? null : b.dataset.m); });
+    if(adaHover){
+      /* jeda niat 90 ms: menyapu kursor melintasi menu tidak boleh memicu panel berkedip */
+      b.addEventListener('mouseenter', () => {
+        batal();
+        if(terbuka) return buka(b.dataset.m);          /* sudah terbuka: pindah seketika */
+        _tundaBuka = setTimeout(() => buka(b.dataset.m), 90);
+      });
+      b.addEventListener('mouseleave', () => clearTimeout(_tundaBuka));
+    }
+    /* jalur papan ketik: fokus membuka, sama seperti hover */
+    b.addEventListener('focus', () => { if(terbuka) buka(b.dataset.m); });
   });
-  el.querySelector('#atirai').addEventListener('click', () => buka(null));
+
+  if(adaHover){
+    el.addEventListener('mouseenter', batal);
+    el.addEventListener('mouseleave', () => { batal(); _tundaTutup = setTimeout(() => buka(null), 220); });
+  }
+
+  tirai.addEventListener('click', () => buka(null));
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && terbuka) buka(null); });
+  /* menggulir menutup panel: itu sinyal paling jelas bahwa pengguna sudah selesai dengan menu */
+  addEventListener('scroll', () => { if(terbuka) buka(null); }, { passive:true });
+  /* fokus berpindah keluar dari bar akan menutup, supaya pengguna papan ketik tidak terjebak */
+  el.addEventListener('focusout', e => {
+    if(terbuka && !el.contains(e.relatedTarget)) buka(null);
+  });
 
   return el;
 }
@@ -124,6 +158,7 @@ function panel(m){
 }
 
 function buka(id){
+  batal();
   const el = document.getElementById('nav');
   el.querySelectorAll('.apanel').forEach(p => { p.hidden = true; });
   el.querySelectorAll('.atop').forEach(b => b.setAttribute('aria-expanded','false'));
