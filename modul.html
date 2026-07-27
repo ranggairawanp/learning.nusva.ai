@@ -43,17 +43,33 @@ h2.sec{font-size:19px;font-weight:var(--w-heading);margin:34px 0 0}
 .isi{padding:0 16px 16px 54px;border-bottom:1px solid var(--border);background:var(--surface-2)}
 .isi p{font-size:14px;color:var(--ink-2);line-height:1.65;margin:12px 0 0}
 
+/* ---------- pemutar video dan audio ----------
+   Lebarnya dibatasi karena video selebar kolom penuh di layar besar membuat baris
+   teks di bawahnya terbaca sebagai keterangan gambar, bukan sebagai isi modul. */
+.putar{margin-top:13px;max-width:640px}
+.putar video{width:100%;display:block;border-radius:12px;border:1px solid var(--border);background:#000}
+.putar audio{width:100%;display:block;margin-top:2px}
+.putar .ket{font-size:11.5px;color:var(--ink-3);margin-top:7px;line-height:1.5}
+/* Transkrip dilipat, bukan disembunyikan. Ia melayani dua orang sekaligus: yang
+   tidak bisa mendengar, dan yang lebih cepat membaca daripada menonton. */
+.transkrip{margin-top:12px;max-width:640px}
+.transkrip summary{font-size:12.5px;font-weight:var(--w-body-strong);color:var(--ink-2);cursor:pointer;
+  padding:7px 0;list-style:none;display:flex;align-items:center;gap:7px}
+.transkrip summary::-webkit-details-marker{display:none}
+.transkrip summary::before{content:"";width:0;height:0;flex:none;
+  border-left:5px solid currentColor;border-top:4px solid transparent;border-bottom:4px solid transparent;
+  transition:transform .16s ease}
+.transkrip[open] summary::before{transform:rotate(90deg)}
+.transkrip .teks{font-size:13px;color:var(--ink-2);line-height:1.7;white-space:pre-wrap;
+  border-left:2px solid var(--border-strong);padding:2px 0 2px 13px;margin-top:4px}
+.transkrip .draf{font-size:11.5px;color:var(--ink-3);margin-top:9px;line-height:1.5}
+
 .beli{position:sticky;top:84px}
 .beli .hrg{display:block;font-size:32px;font-weight:800;letter-spacing:-.028em;line-height:1.1}
 .beli .sat{display:block;font-size:12.5px;color:var(--ink-3);margin-top:3px}
 .beli ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:10px}
 .beli li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink-2);line-height:1.45}
 .beli li svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--success)}
-.akun{display:flex;gap:9px;align-items:center;font-size:13px;color:var(--ink-2)}
-.akun .ini{width:30px;height:30px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;
-  font-size:11.5px;font-weight:800;flex:none}
-.akun .nm{max-width:20ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:var(--w-body-strong)}
-@media (max-width:640px){ .akun .nm{display:none} }
 .kosong{padding:50px 20px;text-align:center}
 
 /* Bilah bawah untuk ponsel. Di bawah 940 piksel kolom .beli turun ke paling bawah, jadi harga
@@ -221,6 +237,106 @@ function bukaBagian(el, i){
     'This is the preview part. In the running version it opens fully: the material is readable to the end, the template is downloadable, and the checkpoint quiz is playable.');
   el.after(d);
   el.setAttribute('aria-expanded','true');
+  if(b.jenis === 'video' || b.jenis === 'audio') pasangPemutar(d, b);
+}
+
+/* ---------------------------------------------------------------------------
+   Pemutar media.
+
+   Urutannya sengaja: berkas sungguhan dulu, baru contoh, baru pernyataan kosong.
+   Yang TIDAK boleh terjadi adalah bagian bertanda Video yang dibuka lalu tidak
+   memperlihatkan apa pun, karena label di daftar isi sudah terlanjur berjanji.
+
+   Berkas sungguhan datang dari bucket privat lewat signed URL berumur satu jam.
+   Tidak ada URL tetap yang bisa ditempel di src: kalau ada, video berbayar bisa
+   diunduh siapa pun yang menerima tautannya, dan beda antara bagian gratis dan
+   bagian berbayar hilang tanpa satu pun layar berubah.
+   --------------------------------------------------------------------------- */
+async function pasangPemutar(kotak, b){
+  const jenis = b.jenis;
+  const bingkai = document.createElement('div');
+  bingkai.className = 'putar';
+  kotak.appendChild(bingkai);
+
+  const tunggu = document.createElement('p');
+  tunggu.className = 'ket';
+  tunggu.textContent = T('Menyiapkan pemutar…', 'Preparing the player…');
+  bingkai.appendChild(tunggu);
+
+  let sumber = null, contoh = false, transkrip = null;
+
+  if(b.media && b.media.jalur){
+    try{
+      const md = await import('./assets/media.js');
+      sumber = await md.tautanPutar(b.media.jalur);
+      transkrip = b.media.transkrip || null;
+    }catch(e){ sumber = null; }
+  }
+  if(!sumber && b.contoh){ sumber = b.contoh; contoh = true; }
+
+  bingkai.innerHTML = '';
+
+  if(!sumber){
+    const p = document.createElement('p');
+    p.className = 'ket';
+    p.textContent = T(
+      'Bagian ini bertipe ' + T(JENIS[jenis].id, JENIS[jenis].en).toLowerCase() + ', tetapi berkasnya belum diunggah trainernya.',
+      'This part is typed ' + JENIS[jenis].en.toLowerCase() + ', but its file has not been uploaded by the trainer yet.');
+    bingkai.appendChild(p);
+    return;
+  }
+
+  const el = document.createElement(jenis === 'video' ? 'video' : 'audio');
+  el.controls = true;
+  el.preload = 'metadata';
+  el.playsInline = true;
+  el.setAttribute('aria-label', b.judul);
+  /* Dua sumber, bukan satu. WEBM lebih dulu karena ia jalan di setiap peramban
+     berbasis Chromium termasuk yang dibangun tanpa codec berbayar, dan MP4 jadi
+     cadangannya untuk Safari lama. Satu src tunggal berformat MP4 tampak jalan
+     di mesin penulisnya lalu diam saja di sebagian perangkat pengguna. */
+  const daftar = Array.isArray(sumber) ? sumber : [sumber];
+  if(daftar.length === 1){
+    el.src = daftar[0];
+  }else{
+    daftar.forEach(u => {
+      const s = document.createElement('source');
+      s.src = u;
+      const e = (u.split('.').pop() || '').toLowerCase();
+      const tipe = { webm:'video/webm', mp4:'video/mp4', mov:'video/quicktime',
+                     mp3:'audio/mpeg', m4a:'audio/mp4', wav:'audio/wav', ogg:'audio/ogg' }[e];
+      if(tipe) s.type = tipe;
+      el.appendChild(s);
+    });
+  }
+  bingkai.appendChild(el);
+
+  if(contoh){
+    const ket = document.createElement('p');
+    ket.className = 'ket';
+    ket.textContent = T(
+      'Klip ini contoh tampilan pemutarnya, bukan materi modul. Video sungguhannya diunggah trainer dan tayang di tempat yang sama persis.',
+      'This clip shows what the player looks like, not the module content. The real video is uploaded by the trainer and plays in exactly this spot.');
+    bingkai.appendChild(ket);
+    return;
+  }
+
+  if(transkrip && transkrip.status === 'siap' && transkrip.teks){
+    const det = document.createElement('details');
+    det.className = 'transkrip';
+    const sum = document.createElement('summary');
+    sum.textContent = T('Baca transkripnya', 'Read the transcript');
+    const tx = document.createElement('div');
+    tx.className = 'teks';
+    tx.textContent = transkrip.teks;
+    const draf = document.createElement('p');
+    draf.className = 'draf';
+    draf.textContent = T(
+      'Transkrip ini didraf mesin lalu dibaca ulang trainernya. Kalau ada yang janggal, yang benar adalah suaranya.',
+      'This transcript is drafted by machine and reviewed by the trainer. Where it reads oddly, the audio is what counts.');
+    det.append(sum, tx, draf);
+    kotak.appendChild(det);
+  }
 }
 
 /* Urutan biaya dan nilai. Untuk pengunjung yang belum masuk, aksi paling menonjol adalah

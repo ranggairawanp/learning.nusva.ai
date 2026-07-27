@@ -210,7 +210,7 @@ export const KATALOG = [
     bagian:[
       { judul:'Kenapa uraian jabatan sering jadi dokumen mati', menit:4, jenis:'artikel', buka:true },
       { judul:'Anatomi uraian jabatan yang terpakai', menit:6, jenis:'artikel', buka:true },
-      { judul:'Contoh dikerjakan: jabatan Staf Payroll', menit:8, jenis:'video', buka:false },
+      { judul:'Contoh dikerjakan: jabatan Staf Payroll', menit:8, jenis:'video', buka:false, contoh:['assets/contoh/pemutar-contoh.webm','assets/contoh/pemutar-contoh.mp4'] },
       { judul:'Latihan mandiri: susun satu uraian jabatan', menit:10, jenis:'latihan', buka:false },
       { judul:'Terapkan di pekerjaan Anda', menit:5, jenis:'artikel', buka:false }
     ] },
@@ -223,7 +223,7 @@ export const KATALOG = [
     bagian:[
       { judul:'Beban kerja bukan perasaan sibuk', menit:4, jenis:'artikel', buka:true },
       { judul:'Metode dan datanya', menit:7, jenis:'artikel', buka:false },
-      { judul:'Contoh dikerjakan: gudang 40 orang', menit:12, jenis:'video', buka:false },
+      { judul:'Contoh dikerjakan: gudang 40 orang', menit:12, jenis:'video', buka:false, contoh:['assets/contoh/pemutar-contoh.webm','assets/contoh/pemutar-contoh.mp4'] },
       { judul:'Latihan mandiri', menit:12, jenis:'latihan', buka:false },
       { judul:'Menyampaikan hasilnya', menit:9, jenis:'artikel', buka:false }
     ] },
@@ -235,7 +235,7 @@ export const KATALOG = [
     ringkas:'Menyampaikan hal yang tidak enak didengar tanpa merusak hubungan kerja, dilatih lewat simulasi percakapan.',
     bagian:[
       { judul:'Kenapa kita menunda percakapan sulit', menit:5, jenis:'artikel', buka:true },
-      { judul:'Membuka percakapan tanpa menyerang', menit:8, jenis:'video', buka:true },
+      { judul:'Membuka percakapan tanpa menyerang', menit:8, jenis:'video', buka:true, contoh:['assets/contoh/pemutar-contoh.webm','assets/contoh/pemutar-contoh.mp4'] },
       { judul:'Simulasi: menyampaikan kinerja yang turun', menit:10, jenis:'latihan', buka:false },
       { judul:'Menutup dengan kesepakatan', menit:7, jenis:'artikel', buka:false },
       { judul:'Terapkan minggu ini', menit:8, jenis:'artikel', buka:false }
@@ -249,7 +249,7 @@ export const KATALOG = [
     bagian:[
       { judul:'Kenapa keliru hitung upah jadi mahal', menit:4, jenis:'artikel', buka:true },
       { judul:'Komponen upah dan dasar hukumnya', menit:9, jenis:'artikel', buka:false },
-      { judul:'Contoh hitung lembur', menit:10, jenis:'video', buka:false },
+      { judul:'Contoh hitung lembur', menit:10, jenis:'video', buka:false, contoh:['assets/contoh/pemutar-contoh.webm','assets/contoh/pemutar-contoh.mp4'] },
       { judul:'Latihan mandiri: satu siklus penuh', menit:14, jenis:'latihan', buka:false },
       { judul:'Menyiapkan berkas untuk audit', menit:9, jenis:'artikel', buka:false }
     ] }

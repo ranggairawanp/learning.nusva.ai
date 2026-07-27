@@ -534,10 +534,11 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
 
       <div class="sect">
         <h2 data-en="Upload Document">Upload Document</h2>
-        <p class="cap" data-en="Materi is the one thing we need: PPTX or PDF. Upload a video and we pull the audio out and draft the transcript, then you read it over.">Yang wajib cuma materi: PPTX atau PDF. Unggah video, audionya kami tarik keluar dan transkripnya kami draf, lalu Anda baca ulang.</p>
+        <p class="cap" data-en="The one required thing is material: PPTX or PDF. Video and audio are optional. Each one you upload gets sent for an automatic draft transcript, which you read over before publishing.">Yang wajib cuma materi: PPTX atau PDF. Video dan audio opsional. Tiap berkas yang diunggah dikirim untuk didraf transkripnya otomatis, dan Anda yang membacanya ulang sebelum terbit.</p>
         <div class="pills" style="margin-top:10px" id="pillKat">
           <button class="pill" aria-pressed="true" onclick="setKat('materi',this)" data-en="Materi (PPTX/PDF)">Materi (PPTX/PDF)</button>
           <button class="pill" aria-pressed="false" onclick="setKat('tools',this)" data-en="Work tools (DOCX/XLSX/PPTX/PDF)">Bahan/alat kerja (DOCX/XLSX/PPTX/PDF)</button>
+          <button class="pill" aria-pressed="false" onclick="setKat('media',this)" data-en="Video / audio">Video / audio</button>
         </div>
         <div class="dz" id="dz" ondragover="hot(event,1)" ondragleave="hot(event,0)" ondrop="jatuh(event)">
           <b id="dzTitle"></b><span id="dzHint"></span>
@@ -677,8 +678,19 @@ const SEG=[
  ['dosen',{id:'Dosen',en:'Lecturer'},null],['mahasiswa',{id:'Mahasiswa/i',en:'Students'},null],
  ['fresh',{id:'Fresh Graduate',en:'Fresh Graduate'},null]];
 const segNama=x=>typeof x==='string'?x:(lang==='en'?x.en:x.id);
-const WHITE={materi:['pdf','pptx'],tools:['pdf','docx','xlsx','pptx']};
-const MAKS={materi:20*1024*1024,tools:20*1024*1024};
+/* Daftar tipe berkas. Untuk media, angkanya HARUS sama dengan MAKS_MEDIA di
+   assets/media.js dan file_size_limit bucket di supabase/03-media-modul.sql.
+   Tiga tempat memang tidak ideal, tapi dua di antaranya di luar peramban, dan
+   yang paling merusak adalah batas peramban yang lebih longgar daripada batas
+   server: unggahan berjalan lama lalu ditolak di ujung. */
+const WHITE={materi:['pdf','pptx'],tools:['pdf','docx','xlsx','pptx'],
+             media:['mp4','webm','mov','m4v','mp3','m4a','wav','ogg']};
+const MAKS={materi:20*1024*1024,tools:20*1024*1024,media:500*1024*1024};
+/* Batas layanan transkrip. Bukan untuk menolak berkas, cuma untuk memberi tahu
+   sejak awal bahwa berkas sebesar ini tidak akan dapat transkrip otomatis. */
+const MAKS_TRANSKRIP=25*1024*1024;
+const EKST_VIDEO=['mp4','webm','mov','m4v'];
+const jenisMedia=e=>EKST_VIDEO.includes(e)?'video':'audio';
 const rp=n=>new Intl.NumberFormat('id-ID').format(n);
 const t=(id,en)=>lang==='en'?en:id;
 
@@ -1421,9 +1433,11 @@ function togTes(k,el){ S[k].on=!S[k].on; el.setAttribute('aria-pressed',String(S
 function setKat(v,el){
   S.kat=v; if(el) el.parentElement.querySelectorAll('.pill').forEach(b=>b.setAttribute('aria-pressed',String(b===el)));
   const t={materi:{id:'Upload materi PPTX atau PDF',en:'Upload PPTX or PDF material'},
-           tools:{id:'Upload bahan/alat kerja DOCX, XLSX, PPTX, PDF',en:'Upload work tools DOCX, XLSX, PPTX, PDF'}}[v];
+           tools:{id:'Upload bahan/alat kerja DOCX, XLSX, PPTX, PDF',en:'Upload work tools DOCX, XLSX, PPTX, PDF'},
+           media:{id:'Upload video atau audio',en:'Upload video or audio'}}[v];
   const h={materi:'PPTX · PDF · '+(lang==='en'?'max 20 MB':'maks 20 MB'),
-           tools:'DOCX · XLSX · PPTX · PDF · '+(lang==='en'?'max 20 MB':'maks 20 MB')}[v];
+           tools:'DOCX · XLSX · PPTX · PDF · '+(lang==='en'?'max 20 MB':'maks 20 MB'),
+           media:'MP4 · WEBM · MOV · MP3 · M4A · WAV · '+(lang==='en'?'max 500 MB':'maks 500 MB')}[v];
   $('dzTitle').textContent = lang==='en'?t.en:t.id; $('dzHint').textContent=h;
 }
 function hot(e,on){ e.preventDefault(); $('dz').classList.toggle('hot',!!on); }
@@ -1437,6 +1451,15 @@ function terima(files){
     const ada=S.dok.find(d=>d.nama===f.name && d.kat===S.kat);
     if(ada){ ada.versi++; ada.ukuran=f.size; }
     else { const rec={nama:f.name,ukuran:f.size,ext,kat:S.kat,versi:1,prev:null};
+      if(S.kat==='media'){
+        rec.jenis=jenisMedia(ext);
+        rec.durasi=null;
+        /* Berkas di atas batas layanan transkrip tetap diterima. Yang berubah
+           cuma statusnya, dan alasannya dinyatakan, bukan dibiarkan menggantung
+           di antrean yang tidak akan pernah selesai. */
+        rec.transkrip = f.size>MAKS_TRANSKRIP ? 'terlalu-besar' : 'menunggu';
+        bacaDurasi(f).then(d=>{ rec.durasi=d; gambarDok(); segarkanCueLatihan(); cek(); });
+      }
       S.dok.push(rec);
       window.__pratinjauBerkas(f).then(p=>{ if(p){ rec.prev=p; gambarDok(); } }); }
   });
@@ -1444,6 +1467,37 @@ function terima(files){
   if(tolak) toast(lang==='en'?tolak+' file rejected: type or size not allowed'
                              :tolak+' berkas ditolak: tipe atau ukuran tidak diizinkan');
 }
+
+/* Durasi dibaca dari metadata berkasnya sendiri, di peramban, sebelum apa pun
+   dikirim. Sebelum ini menit tiap bagian cuma angka ketikan trainer, dan angka
+   ketikan meleset selalu ke arah yang sama, yaitu terlalu pendek. Batas waktu
+   delapan detik ada karena berkas rusak kadang tidak memicu loadedmetadata
+   maupun error, dan tanpa itu janjinya menggantung selamanya. */
+function bacaDurasi(file){
+  return new Promise(resolve=>{
+    const ext=(file.name.split('.').pop()||'').toLowerCase();
+    const el=document.createElement(jenisMedia(ext)==='video'?'video':'audio');
+    const url=URL.createObjectURL(file);
+    const selesai=v=>{ URL.revokeObjectURL(url); resolve(v); };
+    el.preload='metadata';
+    el.onloadedmetadata=()=>selesai(isFinite(el.duration)&&el.duration>0?Math.round(el.duration):null);
+    el.onerror=()=>selesai(null);
+    setTimeout(()=>selesai(null),8000);
+    el.src=url;
+  });
+}
+const jamMenit=d=>d==null?null:Math.floor(d/60)+':'+String(d%60).padStart(2,'0');
+
+/* Kata-kata status transkrip. 'siap' sengaja berbunyi "draf siap dibaca ulang",
+   tidak pernah "transkrip selesai", karena yang keluar dari mesin memang belum
+   pernah dilihat manusia. */
+const KATA_TRANSKRIP={
+  menunggu:{id:'transkrip menunggu antrean',en:'transcript queued'},
+  diproses:{id:'transkrip sedang dibuat',en:'transcript in progress'},
+  siap:{id:'draf transkrip siap dibaca ulang',en:'draft transcript ready to review'},
+  gagal:{id:'transkrip gagal',en:'transcript failed'},
+  'terlalu-besar':{id:'di atas 25 MB, transkrip otomatis dilewati',en:'over 25 MB, automatic transcript skipped'}
+};
 /* Sampul: diunggah trainer, atau dibangkitkan dari judul supaya tidak pernah kosong. */
 function gambarSampul(){
   const img=$('sampulPrev'); if(!img) return;
@@ -1472,14 +1526,26 @@ function hapusSampul(){ S.sampul=null; gambarSampul(); cek(); }
 
 function gambarDok(){
   const box=$('listDok'); box.innerHTML='';
-  const nm={materi:'Materi',tools:lang==='en'?'Work tools':'Bahan/alat kerja'};
+  const nm={materi:'Materi',tools:lang==='en'?'Work tools':'Bahan/alat kerja',
+            media:lang==='en'?'Video / audio':'Video / audio'};
   S.dok.forEach((d,i)=>{
     const uk=d.ukuran<1048576?Math.max(1,Math.round(d.ukuran/1024))+' KB':(d.ukuran/1048576).toFixed(1)+' MB';
+    const bagian=[nm[d.kat], uk];
+    if(d.kat==='media'){
+      const jm=jamMenit(d.durasi);
+      if(jm) bagian.splice(1,0,jm);
+      const kt=KATA_TRANSKRIP[d.transkrip];
+      if(kt) bagian.push(lang==='en'?kt.en:kt.id);
+    }else{
+      bagian.push('v'+d.versi);
+    }
     const el=document.createElement('div'); el.className='fitem';
     el.innerHTML='<img class="fthumb" alt="" src="'+(d.prev||window.__ikonBerkas(d.ext,44))+'">'+
-      '<span class="nm"><b></b><span>'+nm[d.kat]+' · '+uk+' · v'+d.versi+'</span></span>'+
+      '<span class="nm"><b></b><span></span></span>'+
       '<button class="x" aria-label="Hapus" onclick="hapus(\'dok\','+i+')">&times;</button>';
-    el.querySelector('b').textContent=d.nama; box.appendChild(el);
+    el.querySelector('b').textContent=d.nama;
+    el.querySelector('.nm span').textContent=bagian.join(' · ');
+    box.appendChild(el);
   });
 }
 
@@ -1542,6 +1608,23 @@ function aturan(){
    {t:{id:'Sumber dan hak pakai materi',en:'Source and rights to the material'},ok:S.hak && S.sumber.length>=10,
     kur:{id:'Sebutkan asal materinya, lalu centang pernyataan hak. Memakai kerangka orang lain itu boleh; yang tidak boleh adalah tidak menyebutkannya.',en:'Say where the material came from, then tick the rights statement. Using someone else framework is fine; not saying so is not.'}},
   ];
+  /* Sebelum aturan ini ada, trainer bisa menandai sebuah sub-modul bertipe Video
+     atau Audio, lolos seluruh gerbang, lalu modulnya terbit tanpa berkas media
+     apa pun. Pesertanya membuka bagian bertanda Video dan tidak menemukan video.
+     Aturannya baru muncul kalau memang ada sub-modul bertipe itu, jadi modul
+     yang seluruhnya berupa bacaan tidak pernah melihat baris ini. */
+  const partMedia = S.parts.filter(p=>p.jenis==='video'||p.jenis==='audio');
+  if(partMedia.length){
+    const jml = S.dok.filter(d=>d.kat==='media').length;
+    L.push({t:{id:'Berkas video atau audio terunggah',en:'Video or audio file uploaded'},
+      ok: jml>=1,
+      kur:{id:'Ada '+partMedia.length+' sub-modul bertipe video atau audio, tapi belum ada satu pun berkasnya. Unggah di bagian Video / audio, atau ubah tipe sub-modulnya jadi Artikel.',
+           en:'There are '+partMedia.length+' sub-modules typed video or audio, but no file yet. Upload one under Video / audio, or change the sub-module type to Article.'},
+      cat: jml>=1 && jml<partMedia.length
+        ? {id:jml+' berkas untuk '+partMedia.length+' sub-modul bertipe media. Pastikan tiap bagian punya berkasnya sendiri.',
+           en:jml+' files for '+partMedia.length+' media sub-modules. Make sure each part has its own file.'}
+        : null});
+  }
   if(S.jenis==='teknis'&&S.basis==='skkni'){
     L.push({t:{id:'Pemetaan kriteria SKKNI',en:'SKKNI criteria mapping'},ok:S.kuk.length>=1||S.usulKuk.length>=1,
       kur:{id:'Centang KUK yang dilatih, atau petakan unit usulan.',en:'Tick the KUK trained, or map a proposed unit.'}});
@@ -1562,7 +1645,10 @@ function cek(){
     d.innerHTML=`<span class="dot">${x.ok
       ?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
       :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"><path d="M12 7v7"/><path d="M12 17.6v.2"/></svg>'}</span>
-      <span class="tx"><b>${lang==='en'?x.t.en:x.t.id}</b>${x.ok?'':`<span>${lang==='en'?x.kur.en:x.kur.id}</span>`}</span>`;
+      <span class="tx"><b>${lang==='en'?x.t.en:x.t.id}</b>${
+        x.ok
+          ? (x.cat ? `<span>${lang==='en'?x.cat.en:x.cat.id}</span>` : '')
+          : `<span>${lang==='en'?x.kur.en:x.kur.id}</span>`}</span>`;
     box.appendChild(d);
   });
   const tot=S.parts.reduce((a,b)=>a+b.mnt,0);
@@ -1571,11 +1657,21 @@ function cek(){
   const qPre=S.parts.filter((p,i)=>p.quiz.on && posisiQuiz(i)==='sebelum').length;
   const qPost=qPart-qPre;
   const tools=S.dok.filter(d=>d.kat==='tools').length;
+  const media=S.dok.filter(d=>d.kat==='media');
+  const detikMedia=media.reduce((a,d)=>a+(d.durasi||0),0);
+  const rekapMedia = media.length
+    ? (lang==='en'
+        ? ` Video and audio ${media.length} file(s)${detikMedia?`, ${Math.round(detikMedia/60)} min of playback`:''}.`
+        : ` Video dan audio ${media.length} berkas${detikMedia?`, ${Math.round(detikMedia/60)} mnt tayang`:''}.`)
+    : '';
+  /* Kalimat rekap ini pernah berbunyi "Rubrik: N baris dinilai terhadap ...", sisa
+     dari model penilaian yang sudah dicabut. Nusva tidak menilai apa pun selain
+     quiz, jadi yang disebut di sini tujuan pembelajarannya, bukan penilaiannya. */
   const jalur = S.jenis==='perilaku' ? (lang==='en'?'behaviour indicators':'indikator perilaku')
-    : (S.basis==='skkni' ? (lang==='en'?'KUK criteria':'kriteria KUK') : (lang==='en'?'your own criteria':'kriteria Anda sendiri'));
+    : (S.basis==='skkni' ? (lang==='en'?'KUK criteria':'kriteria KUK') : (lang==='en'?'your own wording':'rumusan Anda sendiri'));
   $('prevText').textContent = lang==='en'
-    ? `${S.parts.length} sub-module(s), ${tot} min in total, ${S.parts.filter(p=>p.gratis).length} open before purchase, ${qPart} with a checkpoint quiz (${qSoal} question(s)) and ${dPart} with discussion. Placement is derived from the order: ${qPre} run before the material is read, ${qPost} after. The correct answer is revealed the moment they answer, and all of it comes back the next morning. Materials ${S.dok.filter(d=>d.kat==='materi').length} file(s), work tools ${tools}. Rubric: ${S.kriteria.length} row(s) judged against ${jalur}. Tes Awal ${S.pre.on?'on':'off'}, Tes Akhir ${S.post.on?'on':'off'}.`
-    : `${S.parts.length} sub-modul, total ${tot} mnt, ${S.parts.filter(p=>p.gratis).length} bagian terbuka sebelum dibeli, ${qPart} punya quiz checkpoint (${qSoal} soal) dan ${dPart} punya diskusi. Penempatannya diderivasi dari urutan: ${qPre} jalan sebelum materinya dibaca, ${qPost} sesudah. Jawaban benarnya diperlihatkan begitu mereka menjawab, dan semuanya datang lagi besok pagi. Materi ${S.dok.filter(d=>d.kat==='materi').length} berkas, alat kerja ${tools}. Rubrik: ${S.kriteria.length} baris dinilai terhadap ${jalur}. Tes Awal ${S.pre.on?'aktif':'tidak'}, Tes Akhir ${S.post.on?'aktif':'tidak'}.`;
+    ? `${S.parts.length} sub-module(s), ${tot} min in total, ${S.parts.filter(p=>p.gratis).length} open before purchase, ${qPart} with a checkpoint quiz (${qSoal} question(s)) and ${dPart} with discussion. Placement is derived from the order: ${qPre} run before the material is read, ${qPost} after. The correct answer is revealed the moment they answer, and all of it comes back the next morning. Materials ${S.dok.filter(d=>d.kat==='materi').length} file(s), work tools ${tools}.${rekapMedia} Learning objectives: ${S.kriteria.length} written from ${jalur}. Tes Awal ${S.pre.on?'on':'off'}, Tes Akhir ${S.post.on?'on':'off'}.`
+    : `${S.parts.length} sub-modul, total ${tot} mnt, ${S.parts.filter(p=>p.gratis).length} bagian terbuka sebelum dibeli, ${qPart} punya quiz checkpoint (${qSoal} soal) dan ${dPart} punya diskusi. Penempatannya diderivasi dari urutan: ${qPre} jalan sebelum materinya dibaca, ${qPost} sesudah. Jawaban benarnya diperlihatkan begitu mereka menjawab, dan semuanya datang lagi besok pagi. Materi ${S.dok.filter(d=>d.kat==='materi').length} berkas, alat kerja ${tools}.${rekapMedia} Tujuan pembelajaran: ${S.kriteria.length} baris, ditulis dari ${jalur}. Tes Awal ${S.pre.on?'aktif':'tidak'}, Tes Akhir ${S.post.on?'aktif':'tidak'}.`;
   aturFoot();
 }
 function terbit(){

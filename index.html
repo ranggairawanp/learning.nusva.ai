@@ -71,6 +71,14 @@ html[data-theme="dark"] .hero::after{background:
 .jabatan button:hover{text-decoration-color:var(--accent)}
 .jabatan .pisah{color:var(--ink-3);margin:0 7px}
 
+/* Jalan masuk kedua untuk orang yang belum punya kata kunci apa pun di kepalanya.
+   Sengaja satu baris teks kecil di bawah pintasan peran, bukan tombol ketiga, supaya
+   tidak ikut bersaing dengan dua tombol yang sudah ada di hero. */
+.panduanjalan{font-size:12.5px;margin:9px 0 0}
+.panduanjalan a{color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:color-mix(in srgb,var(--ink-2) 35%,transparent)}
+.panduanjalan a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+
 /* ---------- bilah kerja katalog ---------- */
 .kerja{position:sticky;top:var(--nav);z-index:30;border-bottom:1px solid var(--border);
   background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:saturate(180%) blur(18px)}
@@ -191,11 +199,6 @@ a.mod .rule{height:1px;background:var(--border);margin-top:15px}
 .pita .btn-quiet{border-color:rgba(255,255,255,.45);color:#fff}
 .pita .cta{margin-top:0;flex-direction:column;align-items:stretch}
 
-.akun{display:flex;gap:9px;align-items:center;font-size:13px;color:var(--ink-2)}
-.akun .ini{width:30px;height:30px;border-radius:50%;background:var(--surface-3);color:var(--ink-2);
-  display:grid;place-items:center;font-size:11.5px;font-weight:800;flex:none}
-.akun .nm{max-width:22ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:var(--w-body-strong)}
-@media (max-width:640px){ .akun .nm{display:none} }
 </style>
 </head>
 <body>
@@ -223,6 +226,7 @@ a.mod .rule{height:1px;background:var(--border);margin-top:15px}
            bukan chip, supaya terbaca sebagai pintasan dan tidak menambah satu lagi permukaan
            kendali di halaman yang kendalinya justru sedang dikurangi. -->
       <p class="jabatan" id="jabatan"></p>
+      <p class="panduanjalan"><a href="belajar.html#panduan" data-en="Not sure where to start? Three questions is usually enough.">Belum tahu mulai dari mana? Tiga pertanyaan biasanya cukup.</a></p>
   </div>
 </section>
 

@@ -12,7 +12,7 @@
 <style>
 main{padding:26px 0 72px}
 .sapa{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
-h1{font-size:clamp(26px,3.4vw,38px);margin:10px 0 0;max-width:22ch}
+h1{font-size:clamp(26px,3.4vw,38px);margin:10px 0 0;max-width:27ch}
 .lead{font-size:14.5px;color:var(--ink-2);margin:10px 0 0;max-width:58ch;line-height:1.6}
 .grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;margin-top:26px;align-items:start}
 @media (max-width:900px){ .grid{grid-template-columns:1fr} }
@@ -21,6 +21,40 @@ h1{font-size:clamp(26px,3.4vw,38px);margin:10px 0 0;max-width:22ch}
 .bhd{display:flex;gap:10px;align-items:center;padding:14px 17px;border-bottom:1px solid var(--border)}
 .bhd h2{flex:1;font-size:15.5px;font-weight:var(--w-subhead);margin:0}
 .bbd{padding:16px 17px 18px}
+
+/* panduan, penunjuk arah belajar */
+.panduan .lang{font-size:11px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
+.panduan .tanya{font-size:17.5px;font-weight:var(--w-subhead);line-height:1.38;margin:8px 0 0;letter-spacing:-.012em}
+.pil{display:grid;gap:8px;margin-top:14px}
+/* Pilihan yang isinya cuma satu atau dua kata tidak perlu satu baris penuh masing-masing.
+   Yang punya kalimat penjelas tetap bertumpuk, karena kalimatnya harus terbaca utuh. */
+.pil.rapat{display:flex;flex-wrap:wrap;gap:8px}
+.pil.rapat button{width:auto;padding:9px 15px}
+.pil button{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--border);
+  border-radius:11px;padding:11px 14px;cursor:pointer;transition:border-color .16s ease,background .16s ease}
+.pil button:hover{border-color:var(--accent);background:var(--accent-tint)}
+.pil button b{display:block;font-size:14.5px;font-weight:var(--w-body-strong);color:var(--ink)}
+.pil button span{display:block;font-size:12.5px;color:var(--ink-3);margin-top:3px;line-height:1.45}
+.panduan .balik{margin-top:12px;font-size:12.5px}
+.panduan .balik button{border:0;background:none;padding:0;color:var(--ink-2);font-size:12.5px;
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+
+.saran{display:flex;gap:13px;align-items:flex-start;text-decoration:none;color:inherit}
+.saran img{width:96px;height:54px;object-fit:cover;border-radius:9px;background:var(--surface-3);
+  border:1px solid var(--border);flex:none}
+.saran .jd{font-size:16px;font-weight:var(--w-subhead);line-height:1.32;margin:0;letter-spacing:-.012em}
+.saran:hover .jd{color:var(--accent)}
+.saran .mt{font-size:12px;color:var(--ink-3);margin:6px 0 0}
+.karena{font-size:13px;color:var(--ink-2);line-height:1.55;margin:12px 0 0}
+.lain{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.lain > .lang{display:block;margin-bottom:9px}
+.lain a{display:flex;gap:10px;align-items:center;text-decoration:none;color:inherit;padding:8px 0}
+.lain a + a{border-top:1px dashed var(--border)}
+.lain a b{flex:1;min-width:0;font-size:13.5px;font-weight:var(--w-body-strong);text-decoration:none;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lain a:hover b{color:var(--accent)}
+.lain a span{font-size:12px;color:var(--ink-3);flex:none}
+.jujur{font-size:12px;color:var(--ink-3);line-height:1.5;margin:14px 0 0}
 
 /* daily recall */
 .recall{background:var(--grad-pasang);color:#fff;border:0}
@@ -46,19 +80,22 @@ h1{font-size:clamp(26px,3.4vw,38px);margin:10px 0 0;max-width:22ch}
 .jhari{display:flex;gap:7px;margin-top:6px}
 .jhari span{flex:1;text-align:center;font-size:10.5px;color:var(--ink-3);font-weight:var(--w-caption)}
 
-/* katalog */
-.kat{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px;margin-top:18px}
-a.mod{display:flex;flex-direction:column;text-decoration:none;color:inherit;background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;height:100%;
-  transition:border-color .18s ease,transform .18s var(--spring)}
+/* katalog
+   Kartunya dibuat sama persis dengan yang di beranda: tanpa padding samping dan tanpa
+   border, supaya teksnya mulai di tepi kolomnya sendiri dan sejajar dengan judul seksi
+   di atasnya. Kartu berbingkai membuat sumbu kiri halaman ini pecah jadi dua. */
+.kat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 22px;margin-top:18px}
+@media (max-width:640px){ .kat{grid-template-columns:1fr;gap:24px} }
+a.mod{display:flex;flex-direction:column;text-decoration:none;color:inherit;background:transparent;height:100%}
+a.mod .gb{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface-3);
+  border-radius:var(--r-card);border:1px solid var(--border);transition:transform .3s var(--spring)}
+a.mod:hover .gb{transform:translateY(-3px)}
 a.mod .isi{display:flex;flex-direction:column;flex:1}
-a.mod .ft{margin-top:auto}
-a.mod:hover{border-color:var(--accent);transform:translateY(-2px)}
-a.mod .gb{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--surface-3)}
-a.mod .isi{padding:14px 15px 16px}
-a.mod .tg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-a.mod h3{font-size:15.5px;font-weight:var(--w-subhead);line-height:1.35;margin:0}
-a.mod .ft{display:flex;gap:10px;align-items:baseline;margin-top:11px;font-size:12px;color:var(--ink-3)}
+a.mod .tg{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px}
+a.mod h3{font-size:15.5px;font-weight:var(--w-subhead);line-height:1.35;margin:9px 0 0;letter-spacing:-.012em}
+a.mod:hover h3{color:var(--accent)}
+a.mod .ft{display:flex;gap:10px;align-items:baseline;margin-top:auto;padding-top:11px;
+  font-size:12px;color:var(--ink-3)}
 a.mod .ft .hrg{margin-left:auto;font-size:14.5px;font-weight:800;color:var(--ink)}
 
 .baris{display:flex;gap:10px;align-items:center;padding:11px 0;border-top:1px dashed var(--border)}
@@ -79,13 +116,22 @@ a.mod .ft .hrg{margin-left:auto;font-size:14.5px;font-weight:800;color:var(--ink
   <div class="sapa">
     <div>
       <span class="eyebrow" id="waktu">Selamat pagi</span>
-      <h1 id="judul">Belum ada yang perlu diingat hari ini.</h1>
-      <p class="lead" id="lead">Begitu Anda mulai satu modul, halaman ini berubah jadi tempat paling pendek yang perlu Anda buka tiap hari: dua pertanyaan, tiga puluh detik, lalu selesai.</p>
+      <h1 id="judul">Belum ada modul yang berjalan.</h1>
+      <p class="lead" id="lead">Tiga pertanyaan di bawah cukup untuk menentukan mulai dari mana.</p>
     </div>
   </div>
 
   <div class="grid">
     <div>
+      <!-- Panduan: tiga pertanyaan, lalu satu modul untuk dimulai -->
+      <section class="blok panduan" id="panduan" style="margin-bottom:14px">
+        <div class="bhd">
+          <h2 data-en="Where do I start">Mulai dari mana</h2>
+          <button class="btn btn-quiet sm" id="ulangPanduan" hidden data-en="Change answers">Ubah jawaban</button>
+        </div>
+        <div class="bbd" id="isiPanduan"></div>
+      </section>
+
       <!-- Daily Recall -->
       <section class="blok recall" id="recall">
         <div class="bhd">
@@ -177,6 +223,7 @@ a.mod .ft .hrg{margin-left:auto;font-size:14.5px;font-weight:800;color:var(--ink
 import { pasangKepala, pasangAkun, T, rp, nf, KATALOG, pengguna, pitaGalatMasuk } from './assets/app.js';
 import { pasangNav } from './assets/nav.js';
 import { sampulCadangan } from './assets/sampul.js';
+import { TAHAP, urutkan, bidangDari, peranDari, simpanJawaban, bacaJawaban, hapusJawaban } from './assets/panduan.js';
 
 pasangNav({ prefix:'' });
 pasangKepala();
@@ -191,6 +238,155 @@ function sapa(){
           : j < 19 ? {id:'Selamat sore',en:'Good afternoon'}
                    : {id:'Selamat malam',en:'Good evening'};
   document.getElementById('waktu').textContent = T(t.id, t.en);
+
+  /* Judul dan lead ditulis dari JS, bukan dari data-en, karena isinya ikut berubah
+     begitu Panduan sudah dijawab. Dua mekanisme penukar bahasa di satu elemen selalu
+     berakhir dengan salah satu menimpa yang lain. */
+  const sudah = !!(jawaban.peran && jawaban.bidang && jawaban.tahap);
+  document.getElementById('judul').textContent = sudah
+    ? T('Sudah ada arahnya.', 'You have a direction now.')
+    : T('Belum ada modul yang berjalan.', 'Nothing running yet.');
+  document.getElementById('lead').textContent = sudah
+    ? T('Modul yang disarankan ada di bawah. Seluruh katalog tetap terbuka kalau Anda mau yang lain.',
+        'The suggested module is below. The whole catalogue stays open if you want something else.')
+    : T('Tiga pertanyaan di bawah cukup untuk menentukan mulai dari mana.',
+        'Three questions below are enough to work out where to start.');
+}
+
+/* ---------- Panduan: tiga pertanyaan, lalu satu modul untuk dimulai ----------
+   Pertanyaannya dibangun dari isi katalog, jadi bidang apa pun yang masuk besok
+   ikut muncul tanpa halaman ini disentuh lagi. Satu pertanyaan per layar supaya
+   yang menjawab tidak melihat tiga daftar sekaligus lalu menutup halamannya. */
+let jawaban = bacaJawaban() || {};
+let langkah = 0;
+
+function tanyaan(){
+  return [
+    { kunci:'peran',
+      t:{ id:'Anda menjawab ini sebagai siapa?', en:'You are answering this as?' },
+      opsi: peranDari(KATALOG).map(x => ({ nilai:x, t:{id:x,en:x} })) },
+    { kunci:'bidang',
+      t:{ id:'Bidang mana yang mau Anda kuatkan lebih dulu?', en:'Which field do you want to strengthen first?' },
+      opsi: bidangDari(KATALOG).map(x => ({ nilai:x, t:{id:x,en:x} })) },
+    { kunci:'tahap',
+      t:{ id:'Sejauh mana Anda sudah menjalankannya?', en:'How far have you taken it so far?' },
+      opsi: TAHAP.map(x => ({ nilai:x.id, t:x.t, k:x.k })) }
+  ];
+}
+
+function gambarPanduan(){
+  const box  = document.getElementById('isiPanduan');
+  const ulang = document.getElementById('ulangPanduan');
+  const daftar = tanyaan();
+  const lengkap = jawaban.peran && jawaban.bidang && jawaban.tahap;
+
+  /* .btn memasang display sendiri, jadi atribut hidden saja tidak menyembunyikannya. */
+  ulang.style.display = lengkap ? '' : 'none';
+  ulang.textContent = T('Ubah jawaban','Change answers');
+  ulang.onclick = () => { hapusJawaban(); jawaban = {}; langkah = 0; sapa(); gambarPanduan(); };
+
+  box.innerHTML = '';
+
+  if(!lengkap){
+    const q = daftar[Math.min(langkah, daftar.length - 1)];
+    const kepala = document.createElement('span');
+    kepala.className = 'lang';
+    kepala.textContent = T('Pertanyaan ' + (langkah + 1) + ' dari 3', 'Question ' + (langkah + 1) + ' of 3');
+    const judul = document.createElement('p');
+    judul.className = 'tanya';
+    judul.textContent = T(q.t.id, q.t.en);
+    const pil = document.createElement('div');
+    pil.className = q.opsi.some(o => o.k) ? 'pil' : 'pil rapat';
+    q.opsi.forEach(o => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      const bb = document.createElement('b'); bb.textContent = T(o.t.id, o.t.en); b.appendChild(bb);
+      if(o.k){ const s = document.createElement('span'); s.textContent = T(o.k.id, o.k.en); b.appendChild(s); }
+      b.onclick = () => {
+        jawaban[q.kunci] = o.nilai;
+        langkah++;
+        if(jawaban.peran && jawaban.bidang && jawaban.tahap) simpanJawaban(jawaban);
+        sapa(); gambarPanduan();
+      };
+      pil.appendChild(b);
+    });
+    box.append(kepala, judul, pil);
+
+    if(langkah > 0){
+      const kb = document.createElement('p'); kb.className = 'balik';
+      const b = document.createElement('button'); b.type = 'button';
+      b.textContent = T('Kembali','Back');
+      b.onclick = () => { langkah = Math.max(0, langkah - 1); gambarPanduan(); };
+      kb.appendChild(b); box.appendChild(kb);
+    }
+
+    const jujur = document.createElement('p'); jujur.className = 'jujur';
+    jujur.textContent = T(
+      'Ini bukan uji kompetensi dan tidak ada nilai yang keluar. Jawabannya cuma dipakai untuk mengurutkan katalog, dan tersimpan di perangkat Anda sendiri.',
+      'This is not a competency test and no score comes out of it. Your answers are only used to sort the catalogue, and they stay on your own device.');
+    box.appendChild(jujur);
+    return;
+  }
+
+  /* ---------- hasil ---------- */
+  const urut = urutkan(KATALOG, jawaban);
+  const utama = urut[0];
+  const lain  = urut.slice(1, 3);
+
+  const kepala = document.createElement('span');
+  kepala.className = 'lang';
+  kepala.textContent = T('Mulai dari sini','Start here');
+  box.appendChild(kepala);
+
+  const a = document.createElement('a');
+  a.className = 'saran'; a.href = 'modul.html?m=' + utama.modul.slug;
+  a.style.marginTop = '10px';
+  const img = document.createElement('img');
+  img.alt = ''; img.src = utama.modul.sampul || sampulCadangan(utama.modul.judul, utama.modul.slug, 320, 180);
+  const teks = document.createElement('div');
+  const h = document.createElement('p'); h.className = 'jd'; h.textContent = utama.modul.judul;
+  const mt = document.createElement('p'); mt.className = 'mt';
+  mt.textContent = utama.modul.bidang + ' · ' + utama.modul.tingkat + ' · ' +
+                   nf(utama.modul.menit) + ' ' + T('mnt','min') + ' · ' + rp(utama.modul.harga);
+  teks.append(h, mt); a.append(img, teks); box.appendChild(a);
+
+  if(utama.alasan.length){
+    const k = document.createElement('p'); k.className = 'karena';
+    const daftarAlasan = utama.alasan.map(x => T(x.id, x.en));
+    const rangkai = daftarAlasan.length > 1
+      ? daftarAlasan.slice(0, -1).join(', ') + T(', dan ',', and ') + daftarAlasan[daftarAlasan.length - 1]
+      : daftarAlasan[0];
+    k.textContent = T('Dipilihkan karena ' + rangkai + '.', 'Picked because ' + rangkai + '.');
+    box.appendChild(k);
+  }
+
+  const tb = document.createElement('a');
+  tb.className = 'btn btn-primary'; tb.style.marginTop = '14px';
+  tb.href = 'modul.html?m=' + utama.modul.slug;
+  tb.textContent = T('Buka modulnya','Open the module');
+  box.appendChild(tb);
+
+  if(lain.length){
+    const wrap = document.createElement('div'); wrap.className = 'lain';
+    const lb = document.createElement('span'); lb.className = 'lang';
+    lb.textContent = T('Kalau bukan itu','If not that one');
+    wrap.appendChild(lb);
+    lain.forEach(x => {
+      const el = document.createElement('a');
+      el.href = 'modul.html?m=' + x.modul.slug;
+      const b = document.createElement('b'); b.textContent = x.modul.judul;
+      const s = document.createElement('span');
+      s.textContent = nf(x.modul.menit) + ' ' + T('mnt','min') + ' · ' + rp(x.modul.harga);
+      el.append(b, s); wrap.appendChild(el);
+    });
+    box.appendChild(wrap);
+  }
+
+  const jujur = document.createElement('p'); jujur.className = 'jujur';
+  jujur.textContent = T(
+    'Urutan ini disusun dari jawaban Anda sendiri, bukan dari hasil pengukuran. Seluruh katalog tetap terbuka di bawah.',
+    'This order comes from your own answers, not from a measurement. The whole catalogue stays open below.');
+  box.appendChild(jujur);
 }
 
 /* ---------- contoh retrieval, boleh dicoba, tidak dicatat ---------- */
@@ -272,7 +468,7 @@ function gambarKatalog(){
   });
 }
 
-function gambarSemua(){ sapa(); gambarRecall(); gambarJejak(); gambarModulSaya(); gambarKatalog(); }
+function gambarSemua(){ sapa(); gambarPanduan(); gambarRecall(); gambarJejak(); gambarModulSaya(); gambarKatalog(); }
 document.addEventListener('nusva:bahasa', gambarSemua);
 gambarSemua();
 </script>
