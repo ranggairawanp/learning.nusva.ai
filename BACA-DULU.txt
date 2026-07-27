@@ -1,0 +1,42 @@
+Delta ikon Nusva Learning · 27 Juli 2026
+Target: proyek learning-nusva-ai di Vercel
+
+Seluruh isi situs yang sudah tayang SAMA PERSIS dengan hasil kerja kita, kecuali
+satu hal: ikon tab. Diperiksa berkas per berkas terhadap situs yang sedang
+tayang, 26 berkas identik sampai ke hash-nya, 13 berkas perlu diperbarui.
+
+Salin 13 berkas di dalam arsip ini ke repo, timpa yang lama, lalu push.
+
+EMPAT BERKAS BARU
+  assets/logo-mark.svg          tanda N persegi, mengisi 97 persen kanvas
+  assets/logo-mark-dark.svg     varian untuk bar tab gelap
+  assets/favicon-32.png         cadangan untuk peramban lawas
+  assets/apple-touch-icon.png   180 piksel, latar putih, untuk layar utama iOS
+
+SEMBILAN HALAMAN
+  index.html  belajar.html  modul.html  masuk.html  perusahaan.html
+  dokumen.html  trainer.html  trainer/dashboard.html  trainer/modul.html
+
+  Ketiganya berubah HANYA pada satu blok yang sama. Yang lama:
+
+      <link rel="icon" href="assets/logo-color.svg">
+
+  Diganti empat baris (tambahkan ../ di depan assets untuk dua berkas di
+  dalam folder trainer/):
+
+      <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
+      <link rel="icon" href="assets/logo-mark-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+      <link rel="icon" href="assets/favicon-32.png" sizes="32x32">
+      <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  Tidak ada baris lain yang berubah di kesembilan berkas itu.
+
+SESUDAH DEPLOY
+  Peramban menyimpan favicon dengan sangat keras. Kalau masih terlihat yang
+  lama, buka di tab penyamaran atau muat ulang dengan Ctrl+Shift+R.
+  assets/logo-color.svg JANGAN dihapus, masih dipakai lockup di bar navigasi.
+
+CATATAN vercel.json
+  Sengaja tidak disertakan, karena berkas itu tidak bisa dibaca dari luar
+  sehingga saya tidak bisa memastikan isi milik Anda sudah sama atau belum.
+  Kalau situs sekarang sudah berperilaku benar, biarkan apa adanya.
