@@ -16,7 +16,14 @@
 <link rel="stylesheet" href="assets/nusva.css">
 <script src="assets/config.js"></script>
 <style>
-html{scroll-behavior:smooth;scroll-padding-top:132px}
+/* Lompatan jangkar berhenti tepat di bawah bar navigasi, bukan 132 piksel di bawahnya.
+   Angka 132 dulu ditulis dengan menaksir tinggi dua bilah sekaligus, lalu ditambah lagi
+   74 piksel oleh aturan [id] di nusva.css, sehingga menekan "Lihat katalog" mendarat 206
+   piksel terlalu jauh dan yang terlihat justru ekor hero, bukan katalognya. Karena bilah
+   kerja memang menempel di bawah bar, satu-satunya angka yang benar adalah tinggi bar
+   itu sendiri, dan dua jangkar di halaman ini dibebaskan dari aturan umum tadi. */
+html{scroll-behavior:smooth;scroll-padding-top:var(--barnyata,53px)}
+#katalog,#cari{scroll-margin-top:0}
 
 /* ============================================================
    SATU SUMBU KIRI.
@@ -82,11 +89,27 @@ html[data-theme="dark"] .hero::after{background:
   text-decoration-color:color-mix(in srgb,var(--ink-2) 35%,transparent)}
 .panduanjalan a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 
-/* ---------- bilah kerja katalog ---------- */
-.kerja{position:sticky;top:var(--nav);z-index:30;border-bottom:1px solid var(--border);
-  background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:saturate(180%) blur(18px)}
+/* ---------- bilah kerja katalog ----------
+   Menempel pada TINGGI BAR YANG SESUNGGUHNYA, bukan pada token --nav.
+   Token --nav bernilai 64 piksel sementara bar navigasi sungguhan setinggi 53, jadi
+   selama ini ada celah 11 piksel di antara keduanya. Celah itu tidak kosong: isi
+   halaman lewat di baliknya saat digulir, sehingga potongan judul kartu terlihat
+   melintas di sela dua bilah dan halaman terbaca rusak. --barnyata diukur saat
+   berjalan oleh ukurBar() dan ikut berubah kalau barnya melipat di layar sempit. */
+.kerja{position:sticky;top:var(--barnyata,53px);z-index:30;border-bottom:1px solid var(--border);
+  background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:saturate(180%) blur(18px);
+  transition:transform .26s var(--spring)}
+/* Menggulir ke bawah menyingkirkannya, menggulir ke atas memanggilnya kembali. Ia digeser
+   ke atas sejauh tingginya sendiri plus tinggi bar, bukan disembunyikan dengan display,
+   supaya tinggi halaman tidak berubah dan posisi gulir tidak melompat saat ia pergi. */
+.kerja.sembunyi{transform:translateY(calc(-100% - var(--barnyata,53px)))}
+@media (prefers-reduced-motion:reduce){ .kerja{transition:none} }
 @supports not (backdrop-filter:blur(1px)){ .kerja{background:var(--surface)} }
-@media (max-width:760px){ .kerja{position:static} }
+/* Di bawah 760 piksel bilahnya memang tidak menempel, jadi ia ikut tergulir sendiri dan
+   tidak ada yang perlu disingkirkan. Kelas .sembunyi tetap boleh dipasang JS di sana, tapi
+   efeknya WAJIB dimatikan: menggeser elemen static ke atas berarti ia naik menimpa isi
+   halaman, bukan menghilang di balik bar. */
+@media (max-width:760px){ .kerja,.kerja.sembunyi{position:static;transform:none} }
 /* Dua baris yang disengaja, bukan dua baris hasil terlanjur melimpah.
    Baris atas: apa yang dicari dan bagaimana diurutkan. Baris bawah: saringannya. */
 .kerja .wrap{padding-top:10px;padding-bottom:10px}
@@ -333,6 +356,51 @@ function ukurBar(){
 ukurBar();
 addEventListener('resize', ukurBar);
 if(window.ResizeObserver) new ResizeObserver(ukurBar).observe($('nav'));
+
+/* ---------- bilah kerja: menyingkir saat membaca, kembali saat mencari ----------
+   Menempel selamanya berarti 117 piksel hilang dari tiap layar, dan pada layar 900
+   piksel itu seperdelapan halaman yang dibayar dengan kendali yang sedang tidak
+   dipakai. Menggulir ke bawah adalah isyarat "saya sedang membaca", jadi bilahnya
+   menyingkir. Menggulir ke atas adalah isyarat "saya mau mengganti pilihan", jadi ia
+   kembali tanpa perlu naik sampai puncak halaman.
+
+   Tiga hal yang membuat pola ini tidak jadi mengganggu:
+   - ambang 8 piksel, supaya getaran trackpad dan momentum iOS tidak membuatnya kedip
+   - di 120 piksel teratas ia selalu tampil, supaya tidak pernah hilang di awal katalog
+   - fokus papan ketik di dalamnya menahannya tetap terbuka, karena bilah yang lari
+     saat sedang diketik adalah cacat, bukan kepintaran
+   prefers-reduced-motion mematikan animasinya lewat CSS, bukan lewat cabang di sini. */
+(() => {
+  const bar  = $('katalog');
+  const hero = document.querySelector('.hero');
+  if(!bar) return;
+
+  const AMBANG = 8, AMAN = 120;
+  let lalu = scrollY, terkunci = false;
+
+  /* Batasnya diambil dari hero, bukan dari bilahnya sendiri. offsetTop sebuah elemen
+     sticky ikut bergerak begitu ia menempel, jadi memakainya sebagai patokan berarti
+     membandingkan posisi gulir dengan angka yang berubah mengikuti posisi gulir. Hero
+     tidak sticky, jadi angkanya diam. */
+  const batas = () => (hero ? hero.offsetTop + hero.offsetHeight : 400) + AMAN;
+
+  bar.addEventListener('focusin',  () => { terkunci = true;  bar.classList.remove('sembunyi'); });
+  bar.addEventListener('focusout', e => { if(!bar.contains(e.relatedTarget)) terkunci = false; });
+
+  let menunggu = false;
+  addEventListener('scroll', () => {
+    if(menunggu) return;
+    menunggu = true;
+    requestAnimationFrame(() => {
+      menunggu = false;
+      const y = Math.max(0, scrollY), beda = y - lalu;
+      if(Math.abs(beda) < AMBANG) return;
+      lalu = y;
+      if(terkunci || y < batas()) { bar.classList.remove('sembunyi'); return; }
+      bar.classList.toggle('sembunyi', beda > 0);
+    });
+  }, { passive:true });
+})();
 
 /* ---------- baris fakta ----------
    Seluruhnya dihitung dari katalog yang berlaku, jadi tidak ada angka mati yang

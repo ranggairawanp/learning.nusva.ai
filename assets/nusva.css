@@ -235,9 +235,20 @@ a.aico{color:var(--ink-2)}
 
 .apanel{border-top:1px solid var(--border);background:var(--surface);animation:apop .22s var(--spring)}
 @keyframes apop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+/* Kolomnya dilebarkan menurut ISINYA, bukan dibagi rata selebar halaman.
+   Versi sebelumnya memakai 1.1fr dan 1fr, jadi kedua kolom selalu memakan seluruh lebar
+   1180 piksel berapa pun panjang tautannya. Karena tautan di sini pendek, misalnya "Semua
+   modul", yang lahir bukan tata letak lapang melainkan lubang sekitar 600 piksel di tengah
+   panel, dan mata membacanya sebagai dua daftar yang tidak berhubungan.
+   Diukur pada tangkapan layar Apple: jarak antar kolomnya sekitar 175 piksel, bukan 600,
+   dan kolomnya duduk rapat di kiri sementara sisa ruang dibiarkan kosong di kanan. Itu
+   yang ditiru di sini lewat max-content dan justify-content:start. Jarak antar barisnya
+   sendiri tidak disentuh, karena hasil ukur menunjukkan angkanya memang sudah sama dengan
+   Apple, yaitu rasio pitch terhadap tinggi tinta sekitar 1,9 berbanding 2,1. */
 .apanel-in{max-width:var(--wrap);margin:0 auto;padding:34px 24px 46px;display:grid;
-  grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px}
-@media (max-width:760px){ .apanel-in{grid-template-columns:1fr;gap:26px;padding:24px 18px 32px} }
+  grid-template-columns:repeat(2,minmax(0,max-content));justify-content:start;
+  column-gap:clamp(56px,7vw,104px);row-gap:40px}
+@media (max-width:760px){ .apanel-in{grid-template-columns:1fr;row-gap:26px;padding:24px 18px 32px} }
 /* satu sumbu kiri untuk logo, menu, rail, dan seluruh isi halaman */
 .ahd{display:block;font-size:12px;color:var(--ink-3);font-weight:var(--w-caption);margin-bottom:14px}
 .abesar{display:flex;align-items:baseline;gap:9px;font-size:clamp(21px,2.4vw,26px);font-weight:600;

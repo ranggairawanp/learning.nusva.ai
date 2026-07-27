@@ -1,42 +1,62 @@
-Delta ikon Nusva Learning · 27 Juli 2026
+Delta Nusva Learning · 27 Juli 2026
 Target: proyek learning-nusva-ai di Vercel
 
-Seluruh isi situs yang sudah tayang SAMA PERSIS dengan hasil kerja kita, kecuali
-satu hal: ikon tab. Diperiksa berkas per berkas terhadap situs yang sedang
-tayang, 26 berkas identik sampai ke hash-nya, 13 berkas perlu diperbarui.
+Dua perubahan dalam satu arsip.
 
-Salin 13 berkas di dalam arsip ini ke repo, timpa yang lama, lalu push.
+1. IKON TAB (13 berkas)
+   assets/logo-mark.svg, logo-mark-dark.svg, favicon-32.png, apple-touch-icon.png
+   plus blok <link rel="icon"> pada sembilan halaman.
+   Ikon lama memakai lockup memanjang 118x40, jadi di kotak 16x16 tandanya
+   menyusut jadi lima piksel. Yang baru tanda N persegi, mengisi 97 persen kanvas.
 
-EMPAT BERKAS BARU
-  assets/logo-mark.svg          tanda N persegi, mengisi 97 persen kanvas
-  assets/logo-mark-dark.svg     varian untuk bar tab gelap
-  assets/favicon-32.png         cadangan untuk peramban lawas
-  assets/apple-touch-icon.png   180 piksel, latar putih, untuk layar utama iOS
+2. JARAK KOLOM MEGA MENU (assets/nusva.css)
+   Kedua kolom dulu memakai 1.1fr dan 1fr, sehingga selalu memakan seluruh lebar
+   1180 piksel berapa pun panjang tautannya. Karena tautannya pendek, yang lahir
+   bukan tata letak lapang melainkan lubang sekitar 600 piksel di tengah panel.
+   Sekarang kolomnya selebar isinya (max-content) dan duduk rapat di kiri, meniru
+   pola Apple. Jarak antar kolom jadi 101 piksel di layar 1440, 83 di 1180, 72 di
+   1024, dan tetap satu kolom di bawah 760.
 
-SEMBILAN HALAMAN
-  index.html  belajar.html  modul.html  masuk.html  perusahaan.html
-  dokumen.html  trainer.html  trainer/dashboard.html  trainer/modul.html
+   Jarak antar BARIS sengaja TIDAK disentuh. Kedua tangkapan layar diukur dan
+   hasilnya rasio pitch terhadap tinggi tinta 1,91 untuk Nusva dan 2,07 untuk
+   Apple, artinya baris Nusva justru sudah sedikit lebih rapat. Yang membuatnya
+   terasa jauh adalah jarak mendatar antar kolom, bukan jarak menurun antar baris.
 
-  Ketiganya berubah HANYA pada satu blok yang sama. Yang lama:
+3. BILAH KERJA KATALOG MENEMPEL DI TEMPAT YANG SALAH (index.html)
+   .kerja memakai top:var(--nav) yang bernilai 64 piksel, sementara bar navigasi
+   sungguhan setinggi 53. Celah 11 piksel di antara keduanya tidak kosong: isi
+   halaman lewat di baliknya saat digulir, jadi potongan judul kartu terlihat
+   melintas di sela dua bilah. Sekarang memakai --barnyata yang diukur saat
+   berjalan, dan ikut menyesuaikan kalau barnya melipat di layar sempit.
 
-      <link rel="icon" href="assets/logo-color.svg">
+4. LOMPATAN JANGKAR #katalog MENDARAT TERLALU JAUH (index.html)
+   scroll-padding-top 132 piksel ditambah 74 piksel dari aturan [id] di nusva.css
+   membuat "Lihat katalog" mendarat 206 piksel terlalu bawah, sehingga yang terlihat
+   justru ekor hero. Sekarang mendarat tepat di 53, bilah kerjanya langsung menempel
+   di bawah bar dan kartu pertama mulai di 200.
 
-  Diganti empat baris (tambahkan ../ di depan assets untuk dua berkas di
-  dalam folder trainer/):
+5. BILAH CARI MODUL MENYINGKIR SAAT MEMBACA (index.html)
+   Menempel selamanya berarti 117 piksel hilang dari tiap layar, dan pada layar 900
+   piksel itu seperdelapan halaman yang dibayar dengan kendali yang sedang tidak
+   dipakai. Sekarang menggulir ke bawah menyingkirkannya, menggulir ke atas
+   memanggilnya kembali tanpa perlu naik ke puncak halaman.
 
-      <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
-      <link rel="icon" href="assets/logo-mark-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
-      <link rel="icon" href="assets/favicon-32.png" sizes="32x32">
-      <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+   Tiga penjaga supaya polanya tidak jadi mengganggu:
+   - ambang 8 piksel, supaya getaran trackpad dan momentum iOS tidak membuatnya kedip
+   - selalu tampil di 120 piksel pertama katalog, jadi tidak pernah hilang di awal
+   - fokus papan ketik di dalamnya menahannya terbuka, karena bilah yang lari saat
+     sedang diketik adalah cacat, bukan kepintaran
+   Di bawah 760 piksel bilahnya memang tidak menempel, dan di sana efek geser
+   dimatikan lewat CSS supaya ia tidak naik menimpa isi halaman.
+   prefers-reduced-motion mematikan animasinya.
 
-  Tidak ada baris lain yang berubah di kesembilan berkas itu.
+DIUJI
+   Empat panel menu pada 1440, 1180, dan 1024 piksel.
+   Perpindahan hover antar judul menu, tetap bekerja.
+   Sembilan halaman bersih dari galat konsol dan 404.
+   390 piksel tidak meluap, panel jatuh jadi satu kolom.
 
 SESUDAH DEPLOY
-  Peramban menyimpan favicon dengan sangat keras. Kalau masih terlihat yang
-  lama, buka di tab penyamaran atau muat ulang dengan Ctrl+Shift+R.
-  assets/logo-color.svg JANGAN dihapus, masih dipakai lockup di bar navigasi.
-
-CATATAN vercel.json
-  Sengaja tidak disertakan, karena berkas itu tidak bisa dibaca dari luar
-  sehingga saya tidak bisa memastikan isi milik Anda sudah sama atau belum.
-  Kalau situs sekarang sudah berperilaku benar, biarkan apa adanya.
+   Peramban menyimpan favicon dengan keras. Kalau masih terlihat yang lama,
+   buka di tab penyamaran atau Ctrl+Shift+R.
+   assets/logo-color.svg JANGAN dihapus, masih dipakai lockup di bar navigasi.
