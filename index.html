@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Nusva Learning · Katalog modul keterampilan kerja</title>
-<meta name="description" content="Katalog modul keterampilan kerja berbasis SKKNI dan soft skill. Tiap modul menampilkan bagian, durasi, kriteria, dan bagian mana yang dibuka gratis sebelum dibeli.">
+<meta name="description" content="Katalog pelatihan online: technical dan hard skill, soft skill, digital, bahasa, dan bidang umum. Tiap modul menampilkan bagian, durasi, kriteria, dan bagian mana yang dibuka gratis sebelum dibeli.">
 <meta property="og:title" content="Nusva Learning">
 <meta property="og:description" content="Belajar dengan mengerjakan, bukan menonton.">
 <meta property="og:type" content="website">
@@ -27,14 +27,18 @@ html{scroll-behavior:smooth;scroll-padding-top:132px}
    ============================================================ */
 
 /* ---------- header produk ---------- */
+/* Hero setinggi satu layar penuh dikurangi bar navigasi, supaya bilah kerja katalog jatuh
+   ke layar berikutnya. Layar pertama jadi satu hal utuh: siapa ini, angkanya berapa, dan
+   dari peran mana Anda mau masuk. Bilah kerja muncul saat digulir, yaitu tepat saat orang
+   memang sudah memutuskan mau menjelajah. */
 .hero{position:relative;overflow:hidden;isolation:isolate;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;min-height:352px}
+  display:flex;align-items:center;min-height:calc(100dvh - var(--barnyata, 64px))}
 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:74% 46%;z-index:-2}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:
   linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.96) 34%,rgba(255,255,255,.66) 52%,rgba(255,255,255,.08) 74%,rgba(255,255,255,0) 88%)}
 html[data-theme="dark"] .hero::after{background:
   linear-gradient(90deg,rgba(7,16,24,.98) 0%,rgba(7,16,24,.95) 34%,rgba(7,16,24,.64) 52%,rgba(7,16,24,.1) 74%,rgba(7,16,24,0) 88%)}
-.herotx{width:100%;max-width:var(--wrap);margin:0 auto;padding:38px 24px 34px}
+.herotx{width:100%;max-width:var(--wrap);margin:0 auto;padding:44px 24px 44px}
 .hero h1{font-size:clamp(26px,3.2vw,38px);letter-spacing:-.03em;line-height:1.12;margin:9px 0 0;max-width:15ch}
 .hero .sub{font-size:15px;line-height:1.55;margin:12px 0 0;max-width:44ch;color:var(--ink-2)}
 .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
@@ -49,7 +53,7 @@ html[data-theme="dark"] .hero::after{background:
 @media (max-width:560px){ .herotx{padding:22px 18px 26px} }
 
 /* ---------- baris fakta: angka hidup, dihitung dari katalog ---------- */
-.fakta{display:flex;gap:30px;flex-wrap:wrap;margin-top:22px;padding-top:18px;
+.fakta{display:flex;gap:34px;flex-wrap:wrap;margin-top:34px;padding-top:24px;
   border-top:1px solid color-mix(in srgb,var(--border) 70%,transparent);max-width:min(100%,560px)}
 .fakta div{min-width:0}
 .fakta b{display:block;font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1;
@@ -58,7 +62,7 @@ html[data-theme="dark"] .hero::after{background:
   color:var(--ink-3);margin-top:6px}
 
 /* ---------- pintasan jabatan ---------- */
-.jabatan{font-size:13px;color:var(--ink-2);margin:16px 0 0;line-height:1.9;max-width:min(100%,690px)}
+.jabatan{font-size:13px;color:var(--ink-2);margin:22px 0 0;line-height:1.9;max-width:min(100%,690px)}
 .jabatan .lb{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink-3);margin-right:9px}
 .jabatan button{border:0;background:transparent;padding:0;font-size:13px;font-weight:var(--w-body-strong);
@@ -206,7 +210,7 @@ a.mod .rule{height:1px;background:var(--border);margin-top:15px}
   <div class="herotx">
       <span class="eyebrow" id="hEyebrow" data-en="Nusva Learning">Nusva Learning</span>
       <h1 id="hJudul" data-en="You do not learn a skill by watching one.">Keterampilan tidak menempel dari menonton.</h1>
-      <p class="sub" id="hSub" data-en="Read four minutes, then do the work. Every submission is checked criterion by criterion, and what you got wrong comes back the next morning.">Baca empat menit, lalu kerjakan. Tiap karya diperiksa kriteria demi kriteria, dan yang belum tepat datang lagi besok pagi.</p>
+      <p class="sub" id="hSub" data-en="Online training for work skills, made by people who do the work every day.">Pelatihan online untuk keterampilan kerja, dibuat orang yang memang mengerjakannya sehari-hari.</p>
       <div class="cta" id="hCta">
         <a class="btn btn-primary" href="#katalog">
           <span data-en="Browse the catalogue">Lihat katalog</span>
@@ -271,7 +275,7 @@ a.mod .rule{height:1px;background:var(--border);margin-top:15px}
     <div>
       <span class="eyebrow" data-en="For trainers">Untuk trainer</span>
       <h2 data-en="Have something worth teaching?">Punya sesuatu yang layak diajarkan?</h2>
-      <p data-en="Upload your material once. The exercises, the marking, and the daily reminders are ours to handle, and you keep 50% of every sale.">Unggah materi Anda sekali. Latihannya, penilaiannya, dan pengingat hariannya kami yang urus, dan Anda memegang 50% dari tiap penjualan.</p>
+      <p data-en="Upload your material once. We handle the platform, and you keep half of every sale.">Unggah materi Anda sekali. Platformnya kami yang urus, dan setengah dari tiap penjualan jadi milik Anda.</p>
     </div>
     <div class="cta">
       <a class="btn btn-secondary" href="masuk.html?peran=trainer&amp;next=trainer/modul.html" data-en="Register your training">Daftarkan training Anda</a>
@@ -296,7 +300,7 @@ a.mod .rule{height:1px;background:var(--border);margin-top:15px}
       <a href="trainer.html" data-en="For trainers">Untuk trainer</a>
       <a href="masuk.html" data-en="Sign in">Masuk</a>
     </div>
-    <p class="legal" data-en="Nusva Learning is a training provider using SKKNI as a curriculum framework for its curated tracks, and is also open to soft skill, digital, language, and general modules with no SKKNI obligation. Nusva does not provide assessment services, assessors, competency testing, or competency certification, all of which belong to BNSP licensed LSPs. Nusva is not affiliated with any LSP or with BNSP, and claims no Kemnaker endorsement. Documents issued by Nusva are a Training Completion Certificate and an Evidence Portfolio, both carrying a permanent disclaimer. PT Nusva Digital Talenta.">Nusva Learning adalah penyedia pelatihan yang memakai SKKNI sebagai kerangka kurikulum untuk track kurasinya, dan juga terbuka untuk modul soft skill, digital, bahasa, dan bidang umum tanpa kewajiban SKKNI. Nusva tidak menyediakan jasa asesmen, jasa asesor, uji kompetensi, maupun sertifikasi kompetensi, yang seluruhnya wilayah LSP berlisensi BNSP. Nusva tidak berafiliasi dengan LSP maupun BNSP, dan tidak mengklaim endorsement Kemnaker. Dokumen yang diterbitkan Nusva adalah Sertifikat Penyelesaian Pelatihan dan Paket Bukti Karya, keduanya memuat disclaimer permanen. PT Nusva Digital Talenta.</p>
+    <p class="legal" data-en="Nusva Learning is an online training provider open to technical and hard skill, soft skill, digital, language, and general modules. Nusva does not provide assessment services, assessors, competency testing, or competency certification, all of which belong to BNSP licensed LSPs. PT Nusva Digital Talenta.">Nusva Learning adalah penyedia pelatihan online yang terbuka untuk modul technical/hard skill, soft skill, digital, bahasa, dan bidang umum. Nusva tidak menyediakan jasa asesmen, jasa asesor, uji kompetensi, maupun sertifikasi kompetensi, yang seluruhnya wilayah LSP berlisensi BNSP. PT Nusva Digital Talenta.</p>
   </div>
 </footer>
 
@@ -310,6 +314,18 @@ pasangKepala();
 pasangAkun(document.getElementById('aakun'));
 
 const $ = id => document.getElementById(id);
+
+/* Token --nav bernilai 64px, tetapi bar navigasi ini benar-benar setinggi 53px, dan di layar
+   sempit ia melipat jadi dua baris. Selisih sebelas piksel itu cukup untuk menyisakan garis
+   bilah kerja mengintip di bawah layar, yang terbaca sebagai cacat, bukan sebagai isyarat.
+   Jadi tingginya diukur, bukan ditebak, dan diukur ulang tiap kali jendelanya berubah. */
+function ukurBar(){
+  const b = $('nav');
+  if(b) document.documentElement.style.setProperty('--barnyata', b.offsetHeight + 'px');
+}
+ukurBar();
+addEventListener('resize', ukurBar);
+if(window.ResizeObserver) new ResizeObserver(ukurBar).observe($('nav'));
 
 /* ---------- baris fakta ----------
    Seluruhnya dihitung dari katalog yang berlaku, jadi tidak ada angka mati yang
@@ -371,7 +387,7 @@ const normal = s => String(s || '').toLowerCase();
    tercepat mengunci produk umum ke dalam satu industri.
    ============================================================ */
 const AMBANG_CHIP   = 7;    /* di atas ini chip berganti jadi dropdown */
-const AMBANG_PERAN  = 6;    /* di atas ini pintasan peran turun ke bilah kerja */
+const AMBANG_PERAN  = 7;    /* di atas ini pintasan peran turun ke bilah kerja */
 const AMBANG_DAFTAR = 12;   /* di atas ini kisi kartu berganti jadi daftar */
 const SEKALI        = 24;   /* jumlah yang digambar per tahap */
 
@@ -383,7 +399,16 @@ const hitung = ambil => {
   return [...n.entries()].sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0], 'id')).map(x => x[0]);
 };
 const BIDANG = () => hitung(m => m.bidang);
-const PERAN  = () => hitung(m => m.jabatan);
+/* Urutannya sengaja mengikuti daftar baku di bawah, bukan jumlah modul, karena orang mencari
+   dirinya di sebuah daftar yang urutannya tetap. Yang belum punya satu modul pun TIDAK
+   ditampilkan, supaya tidak ada pintasan yang menjanjikan nol hasil. */
+const URUT_PESERTA = ['Profesional','Praktisi','Pekerja','Entrepreneur','Dosen','Mahasiswa/i','Fresh Graduate'];
+const PERAN = () => {
+  const ada = new Set(hitung(m => m.untuk));
+  const baku = URUT_PESERTA.filter(x => ada.has(x));
+  const lain = [...ada].filter(x => !URUT_PESERTA.includes(x));   /* nilai baru dari Supabase */
+  return baku.concat(lain);
+};
 
 function grup(boxId, label, nilai, aktif, pilih){
   const box = $(boxId);
@@ -418,7 +443,7 @@ function gambarBilah(){
   const peran = PERAN();
   $('fPeran').hidden = peran.length <= AMBANG_PERAN;
   if(peran.length > AMBANG_PERAN)
-    grup('fPeran', T('Peran','Role'), peran, sJabatan, v => sJabatan = v);
+    grup('fPeran', T('Peserta','Learner'), peran, sJabatan, v => sJabatan = v);
 }
 
 /* Pintasan peran di hero. Bentuknya tautan teks, bukan chip, karena ia bukan saringan ketiga
@@ -432,7 +457,7 @@ function gambarPeran(){
   if(!daftar.length || daftar.length > AMBANG_PERAN){ box.hidden = true; box.innerHTML = ''; return; }
   box.hidden = false;
   box.innerHTML = '<span class="lb"></span>';
-  box.querySelector('.lb').textContent = T('Mulai dari peran Anda','Start from your role');
+  box.querySelector('.lb').textContent = T('Anda seorang','You are a');
   const tambah = (label, nilai) => {
     if(box.children.length > 1){
       const s = document.createElement('span'); s.className = 'pisah'; s.textContent = '·';
@@ -451,9 +476,9 @@ function gambarPeran(){
 
 function cocok(m){
   if(sBidang  !== 'semua' && m.bidang !== sBidang) return false;
-  if(sJabatan !== 'semua' && !(m.jabatan || []).includes(sJabatan)) return false;
+  if(sJabatan !== 'semua' && !(m.untuk || []).includes(sJabatan)) return false;
   if(!kata) return true;
-  const heap = [m.judul, m.pendek, m.ringkas, m.bidang, m.tingkat, m.kode, m.trainer,
+  const heap = [m.judul, m.pendek, m.ringkas, m.bidang, m.tingkat, m.kode, m.trainer, ...(m.untuk||[]),
                 ...m.bagian.map(b => b.judul)].map(normal).join(' ');
   return kata.split(/\s+/).filter(Boolean).every(k => heap.includes(k));
 }

@@ -8,6 +8,7 @@
 <link rel="icon" href="assets/logo-color.svg">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/PlusJakartaSans-var.woff2" crossorigin>
 <link rel="stylesheet" href="assets/nusva.css">
+<script src="assets/config.js"></script>
 <style>
 body{min-height:100dvh;display:flex;flex-direction:column;background:var(--surface-2)}
 main{flex:1;display:grid;grid-template-columns:1.05fr .95fr;gap:0}
@@ -103,7 +104,7 @@ h1{font-size:clamp(26px,3.4vw,33px);margin:14px 0 0;max-width:16ch}
 
   <aside class="sisi" id="sisi">
     <span class="eyebrow" data-en="Why an account">Kenapa perlu akun</span>
-    <h2 id="sisiJudul" data-en="So your work has somewhere to live.">Supaya karya Anda punya tempat tinggal.</h2>
+    <h2 id="sisiJudul" data-en="So your progress has somewhere to live.">Supaya progres Anda punya tempat tinggal.</h2>
     <ul id="sisiList"></ul>
   </aside>
 </main>
@@ -119,11 +120,11 @@ const tujuan = () => q.get('next') || (peran === 'trainer' ? 'trainer/dashboard.
 const ISI = {
   learner: {
     judul: { id:'Masuk ke Nusva Learning', en:'Sign in to Nusva Learning' },
-    sisi:  { id:'Supaya karya Anda punya tempat tinggal.', en:'So your work has somewhere to live.' },
+    sisi:  { id:'Supaya progres Anda punya tempat tinggal.', en:'So your progress has somewhere to live.' },
     poin: [
-      { id:'Progres per kriteria tersimpan, jadi Anda bisa berhenti di tengah dan melanjutkan besok.', en:'Progress is saved criterion by criterion, so you can stop midway and pick it up tomorrow.' },
-      { id:'Karya latihan Anda tersusun jadi Paket Bukti Karya yang bisa Anda bawa ke mana pun.', en:'Your submissions build into an Evidence Portfolio you can take anywhere.' },
-      { id:'Retrieval pagi tahu persis mana yang belum menempel untuk Anda, bukan untuk orang lain.', en:'The morning recall knows what has not stuck for you specifically, not for someone else.' }
+      { id:'Progresnya tersimpan, jadi bisa berhenti di tengah dan dilanjutkan besok.', en:'Your progress is saved, so you can stop midway and continue tomorrow.' },
+      { id:'Modul yang sudah dibeli tetap bisa dibuka kapan saja, materi dan templatenya sekalian.', en:'Modules you have bought stay open, material and templates included.' },
+      { id:'Pengingat paginya menyesuaikan diri Anda, bukan disamakan untuk semua orang.', en:'The morning reminder follows what you missed, not a schedule set for everyone.' }
     ]
   },
   trainer: {

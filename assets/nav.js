@@ -21,7 +21,7 @@ export const MENU = p => ([
     lain:{ judul:{id:'Lainnya dari belajar',en:'More from learning'}, item:[
       { t:{id:'Cara belajarnya',en:'How it works'},        h:p+'dokumen.html#cara' },
       { t:{id:'Sertifikat Penyelesaian',en:'Completion Certificate'}, h:p+'dokumen.html#sertifikat' },
-      { t:{id:'Paket Bukti Karya',en:'Evidence Portfolio'}, h:p+'dokumen.html#bukti' }
+      { t:{id:'Complete dan Kompeten',en:'Complete and Kompeten'}, h:p+'dokumen.html#complete' }
     ]} },
 
   { id:'katalog', label:{id:'Katalog',en:'Catalogue'},

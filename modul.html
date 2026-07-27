@@ -91,10 +91,11 @@ h2.sec{font-size:19px;font-weight:var(--w-heading);margin:34px 0 0}
       </a>
       <span class="sp"></span>
       <a href="index.html#katalog" data-en="Catalogue">Katalog</a>
+      <a href="dokumen.html#complete" data-en="Complete and Kompeten">Beda Complete dan Kompeten</a>
       <a href="dokumen.html" data-en="Documents">Dokumen</a>
       <a href="trainer.html" data-en="For trainers">Untuk trainer</a>
     </div>
-    <p class="legal" data-en="Complete means the learner finished the exercises to the stated criteria. It is not a competency verdict. Competency assessment belongs to BNSP licensed LSPs. PT Nusva Digital Talenta.">Complete berarti peserta menuntaskan latihannya sesuai kriteria yang tertulis. Itu bukan vonis kompetensi. Asesmen kompetensi adalah wilayah LSP berlisensi BNSP. PT Nusva Digital Talenta.</p>
+    <p class="legal" data-en="Nusva Learning is an online training provider open to technical and hard skill, soft skill, digital, language, and general modules. Nusva does not provide assessment services, assessors, competency testing, or competency certification, all of which belong to BNSP licensed LSPs. PT Nusva Digital Talenta.">Nusva Learning adalah penyedia pelatihan online yang terbuka untuk modul technical/hard skill, soft skill, digital, bahasa, dan bidang umum. Nusva tidak menyediakan jasa asesmen, jasa asesor, uji kompetensi, maupun sertifikasi kompetensi, yang seluruhnya wilayah LSP berlisensi BNSP. PT Nusva Digital Talenta.</p>
   </div>
 </footer>
 
@@ -112,7 +113,7 @@ const m = cariModul(slug);
 const JENIS = {
   artikel:{id:'Artikel',en:'Article'}, video:{id:'Video',en:'Video'},
   audio:{id:'Audio',en:'Audio'}, diagram:{id:'Diagram',en:'Diagram'},
-  latihan:{id:'Latihan Workshop',en:'Workshop exercise'}
+  latihan:{id:'Latihan mandiri',en:'Practice on your own'}
 };
 const IC = {
   cek:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
@@ -169,10 +170,10 @@ function gambar(){
         '<span class="sat">'+T('sekali bayar, akses selamanya','one payment, access for good')+'</span>'+
         '<div id="aksi" style="margin-top:16px"></div>'+
         '<ul>'+
-          '<li>'+IC.cek+'<span>'+T('Latihan diperiksa per kriteria dengan alasan spesifik','Exercises checked criterion by criterion with a specific reason')+'</span></li>'+
-          '<li>'+IC.cek+'<span>'+T('Percobaan tidak terbatas, tanpa penalti','Unlimited attempts, no penalty')+'</span></li>'+
-          '<li>'+IC.cek+'<span>'+T('Sertifikat Penyelesaian Pelatihan saat Complete','Training Completion Certificate when you Complete')+'</span></li>'+
-          '<li>'+IC.cek+'<span>'+T('Paket Bukti Karya, gratis selamanya','Evidence Portfolio, free forever')+'</span></li>'+
+          '<li>'+IC.cek+'<span>'+T('Materi dan templatenya bisa diunduh dan disimpan','Material and templates you can download and keep')+'</span></li>'+
+          '<li>'+IC.cek+'<span>'+T('Quiz-nya bisa diulang sebanyak yang Anda mau','Retake the quizzes as often as you like')+'</span></li>'+
+          '<li>'+IC.cek+'<span>'+T('Sekali beli, terbuka selamanya','Buy once, open for good')+'</span></li>'+
+          '<li>'+IC.cek+'<span>'+T('Sertifikat Penyelesaian Pelatihan saat tuntas','Training Completion Certificate when you finish')+'</span></li>'+
         '</ul>'+
       '</div>'+
     '</aside>'+
@@ -216,8 +217,8 @@ function bukaBagian(el, i){
   d.className = 'isi';
   d.innerHTML = '<p></p>';
   d.querySelector('p').textContent = T(
-    'Ini bagian pratinjau. Di versi berjalan, bagian ini terbuka penuh: konsepnya di panel kiri dan latihannya di panel kanan, dengan rubrik yang terlihat sebelum Anda mengerjakan.',
-    'This is the preview part. In the running version it opens fully: the concept on the left panel and the exercise on the right, with the rubric visible before you start.');
+    'Ini bagian pratinjau. Di versi berjalan, bagian ini terbuka penuh: materinya bisa dibaca sampai habis, templatenya bisa diunduh, dan quiz checkpoint-nya bisa dikerjakan.',
+    'This is the preview part. In the running version it opens fully: the material is readable to the end, the template is downloadable, and the checkpoint quiz is playable.');
   el.after(d);
   el.setAttribute('aria-expanded','true');
 }

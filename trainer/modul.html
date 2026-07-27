@@ -300,10 +300,6 @@ dialog.contoh::backdrop{background:rgba(5,25,43,.42)}
   border-radius:10px;padding:7px 11px;font-size:12px;line-height:1.45;color:var(--ink-2);max-width:100%}
 .contohkrit button:hover{border-style:solid;border-color:var(--accent);color:var(--accent)}
 .contohkrit button::before{content:"+ ";font-weight:800;color:var(--accent)}
-.kata{display:none;font-size:12.5px;line-height:1.5;color:var(--ink-2);background:var(--warning-tint);
-  border-radius:var(--r-field);padding:10px 12px;margin-top:9px}
-.kata.on{display:block}
-.kata b{color:var(--ink);font-weight:var(--w-body-strong)}
 
 [hidden]{display:none !important}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important}}
@@ -350,7 +346,7 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
           <span data-en="A fit for conversation simulations, conflict handling, and leadership. What gets judged: how it is delivered, the tone chosen, and the flow of decisions, because no single answer is absolute.">Cocok untuk simulasi percakapan, manajemen konflik, dan kepemimpinan. Yang dinilai: cara menyampaikan, pilihan nada, dan alur keputusan, karena tidak ada satu jawaban yang mutlak.</span>
         </button>
       </div>
-      <p class="hint" style="margin-top:13px;line-height:1.5;max-width:56ch" data-en="The first pass is run by the Nusva rubric engine, using the criteria you write yourself.">Pemeriksaan pertama dijalankan mesin rubrik Nusva, memakai kriteria yang Anda tulis sendiri.</p>
+      <p class="hint" style="margin-top:13px;line-height:1.5;max-width:56ch" data-en="Nusva does not mark the work itself. Participants download your template and do the exercise on their own machines; what Nusva marks is the quizzes.">Nusva tidak menilai karyanya. Peserta mengunduh template Anda dan mengerjakan latihannya di komputer masing-masing; yang dinilai Nusva adalah quiz-nya.</p>
 
       <!-- Contoh jadi, bisa dibuka sejak langkah pertama. Alur ini meminta kriteria, sub-modul, dan
            soal, tetapi sebelumnya tidak pernah menunjukkan seperti apa hasil yang baik di platform
@@ -450,12 +446,11 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
 
       <div class="sect">
         <h2 data-en="Observable indicators">Indikator teramati</h2>
-        <p class="cap" data-en="One sentence per behaviour, the kind you could nod at from across the room. These become what we mark against.">Satu kalimat per perilaku, yang bisa Anda anggukkan dari seberang ruangan. Inilah yang nanti jadi acuan penilaian.</p>
+        <p class="cap" data-en="One sentence per behaviour, the kind you could nod at from across the room. These become the learning objectives people read before they buy.">Satu kalimat per perilaku, yang bisa Anda anggukkan dari seberang ruangan. Inilah yang jadi tujuan pembelajaran, dibaca orang sebelum ia membeli.</p>
         <div class="row">
-          <input class="f" id="iText" oninput="periksaKata(this.value,'kataInd')" placeholder="Contoh: menyatakan ulang keberatan pihak lain sebelum menjawab" data-en-ph="Example: restates the other party's objection before replying">
+          <input class="f" id="iText" placeholder="Contoh: menyatakan ulang keberatan pihak lain sebelum menjawab" data-en-ph="Example: restates the other party's objection before replying">
           <button class="btn btn-quiet" onclick="tambahIndikator()" data-en="Add">Tambah</button>
         </div>
-        <div class="kata" id="kataInd"></div>
         <p class="cap" style="margin-top:11px" data-en="Or start from one of these and edit it. They come from the skill you picked above.">Atau mulai dari salah satu ini lalu ubah seperlunya. Contohnya mengikuti skill yang Anda pilih di atas.</p>
         <div class="contohkrit" id="contohInd"></div>
         <div class="flist" id="listIndikator"></div>
@@ -573,9 +568,8 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
             <select class="f" id="postTipe" onchange="cek()">
               <option value="pg" data-en="Multiple choice">Pilihan ganda</option>
               <option value="pendek" data-en="Short answer">Isian pendek</option>
-              <option value="esai" data-en="Essay">Esai</option>
             </select>
-            <span class="cap" data-en="Pick essay and you will need at least one criterion below, otherwise there is nothing to check it against.">Pilih esai, dan Anda perlu minimal satu kriteria di bawah, kalau tidak tidak ada yang bisa dipakai memeriksanya.</span>
+            <span class="cap" data-en="Only formats a machine can mark are offered. Essay is not available, because nothing here marks free text and a question nobody answers back is worse than no question.">Hanya format yang bisa diperiksa mesin yang disediakan. Esai tidak tersedia, karena tidak ada yang menilai teks bebas di sini, dan soal yang tidak pernah dijawab balik lebih buruk daripada tidak ada soal.</span>
           </div>
         </div>
         <div class="lock">
@@ -585,13 +579,12 @@ html.ada-pita .device{height:calc(100dvh - var(--nav) - 41px)}
       </div>
 
       <div class="sect" id="sectKriteria4">
-        <h2 data-en="Workshop exercise">Latihan Workshop</h2>
+        <h2 data-en="Learning objectives">Tujuan pembelajaran</h2>
         <p class="cap" id="kritCap"></p>
         <div class="row">
-          <input class="f" id="rText" oninput="periksaKata(this.value,'kataKrit')" placeholder="Perilaku teramati pada karya learner" data-en-ph="Observable behaviour in the learner's work">
+          <input class="f" id="rText" placeholder="Apa yang bisa dilakukan peserta setelah modul ini" data-en-ph="What the participant can do after this module">
           <button class="btn btn-quiet" onclick="tambahKriteria()" data-en="Add">Tambah</button>
         </div>
-        <div class="kata" id="kataKrit"></div>
         <p class="cap" style="margin-top:11px" data-en="Or start from one of these and edit it.">Atau mulai dari salah satu ini lalu ubah seperlunya.</p>
         <div class="contohkrit" id="contohKrit"></div>
         <div class="flist" id="listKriteria"></div>
@@ -671,12 +664,18 @@ const S={jenis:null,basis:null,mode:null,standar:null,unit:null,kuk:[],usulKuk:[
 
 const SKILL=['Komunikasi Efektif','Kepemimpinan','Kolaborasi Tim','Manajemen Waktu','Berpikir Kritis',
  'Negosiasi','Presentasi','Literasi Data','Produktivitas AI','Bahasa Inggris Profesional','Manajemen Proyek','Layanan Pelanggan'];
+/* Dua kelompok dalam satu kolom, dan bedanya penting.
+   Empat yang pertama adalah JENJANG, dan hanya jenjang yang punya angka acuan harga, sesuai
+   keputusan 18. Tujuh berikutnya adalah JENIS PESERTA, dan justru merekalah yang muncul sebagai
+   pintasan "Anda seorang" di beranda. Kalau daftar ini berbeda dari daftar di beranda, trainer
+   tidak akan pernah bisa menghasilkan nilai yang bisa disaring pembelajar, dan pintasannya
+   akan selamanya kosong. Jadi keduanya harus dijaga sama. */
 const SEG=[
  ['staf','Staf',50000],['supervisor','Supervisor',75000],['manajer','Manajer',150000],['eksekutif','Eksekutif',250000],
- ['umum',{id:'Umum',en:'General'},null],['fresh',{id:'Fresh Graduate',en:'Fresh Graduate'},null],
- ['mahasiswa',{id:'Mahasiswa/i',en:'Students'},null],['owner',{id:'Business Owner',en:'Business Owner'},null],
- ['trainer',{id:'Trainer',en:'Trainer'},null],['coach',{id:'Coach',en:'Coach'},null],
- ['profesional',{id:'Professional',en:'Professional'},null],['pengusaha',{id:'Pengusaha',en:'Entrepreneur'},null]];
+ ['profesional',{id:'Profesional',en:'Professional'},null],['praktisi',{id:'Praktisi',en:'Practitioner'},null],
+ ['pekerja',{id:'Pekerja',en:'Worker'},null],['entrepreneur',{id:'Entrepreneur',en:'Entrepreneur'},null],
+ ['dosen',{id:'Dosen',en:'Lecturer'},null],['mahasiswa',{id:'Mahasiswa/i',en:'Students'},null],
+ ['fresh',{id:'Fresh Graduate',en:'Fresh Graduate'},null]];
 const segNama=x=>typeof x==='string'?x:(lang==='en'?x.en:x.id);
 const WHITE={materi:['pdf','pptx'],tools:['pdf','docx','xlsx','pptx']};
 const MAKS={materi:20*1024*1024,tools:20*1024*1024};
@@ -694,7 +693,7 @@ const CONTOH = {
     {j:{id:'Kenapa uraian jabatan sering jadi dokumen mati',en:'Why job descriptions end up dead'},m:4,t:{id:'Artikel',en:'Article'},g:1},
     {j:{id:'Anatomi uraian jabatan yang terpakai',en:'Anatomy of one that gets used'},m:6,t:{id:'Artikel',en:'Article'},g:1},
     {j:{id:'Contoh dikerjakan: jabatan Staf Payroll',en:'Worked example: Payroll Staff'},m:8,t:{id:'Video',en:'Video'},g:0},
-    {j:{id:'Latihan mandiri: susun satu uraian jabatan',en:'Practice: write one job description'},m:10,t:{id:'Latihan Workshop',en:'Workshop exercise'},g:0},
+    {j:{id:'Latihan mandiri: susun satu uraian jabatan',en:'Practice: write one job description'},m:10,t:{id:'Latihan mandiri',en:'Practice'},g:0},
     {j:{id:'Terapkan di pekerjaan Anda',en:'Apply it at work'},m:5,t:{id:'Artikel',en:'Article'},g:0}
   ],
   krit:[
@@ -724,11 +723,11 @@ function bukaContoh(){
       t('Total '+tot+' menit. Tidak ada satu pun bagian yang melewati 20 menit, dan dua bagian pertama dibuka sebelum dibeli.',
         'Total '+tot+' minutes. No single part goes past 20 minutes, and the first two open before purchase.')+'</p></div>'+
 
-    '<div class="cblok"><b>'+t('Kriteria rubrik','Rubric criteria')+'</b>'+
+    '<div class="cblok"><b>'+t('Tujuan pembelajaran','Learning objectives')+'</b>'+
       CONTOH.krit.map((k,i)=>'<div class="crow"><span class="n">'+(i+1)+'</span><span class="tx">'+t(k.id,k.en)+'</span></div>').join('')+
       '<p class="cap" style="margin-top:9px">'+
-      t('Perhatikan bentuknya: tiap baris menyebut sesuatu yang bisa dilihat pada karya peserta. Tidak ada satu pun yang berbunyi peserta memahami.',
-        'Note the shape: every line names something visible in the work. Not one of them says the learner understands.')+'</p></div>'+
+      t('Perhatikan bentuknya: tiap baris menyebut sesuatu yang bisa dilakukan, bukan sesuatu yang dipahami. Calon pembeli membaca baris ini sebelum membayar, jadi ia harus cukup jelas untuk dipakai memutuskan.',
+        'Note the shape: every line names something doable, not something understood. A buyer reads these before paying, so they have to be clear enough to decide on.')+'</p></div>'+
 
     '<div class="cblok"><b>'+t('Satu quiz checkpoint','One checkpoint quiz')+'</b>'+
       '<div class="crow"><span class="tx"><b>'+t(CONTOH.soal.q.id,CONTOH.soal.q.en)+'</b>'+
@@ -741,10 +740,12 @@ function bukaContoh(){
 }
 function tutupContoh(){ const d=$('dlgContoh'); if(typeof d.close==='function') d.close(); else d.removeAttribute('open'); }
 
-/* ================= contoh kriteria dan pemeriksa kata =================
-   Jalur SKKNI aman karena KUK-nya didatangkan. Jalur non SKKNI dan perilaku sebelumnya cuma
-   memberi kotak kosong, padahal menulis kriteria teramati justru bagian tersulitnya. Kebanyakan
-   orang menulis tujuan ("peserta memahami…"), dan mesin rubrik tidak bisa memeriksa kata memahami. */
+/* ================= contoh tujuan pembelajaran =================
+   Jalur SKKNI aman karena KUK-nya didatangkan. Jalur non SKKNI dan perilaku cuma memberi kotak
+   kosong, padahal menulis tujuan yang teramati justru bagian tersulitnya. Kebanyakan orang menulis
+   "peserta memahami…", dan kalimat seperti itu tidak membantu siapa pun memutuskan membeli atau
+   tidak, karena tidak ada yang bisa dibayangkan dari kata memahami. Contoh di bawah semuanya
+   berbentuk hal yang bisa dilakukan. */
 const CONTOH_KRIT = {
   'Komunikasi Efektif':[
     {id:'Menyatakan ulang keberatan lawan bicara sebelum menjawabnya',en:'Restates the other side objection before replying'},
@@ -802,29 +803,6 @@ const CONTOH_TEKNIS = [
   {id:'Formatnya mengikuti ketentuan yang berlaku dan bisa dibaca pihak ketiga',en:'The format follows the applicable rules and is readable by a third party'},
   {id:'Kesimpulannya dinyatakan terpisah dari datanya, bukan tercampur',en:'The conclusion is stated separately from the data, not mixed into it'}
 ];
-
-/* Pemeriksa lunak. Kriteria yang dibuka kata memahami, mengetahui, atau mampu tidak bisa diperiksa
-   mesin rubrik maupun manusia, karena tidak ada yang bisa dilihat. Ini peringatan, bukan larangan:
-   trainer tetap boleh menyimpannya kalau memang itu maksudnya. */
-const KATA_LEMAH = [
-  ['memahami','understand'],['mengetahui','know'],['mengerti','understand'],
-  ['mampu','be able'],['paham','grasp'],['menyadari','be aware'],['mengenal','be familiar'],
-  ['understands',''],['knows',''],['is able',''],['aware of','']
-];
-function kataLemah(teks){
-  const s = ' ' + String(teks).toLowerCase() + ' ';
-  for(const [a] of KATA_LEMAH){ if(a && s.includes(' ' + a)) return a; }
-  return null;
-}
-function periksaKata(teks, boxId){
-  const el = $(boxId); if(!el) return;
-  const k = kataLemah(teks);
-  if(!k){ el.classList.remove('on'); el.innerHTML=''; return; }
-  el.classList.add('on');
-  el.innerHTML = '<b>' + t('Kata "'+k+'" tidak bisa diperiksa.','The word "'+k+'" cannot be checked.') + '</b> ' +
-    t('Tidak ada yang bisa dilihat dari kata itu pada karya peserta, jadi rubriknya tidak punya pegangan. Coba ganti jadi apa yang HARUS TERLIHAT: bukan "peserta memahami beban kerja", melainkan "perhitungannya menyebutkan asumsi jam kerja efektif yang dipakai". Anda tetap boleh menyimpannya kalau memang itu yang Anda maksud.',
-      'Nothing about that word is visible in the work, so the rubric has nothing to hold on to. Try what MUST BE VISIBLE instead: not "the learner understands workload", but "the calculation states the effective working hours assumption used". You may still keep it if that is genuinely what you mean.');
-}
 
 /* Deretan contoh yang bisa ditempel sekali klik ke daftar kriteria atau indikator. */
 function gambarContohKrit(boxId, targetKey, kotakId){
@@ -1196,11 +1174,14 @@ function gambarPembanding(){
                      'Reference: median of '+PASAR.n+' published modules Rp'+rp(PASAR.median)+', ranging Rp'+rp(PASAR.min)+' to Rp'+rp(PASAR.maks)+'.');
 }
 function kritCap(){
+  /* Ini BUKAN alat penilaian. Nusva tidak memeriksa karya peserta, jadi kalimat di sini
+     tidak boleh berbunyi seolah ada yang menilai. Fungsinya dua: dibaca calon pembeli di
+     halaman modul sebelum ia membayar, dan dicetak di sertifikatnya. */
   $('kritCap').textContent = S.jenis==='perilaku'
-    ? (lang==='en'?'We already carried over the indicators you wrote in step 3. Add more if something is missing.'
-                  :'Indikator yang Anda tulis di langkah 3 sudah kami bawa ke sini. Tambah lagi kalau ada yang kurang.')
-    : (lang==='en'?'Write the checks you would run: what must be right for this to count as done properly.'
-                  :'Tulis pemeriksaan yang Anda lakukan: apa yang harus tepat supaya ini dianggap benar.');
+    ? (lang==='en'?'We carried over the indicators you wrote in step 3. These appear on the module page before anyone buys, and on the certificate afterwards.'
+                  :'Indikator yang Anda tulis di langkah 3 sudah kami bawa ke sini. Ini yang tampil di halaman modul sebelum orang membeli, dan tercetak di sertifikatnya nanti.')
+    : (lang==='en'?'What can the participant do after this module? These appear on the module page before anyone buys, and on the certificate afterwards. Nobody marks them; they tell the reader what the training set out to cover.'
+                  :'Apa yang bisa dilakukan peserta setelah modul ini? Ini yang tampil di halaman modul sebelum orang membeli, dan tercetak di sertifikatnya nanti. Tidak ada yang menilainya; ia memberi tahu pembaca apa yang hendak dicakup pelatihannya.');
   if(S.jenis==='perilaku' && S.kriteria.length===0 && S.indikator.length){
     S.kriteria=[...S.indikator]; gambarKriteria();
   }
@@ -1217,7 +1198,7 @@ const KERANGKA=[
 const MAKS_PART=5, MAKS_MNT=20, NYAMAN_MNT=10;
 const JENIS={artikel:{id:'Artikel',en:'Article'},video:{id:'Video + Audio',en:'Video + Audio'},
   audio:{id:'Audio',en:'Audio'},diagram:{id:'Diagram',en:'Diagram'},
-  latihan:{id:'Latihan Workshop',en:'Workshop exercise'}};
+  latihan:{id:'Latihan mandiri',en:'Practice on your own'}};
 const teksKosong=()=>lang==='en'?'Untitled sub-module':'Sub-modul tanpa judul';
 
 function partBaru(o){
@@ -1325,10 +1306,10 @@ function gambarParts(){
         ?'Two or three is the sweet spot. The correct answer is revealed the moment they answer, always, and whatever you write here also comes back the next morning.'
         :'Dua sampai tiga paling pas. Jawaban benarnya diperlihatkan begitu mereka menjawab, selalu, dan yang Anda tulis di sini juga datang lagi besok pagi.')+'</p>';
     }
-    const latihanCue = (p.jenis==='latihan' && S.kriteria.length===0)
+    const latihanCue = (p.jenis==='latihan' && !S.dok.some(d=>d.kat==='tools'))
       ? '<div class="pwarn">'+(lang==='en'
-        ?'This part is a Workshop exercise, but there is no criterion yet for the rubric to check it against. Add one under Workshop exercise below.'
-        :'Bagian ini berupa latihan Workshop, tapi belum ada kriteria yang bisa dipakai rubrik untuk memeriksanya. Tambahkan satu di Latihan Workshop di bawah.')+'</div>' : '';
+        ?'This part is a practice exercise, but no work template has been uploaded yet. Participants do the exercise on their own machines, so without a template there is nothing for them to work in. Add one under Upload Document, category Work tools.'
+        :'Bagian ini berupa latihan mandiri, tapi belum ada template kerja yang diunggah. Peserta mengerjakannya di komputer masing-masing, jadi tanpa template tidak ada yang bisa ia isi. Tambahkan satu di Upload Document, kategori Alat kerja.')+'</div>' : '';
     const diskBaca = p.diskusi.on
       ? '<button class="pill sm" aria-pressed="'+p.diskusi.baca+'" onclick="ubahPart('+i+',\'diskBaca\','+(!p.diskusi.baca)+')">'+(lang==='en'?'Must read two answers first':'Wajib baca dua jawaban dulu')+'</button>' : '';
     const diskCap = p.diskusi.on
@@ -1537,9 +1518,8 @@ function aturan(){
         : q.kunci.trim().length>=1);
   const quizPart=S.parts.some(p=>p.quiz.on && p.quiz.soal.length>=1 && p.quiz.soal.every(soalLengkap));
   const quizTanggung=S.parts.some(p=>p.quiz.on && (p.quiz.soal.length===0 || !p.quiz.soal.every(soalLengkap)));
-  const aktivitas = quizPart || S.kriteria.length>=1;
+  const aktivitas = quizPart;
   const partLengkap = S.parts.length>=1 && S.parts.every(p=>p.judul.trim().length>=4 && p.mnt>=1 && p.mnt<=20);
-  const esaiOk = !(S.post.on && $('postTipe') && $('postTipe').value==='esai' && S.kriteria.length===0);
   const L=[
    {t:{id:'Nama dan deskripsi modul',en:'Module name and description'},ok:judul.length>=4&&desk.length>=20,
     kur:{id:'Deskripsi minimal 20 karakter dan menyebut hasil belajarnya.',en:'Description needs 20+ characters naming the outcome.'}},
@@ -1549,12 +1529,12 @@ function aturan(){
     kur:{id:'Unggah minimal satu materi berformat PPTX atau PDF.',en:'Upload at least one PPTX or PDF material.'}},
    {t:{id:'Sub-modul lengkap',en:'Sub-modules complete'},ok:partLengkap,
     kur:{id:'Minimal satu sub-modul, masing-masing berjudul dan berdurasi 1 sampai 20 menit.',en:'At least one sub-module, each titled and between 1 and 20 minutes.'}},
-   {t:{id:'Esai punya kriteria',en:'Essay has criteria'},ok:esaiOk,
-    kur:{id:'Tes Akhir berbentuk esai butuh minimal satu kriteria latihan, kalau tidak tidak ada yang bisa diperiksa.',en:'An essay Tes Akhir needs at least one practice criterion, otherwise there is nothing to check against.'}},
+   {t:{id:'Tujuan pembelajaran',en:'Learning objectives'},ok:S.kriteria.length>=1,
+    kur:{id:'Tulis minimal satu tujuan pembelajaran. Inilah yang dibaca calon pembeli sebelum membayar, dan yang dicetak di sertifikatnya.',en:'Write at least one learning objective. This is what a buyer reads before paying, and what gets printed on the certificate.'}},
    {t:{id:'Quiz yang dinyalakan sudah lengkap',en:'Enabled quizzes are complete'},ok:!quizTanggung,
     kur:{id:'Ada quiz yang dinyalakan tapi soalnya belum lengkap: pertanyaan, opsi, dan jawaban benarnya perlu terisi.',en:'A quiz is switched on but its questions are unfinished: text, options, and the correct answer are needed.'}},
-   {t:{id:'Minimal 1 aktivitas',en:'At least 1 activity'},ok:aktivitas,
-    kur:{id:'Nyalakan quiz checkpoint di salah satu sub-modul, atau tulis satu kriteria latihan Workshop.',en:'Turn on a checkpoint quiz in one sub-module, or write one Workshop criterion.'}},
+   {t:{id:'Minimal 1 quiz lengkap',en:'At least 1 complete quiz'},ok:aktivitas,
+    kur:{id:'Nyalakan quiz checkpoint di salah satu sub-modul dan lengkapi soalnya. Quiz adalah satu-satunya hal yang diperiksa Nusva, jadi tanpa itu tidak ada dasar untuk menyatakan Complete.',en:'Turn on a checkpoint quiz in one sub-module and finish its questions. The quiz is the only thing Nusva marks, so without it there is no basis for saying Complete.'}},
    {t:{id:'Sampul modul',en:'Module cover'},ok:true,
     kur:{id:'',en:''},cat:{id:'Opsional. Tanpa unggahan, sampul dibangkitkan dari judul.',en:'Optional. Without an upload, the cover is generated from the title.'}},
    {t:{id:'Harga ditetapkan',en:'Price set'},ok:(+$('harga').value||0)>0,
@@ -1565,8 +1545,8 @@ function aturan(){
   if(S.jenis==='teknis'&&S.basis==='skkni'){
     L.push({t:{id:'Pemetaan kriteria SKKNI',en:'SKKNI criteria mapping'},ok:S.kuk.length>=1||S.usulKuk.length>=1,
       kur:{id:'Centang KUK yang dilatih, atau petakan unit usulan.',en:'Tick the KUK trained, or map a proposed unit.'}});
-    L.push({t:{id:'Latihan Workshop wajib',en:'Workshop exercise required'},ok:S.kriteria.length>=1,
-      kur:{id:'Basis SKKNI butuh karya yang bisa dinilai rubrik, bukan hanya quiz.',en:'SKKNI basis needs work a rubric can assess, not only a quiz.'}});
+    L.push({t:{id:'Template kerja terunggah',en:'Work template uploaded'},ok:S.dok.some(d=>d.kat==='tools'),
+      kur:{id:'Basis SKKNI butuh template kerja yang bisa diunduh dan dikerjakan peserta, bukan hanya bacaan dan quiz.',en:'An SKKNI basis needs a downloadable work template the participant actually fills in, not just reading and a quiz.'}});
   }
   if(S.jenis==='perilaku'){
     L.push({t:{id:'Tag skill dan indikator',en:'Skill tags and indicators'},ok:S.skill.length>=1&&S.kriteria.length>=1,
