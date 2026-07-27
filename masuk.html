@@ -110,7 +110,9 @@ h1{font-size:clamp(26px,3.4vw,33px);margin:14px 0 0;max-width:16ch}
 </main>
 
 <script type="module">
-import { klien, terkonfigurasi, T, pengguna } from './assets/app.js';
+import { klien, terkonfigurasi, T, pengguna, pitaGalatMasuk } from './assets/app.js';
+
+pitaGalatMasuk();
 
 const q = new URLSearchParams(location.search);
 let peran = q.get('peran') === 'trainer' ? 'trainer' : 'learner';

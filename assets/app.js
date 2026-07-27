@@ -64,6 +64,53 @@ export function pasangTema(btn){
   }catch(e){}
 })();
 
+/* ---------- galat dari penyedia masuk ----------
+   Google dan Supabase mengembalikan kegagalan sebagai parameter di URL, kadang di query dan
+   kadang di fragmen. Sebelum ini halaman diam saja dan pengguna cuma melihat dirinya belum
+   masuk, tanpa satu pun petunjuk kenapa. Itu menyulitkan pengguna dan mustahil didiagnosis
+   dari jauh, jadi pesannya sekarang dibaca, ditampilkan, lalu URL-nya dibersihkan supaya
+   tidak muncul lagi saat halaman dimuat ulang. */
+const _galatAuth = (() => {
+  try{
+    const q = new URLSearchParams(location.search);
+    const h = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const kode = q.get('error') || h.get('error') || q.get('error_code') || h.get('error_code');
+    if(!kode) return null;
+    const uraian = q.get('error_description') || h.get('error_description') || '';
+    ['error','error_code','error_description'].forEach(k => q.delete(k));
+    const bersih = location.pathname + (q.toString() ? '?' + q : '') +
+                   (h.get('error') || h.get('error_code') ? '' : location.hash);
+    history.replaceState(null, '', bersih);
+    return { kode, uraian: decodeURIComponent(uraian.replace(/\+/g, ' ')) };
+  }catch(e){ return null; }
+})();
+export const galatMasuk = () => _galatAuth;
+
+/* Pita merah di atas halaman. Sengaja pita, bukan toast, karena toast hilang sendiri dan
+   pesan kegagalan masuk justru perlu tetap terbaca sampai orangnya selesai membacanya. */
+export function pitaGalatMasuk(){
+  if(!_galatAuth) return false;
+  const p = document.createElement('div');
+  p.setAttribute('role','alert');
+  p.style.cssText = 'position:relative;z-index:60;background:var(--danger-tint);color:var(--danger-deep);' +
+    'border-bottom:1px solid var(--danger);padding:11px 24px;font-size:13.5px;line-height:1.5;' +
+    'display:flex;gap:10px;align-items:flex-start;justify-content:center;text-align:left';
+  const isi = document.createElement('span');
+  isi.style.cssText = 'max-width:var(--wrap);display:block';
+  const judul = document.createElement('b');
+  judul.textContent = T('Masuk tidak berhasil. ','Sign in did not go through. ');
+  isi.appendChild(judul);
+  isi.appendChild(document.createTextNode(
+    _galatAuth.uraian || T('Penyedia masuk menolak permintaannya.','The sign in provider refused the request.')));
+  const kd = document.createElement('span');
+  kd.style.cssText = 'display:block;margin-top:3px;font-size:11.5px;opacity:.8';
+  kd.textContent = T('Kode: ','Code: ') + _galatAuth.kode;
+  isi.appendChild(kd);
+  p.appendChild(isi);
+  document.body.insertBefore(p, document.body.firstChild);
+  return true;
+}
+
 /* ---------- toast ---------- */
 export function toast(pesan){
   let t = document.getElementById('toast');
@@ -77,7 +124,17 @@ export async function sesi(){
   const c = await klien();
   if(!c) return null;
   const { data } = await c.auth.getSession();
-  return data && data.session ? data.session : null;
+  const s = data && data.session ? data.session : null;
+  /* Kode OAuth sekali pakai tidak perlu tertinggal di bilah alamat setelah ditukar sesi.
+     Ia tidak berbahaya lagi, tetapi menyalin URL yang berisi kode mati membingungkan. */
+  if(s && /[?&]code=/.test(location.search)){
+    try{
+      const q = new URLSearchParams(location.search);
+      q.delete('code'); q.delete('state');
+      history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
+    }catch(e){}
+  }
+  return s;
 }
 export async function pengguna(){
   const s = await sesi();

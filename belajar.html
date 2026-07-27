@@ -174,12 +174,13 @@ a.mod .ft .hrg{margin-left:auto;font-size:14.5px;font-weight:800;color:var(--ink
 </footer>
 
 <script type="module">
-import { pasangKepala, pasangAkun, T, rp, nf, KATALOG, pengguna } from './assets/app.js';
+import { pasangKepala, pasangAkun, T, rp, nf, KATALOG, pengguna, pitaGalatMasuk } from './assets/app.js';
 import { pasangNav } from './assets/nav.js';
 import { sampulCadangan } from './assets/sampul.js';
 
 pasangNav({ prefix:'' });
 pasangKepala();
+pitaGalatMasuk();
 pasangAkun(document.getElementById('aakun'));
 
 /* ---------- sapaan sesuai jam, tanpa memaksa ---------- */
