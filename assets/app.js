@@ -202,7 +202,7 @@ export async function pasangAkun(el){
    dipasang asal akan mengirim orang ke modul yang salah. */
 export const KATALOG = [
   { slug:'uraian-jabatan', sampul:'assets/foto/sampul-uraian-jabatan.webp', pendek:'Uraian Jabatan', judul:'Menyusun Uraian Jabatan', kode:'M.70SDM01.010.2',
-    bidang:'SKKNI MSDM', tingkat:'Dasar', harga:50000, menit:51, peserta:38,
+    bidang:'SKKNI MSDM', tingkat:'Dasar', harga:50000, peserta:38,
     untuk:['Profesional','Praktisi'],
     jabatan:['Staf HR','Supervisor HR'],
     trainer:'Rangga Irawan Prasetyo, MBA',
@@ -215,7 +215,7 @@ export const KATALOG = [
       { judul:'Terapkan di pekerjaan Anda', menit:5, jenis:'artikel', buka:false }
     ] },
   { slug:'analisis-beban-kerja', sampul:'assets/foto/sampul-analisis-beban-kerja.webp', pendek:'Beban Kerja', judul:'Melaksanakan Analisis Beban Kerja', kode:'M.70SDM01.011.2',
-    bidang:'SKKNI MSDM', tingkat:'Menengah', harga:50000, menit:44, peserta:21,
+    bidang:'SKKNI MSDM', tingkat:'Menengah', harga:50000, peserta:21,
     untuk:['Profesional','Praktisi'],
     jabatan:['Supervisor HR','Manajer HR'],
     trainer:'Rangga Irawan Prasetyo, MBA',
@@ -228,7 +228,7 @@ export const KATALOG = [
       { judul:'Menyampaikan hasilnya', menit:9, jenis:'artikel', buka:false }
     ] },
   { slug:'komunikasi-sulit', sampul:'assets/foto/sampul-komunikasi-sulit.webp', pendek:'Percakapan Sulit', judul:'Percakapan Sulit di Tempat Kerja', kode:null,
-    bidang:'Soft skill', tingkat:'Dasar', harga:75000, menit:38, peserta:64,
+    bidang:'Soft skill', tingkat:'Dasar', harga:75000, peserta:64,
     untuk:['Profesional','Pekerja','Entrepreneur','Fresh Graduate'],
     jabatan:['Supervisor HR','Manajer HR','Pemimpin tim'],
     trainer:'Rangga Irawan Prasetyo, MBA',
@@ -241,7 +241,7 @@ export const KATALOG = [
       { judul:'Terapkan minggu ini', menit:8, jenis:'artikel', buka:false }
     ] },
   { slug:'administrasi-pengupahan', sampul:'assets/foto/sampul-administrasi-pengupahan.webp', pendek:'Administrasi Upah', judul:'Melakukan Administrasi Pengupahan', kode:'M.70SDM01.057.2',
-    bidang:'SKKNI MSDM', tingkat:'Dasar', harga:50000, menit:46, peserta:15,
+    bidang:'SKKNI MSDM', tingkat:'Dasar', harga:50000, peserta:15,
     untuk:['Praktisi','Pekerja'],
     jabatan:['Staf HR','Staf Payroll'],
     trainer:'Rangga Irawan Prasetyo, MBA',
@@ -254,4 +254,13 @@ export const KATALOG = [
       { judul:'Menyiapkan berkas untuk audit', menit:9, jenis:'artikel', buka:false }
     ] }
 ];
+
+/* Durasi modul DIHITUNG dari bagiannya, tidak pernah lagi ditulis tangan.
+   Sebelum ini tiap modul memuat angka menit sendiri, dan salah satunya sudah
+   meleset: uraian-jabatan tertulis 51 menit padahal kelima bagiannya berjumlah
+   33. Selisih 18 menit itu ikut masuk ke baris fakta beranda, ke kartu katalog,
+   ke halaman perusahaan, dan ke saran Panduan, jadi satu angka yang salah ketik
+   berbohong di lima tempat sekaligus. Angka yang bisa diturunkan tidak boleh
+   disimpan dua kali. */
+KATALOG.forEach(m => { m.menit = m.bagian.reduce((t, b) => t + b.menit, 0); });
 export const cariModul = slug => KATALOG.find(m => m.slug === slug) || null;
