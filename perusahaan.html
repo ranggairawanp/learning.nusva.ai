@@ -233,6 +233,7 @@ const CFG = window.NUSVA || {};
 /* ---------- pemetaan modul ke jabatan ----------
    Dibangkitkan dari katalog yang sama dengan beranda, supaya tabelnya tidak bisa basi diam-diam
    saat modulnya bertambah atau kode unitnya berubah. */
+/* uraian bukti tetap di sini; kolom jabatan diambil dari KATALOG */
 const PETA = {
   'uraian-jabatan':        { jab:{id:'Staf dan Supervisor HR',en:'HR staff and supervisor'},
                              bukti:{id:'Satu uraian jabatan yang tersusun dan siap dipakai rekrutmen',en:'One job description, structured and ready for recruitment'} },
@@ -255,7 +256,7 @@ function gambarPeta(){
       '<td data-l="'+T('Bukti yang dihasilkan','Evidence produced')+'"><span class="b"></span></td>'+
       '<td data-l="'+T('Unit SKKNI','SKKNI unit')+'"><span class="kd" style="margin-top:0">'+
         (m.kode || T('Tanpa unit SKKNI, jalur soft skill','No SKKNI unit, soft skill path'))+'</span></td>';
-    tr.querySelector('.j').textContent = T(p.jab.id, p.jab.en);
+    tr.querySelector('.j').textContent = (m.jabatan||[]).join(', ') || T(p.jab.id, p.jab.en);
     tr.querySelector('.m').textContent = m.judul;
     tr.querySelector('.b').textContent = T(p.bukti.id, p.bukti.en);
     tb.appendChild(tr);

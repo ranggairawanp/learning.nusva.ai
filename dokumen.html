@@ -56,6 +56,16 @@ p.tx{font-size:14.5px;color:var(--ink-2);line-height:1.7;margin:16px 0 0;max-wid
 .kol li{font-size:13.5px;color:var(--ink-2);line-height:1.55;padding-left:15px;position:relative}
 .kol li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--ink-3)}
 
+/* alur satu modul, ditulis sebagai urutan berdurasi, bukan sebagai janji */
+.alur{list-style:none;padding:0;margin:26px 0 0;border-top:1px solid var(--border)}
+.alur li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:16px;align-items:baseline;
+  padding:15px 0;border-bottom:1px solid var(--border)}
+@media (max-width:620px){ .alur li{grid-template-columns:28px minmax(0,1fr);gap:12px} .alur .dur{grid-column:2;margin-top:2px} }
+.alur .no{font-size:12px;font-weight:800;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.alur b{display:block;font-size:15px;font-weight:var(--w-body-strong);letter-spacing:-.01em}
+.alur span.ket{display:block;font-size:13.5px;color:var(--ink-2);line-height:1.55;margin-top:5px}
+.alur .dur{font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+  white-space:nowrap;font-variant-numeric:tabular-nums}
 .prinsip{list-style:none;padding:0;margin:24px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:760px){ .prinsip{grid-template-columns:1fr} }
 .prinsip li{border:1px solid var(--border);border-radius:var(--r-card);background:var(--surface);padding:18px 19px 20px}
@@ -74,12 +84,55 @@ p.tx{font-size:14.5px;color:var(--ink-2);line-height:1.7;margin:16px 0 0;max-wid
   <h1 data-en="Two documents, and what each one may be claimed for.">Dua dokumen, dan untuk apa masing-masing boleh diklaim.</h1>
   <p class="lead" data-en="This page exists because the difference between finishing training and being declared competent gets blurred constantly in this industry, and the person paying the price for that blur is usually the one holding the certificate.">Halaman ini ada karena beda antara menuntaskan pelatihan dan dinyatakan kompeten terus-menerus dikaburkan di industri ini, dan yang membayar akibat kaburnya biasanya justru orang yang memegang sertifikatnya.</p>
   <nav class="toc" aria-label="Isi halaman">
+    <a href="#cara" data-en="How it works">Cara belajarnya</a>
     <a href="#sertifikat" data-en="Completion Certificate">Sertifikat Penyelesaian</a>
     <a href="#bukti" data-en="Evidence Portfolio">Paket Bukti Karya</a>
     <a href="#complete" data-en="Complete and Kompeten">Complete dan Kompeten</a>
     <a href="#privasi" data-en="Privacy">Privasi</a>
     <a href="#posisi" data-en="Product position">Posisi produk</a>
   </nav>
+</section>
+
+<!-- ============ cara belajarnya ============ -->
+<section class="wrap" id="cara">
+  <span class="eyebrow" data-en="How it works">Cara belajarnya</span>
+  <h2 class="j" data-en="One module, five steps, told with its durations.">Satu modul, lima langkah, beserta durasinya.</h2>
+  <p class="lead" data-en="This is the sequence every module follows, not a claim about how good it is. The durations are the real ones set by the trainer.">Ini urutan yang diikuti tiap modul, bukan klaim tentang seberapa bagusnya. Durasinya adalah durasi sungguhan yang ditetapkan trainernya.</p>
+
+  <ol class="alur">
+    <li>
+      <span class="no">01</span>
+      <span><b data-en="Read the concept">Baca konsepnya</b>
+        <span class="ket" data-en="The concept panel is short on purpose. Most of the time budget goes to the exercise, because doing is what builds the memory, not watching someone else do it.">Panel konsepnya sengaja pendek. Sebagian besar jatah waktu dipakai untuk latihan, karena yang membangun ingatan adalah mengerjakan, bukan melihat orang lain mengerjakan.</span></span>
+      <span class="dur" data-en="4 to 6 min">4 sampai 6 mnt</span>
+    </li>
+    <li>
+      <span class="no">02</span>
+      <span><b data-en="Read the criteria before starting">Baca kriterianya sebelum mulai</b>
+        <span class="ket" data-en="The rubric is open from the first screen. You are never guessing what counts as good, because the checklist your work will be measured against is visible before you write a word.">Rubriknya terbuka sejak layar pertama. Anda tidak pernah menebak apa yang dianggap baik, karena daftar periksa yang akan dipakai menilai karya Anda sudah terlihat sebelum Anda menulis satu kata pun.</span></span>
+      <span class="dur" data-en="1 min">1 mnt</span>
+    </li>
+    <li>
+      <span class="no">03</span>
+      <span><b data-en="Do the exercise">Kerjakan latihannya</b>
+        <span class="ket" data-en="A real work artefact, not a quiz about the reading. A job description, a workload calculation, a conversation script.">Artefak kerja sungguhan, bukan kuis tentang bacaannya. Satu uraian jabatan, satu perhitungan beban kerja, satu naskah percakapan.</span></span>
+      <span class="dur" data-en="10 to 14 min">10 sampai 14 mnt</span>
+    </li>
+    <li>
+      <span class="no">04</span>
+      <span><b data-en="Checked criterion by criterion">Diperiksa kriteria demi kriteria</b>
+        <span class="ket" data-en="The feedback names which criterion is not met yet and why, quoting your own work. Attempts are unlimited and are never counted against you or reported to anyone.">Umpan baliknya menyebut kriteria mana yang belum terpenuhi beserta alasannya, dengan mengutip karya Anda sendiri. Percobaannya tidak terbatas, tidak pernah dihitung sebagai kekurangan, dan tidak dilaporkan ke siapa pun.</span></span>
+      <span class="dur" data-en="Immediate">Seketika</span>
+    </li>
+    <li>
+      <span class="no">05</span>
+      <span><b data-en="It comes back the next morning">Datang lagi besok pagi</b>
+        <span class="ket" data-en="Two questions from what you did yesterday, answered with one thumb. No streaks, no points, no leaderboards, no guilt notifications. A blank day stays blank and nothing scolds you.">Dua pertanyaan dari yang Anda kerjakan kemarin, dijawab dengan satu jempol. Tanpa hitungan beruntun, tanpa poin, tanpa papan peringkat, tanpa notifikasi rasa bersalah. Hari yang bolong dibiarkan bolong dan tidak ada yang memarahi Anda.</span></span>
+      <span class="dur" data-en="30 sec per day">30 dtk per hari</span>
+    </li>
+  </ol>
+
+  <p class="tx" data-en="Every exercise you finish is filed into your Evidence Portfolio, arranged criterion by criterion. That is the document described in the next section, and it is free forever.">Tiap latihan yang Anda tuntaskan diarsipkan ke Paket Bukti Karya Anda, tersusun kriteria demi kriteria. Itulah dokumen yang dijelaskan di bagian berikutnya, dan ia gratis selamanya.</p>
 </section>
 
 <!-- ============ sertifikat ============ -->

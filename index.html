@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Nusva Learning · Belajar dengan mengerjakan</title>
-<meta name="description" content="Nusva Learning adalah tempat belajar keterampilan kerja dengan cara mengerjakannya. Latihan yang diperiksa per kriteria, pengingat harian, dan portofolio bukti karya yang bisa Anda bawa.">
+<title>Nusva Learning · Katalog modul keterampilan kerja</title>
+<meta name="description" content="Katalog modul keterampilan kerja berbasis SKKNI dan soft skill. Tiap modul menampilkan bagian, durasi, kriteria, dan bagian mana yang dibuka gratis sebelum dibeli.">
 <meta property="og:title" content="Nusva Learning">
 <meta property="og:description" content="Belajar dengan mengerjakan, bukan menonton.">
 <meta property="og:type" content="website">
@@ -13,113 +13,190 @@
 <link rel="stylesheet" href="assets/nusva.css">
 <script src="assets/config.js"></script>
 <style>
-html{scroll-behavior:smooth;scroll-padding-top:80px}
-section{padding:76px 0;border-top:1px solid var(--border)}
-@media (max-width:700px){ section{padding:52px 0} }
-.hero{position:relative;padding:0;border-top:0;overflow:hidden;isolation:isolate;
-  min-height:min(640px,calc(100dvh - 130px));display:flex;align-items:center}
-.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% 50%;z-index:-2}
+html{scroll-behavior:smooth;scroll-padding-top:132px}
+
+/* ============================================================
+   SATU SUMBU KIRI.
+   Sebelumnya halaman ini punya empat tepi kiri yang berbeda: 154 untuk struktur,
+   173 untuk isi kartu katalog, 176 untuk isi kartu alasan, 192 untuk pita trainer.
+   Selisih 19 piksel terlalu kecil untuk terbaca sengaja dan terlalu besar untuk
+   terlihat rapi, jadi mata membacanya sebagai goyah.
+   Aturannya sekarang: kartu TIDAK punya padding samping. Pemisahnya jarak dan
+   garis rambut, bukan kotak. Latar yang perlu melebar dibuat full-bleed dengan
+   isinya tetap di dalam .wrap, sehingga tidak ada satu pun teks yang bergeser.
+   ============================================================ */
+
+/* ---------- header produk ---------- */
+.hero{position:relative;overflow:hidden;isolation:isolate;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;min-height:352px}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:74% 46%;z-index:-2}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:
-  linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.94) 30%,rgba(255,255,255,.62) 50%,rgba(255,255,255,.06) 72%,rgba(255,255,255,0) 86%)}
+  linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.96) 34%,rgba(255,255,255,.66) 52%,rgba(255,255,255,.08) 74%,rgba(255,255,255,0) 88%)}
 html[data-theme="dark"] .hero::after{background:
-  linear-gradient(90deg,rgba(7,16,24,.97) 0%,rgba(7,16,24,.93) 30%,rgba(7,16,24,.6) 50%,rgba(7,16,24,.08) 72%,rgba(7,16,24,0) 86%)}
-.herotx{width:100%;max-width:var(--wrap);margin:0 auto;padding:74px 24px 78px}
-.herotx > *{max-width:41ch}
+  linear-gradient(90deg,rgba(7,16,24,.98) 0%,rgba(7,16,24,.95) 34%,rgba(7,16,24,.64) 52%,rgba(7,16,24,.1) 74%,rgba(7,16,24,0) 88%)}
+.herotx{width:100%;max-width:var(--wrap);margin:0 auto;padding:38px 24px 34px}
+.hero h1{font-size:clamp(26px,3.2vw,38px);letter-spacing:-.03em;line-height:1.12;margin:9px 0 0;max-width:15ch}
+.hero .sub{font-size:15px;line-height:1.55;margin:12px 0 0;max-width:44ch;color:var(--ink-2)}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
 @media (max-width:960px){
   .hero{display:block;min-height:0}
-  .hero img.bg{position:relative;inset:auto;height:auto;aspect-ratio:16/9;object-position:70% 50%;z-index:0}
+  .hero img.bg{position:relative;inset:auto;height:auto;aspect-ratio:16/7;object-position:72% 46%;z-index:0}
   .hero::after{display:none}
-  .herotx{padding:34px 18px 44px}
+  /* padding samping WAJIB sama dengan .wrap, kalau tidak teks hero bergeser 6 piksel
+     terhadap seluruh halaman dan sumbunya pecah lagi justru di layar sedang */
+  .herotx{padding:24px 24px 30px}
 }
-.hero h1{max-width:13ch}
+@media (max-width:560px){ .herotx{padding:22px 18px 26px} }
 
-/* pita coba rasanya */
-.coba{background:var(--surface-2)}
-.coba .in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:44px;align-items:center}
-@media (max-width:900px){ .coba .in{grid-template-columns:1fr;gap:26px} }
+/* ---------- baris fakta: angka hidup, dihitung dari katalog ---------- */
+.fakta{display:flex;gap:30px;flex-wrap:wrap;margin-top:22px;padding-top:18px;
+  border-top:1px solid color-mix(in srgb,var(--border) 70%,transparent);max-width:min(100%,560px)}
+.fakta div{min-width:0}
+.fakta b{display:block;font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1;
+  font-variant-numeric:tabular-nums}
+.fakta span{display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);margin-top:6px}
 
-/* pita artefak */
-.artefak .in{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:48px;align-items:center}
-/* dua pita ini sengaja tanpa judul: kalimat pembukanya yang membawa blok, jadi ukurannya dinaikkan */
-.artefak .sub,.coba .sub{font-size:clamp(17px,1.9vw,21.5px);color:var(--ink);line-height:1.5;max-width:44ch;margin-top:14px}
-@media (max-width:900px){ .artefak .in{grid-template-columns:1fr;gap:26px} }
-.artefak img{display:block;width:100%;aspect-ratio:5/4;object-fit:cover;object-position:50% 42%;
-  max-height:470px;border-radius:var(--r-panel);background:var(--surface-3)}
-@media (max-width:900px){ .artefak img{aspect-ratio:16/10;max-height:320px} }
-.cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:30px}
+/* ---------- pintasan jabatan ---------- */
+.jabatan{font-size:13px;color:var(--ink-2);margin:16px 0 0;line-height:1.9;max-width:min(100%,690px)}
+.jabatan .lb{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);margin-right:9px}
+.jabatan button{border:0;background:transparent;padding:0;font-size:13px;font-weight:var(--w-body-strong);
+  color:var(--accent);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+.jabatan button:hover{text-decoration-color:var(--accent)}
+.jabatan .pisah{color:var(--ink-3);margin:0 7px}
+
+/* ---------- bilah kerja katalog ---------- */
+.kerja{position:sticky;top:var(--nav);z-index:30;border-bottom:1px solid var(--border);
+  background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:saturate(180%) blur(18px)}
+@supports not (backdrop-filter:blur(1px)){ .kerja{background:var(--surface)} }
+@media (max-width:760px){ .kerja{position:static} }
+/* Dua baris yang disengaja, bukan dua baris hasil terlanjur melimpah.
+   Baris atas: apa yang dicari dan bagaimana diurutkan. Baris bawah: saringannya. */
+.kerja .wrap{padding-top:10px;padding-bottom:10px}
+.kerja .baris{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.kerja .baris + .baris{margin-top:9px;padding-top:9px;border-top:1px solid color-mix(in srgb,var(--border) 65%,transparent)}
+.kerja .cari{position:relative;flex:1 1 260px;min-width:0;max-width:340px}
+.kerja .cari input{margin:0;padding-left:36px;height:var(--hit-min)}
+.kerja .cari svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;
+  color:var(--ink-3);pointer-events:none}
+.kerja .cari .x{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;
+  color:var(--ink-3);width:26px;height:26px;border-radius:7px;display:grid;place-items:center}
+.kerja .cari .x:hover{background:var(--surface-3);color:var(--ink)}
+.grup{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.grup .lb{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  margin-right:3px}
+.kerja .chip{min-height:32px;padding:5px 12px;font-size:12.5px}
+.kerja .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.kerja .sp{flex:1}
+.kerja select.f{margin:0;height:32px;padding:0 30px 0 11px;font-size:12.5px;width:auto;min-width:150px}
+.hasil{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:760px){ .kerja .sp{display:none} .kerja .cari{max-width:none;flex-basis:100%} }
+
+/* ---------- katalog ---------- */
+.katwrap{padding:30px 0 64px}
+/* Kolomnya ditetapkan per breakpoint, bukan auto-fill, supaya jumlah modul yang masih
+   sedikit tidak pernah menyisakan satu kartu sendirian di baris terakhir. */
+.kat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:34px 24px}
+@media (max-width:1180px){ .kat{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:900px){  .kat{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:600px){  .kat{grid-template-columns:1fr;gap:30px} }
+
+/* Kartu TANPA padding samping dan TANPA border: isinya mulai persis di tepi kolomnya,
+   jadi kolom pertama sejajar dengan judul seksi dan logo di bar navigasi. */
+a.mod{display:flex;flex-direction:column;text-decoration:none;color:inherit;background:transparent;height:100%}
+a.mod .gb{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface-3);
+  border-radius:var(--r-card);border:1px solid var(--border);transition:transform .3s var(--spring)}
+a.mod:hover .gb{transform:translateY(-3px)}
+a.mod h3{font-size:16.5px;font-weight:var(--w-subhead);line-height:1.32;margin:15px 0 0;letter-spacing:-.012em}
+a.mod:hover h3{color:var(--accent)}
+a.mod .rk{font-size:13px;color:var(--ink-2);margin:7px 0 0;line-height:1.5}
+
+/* Sidik jari halaman ini: enam fakta di posisi yang selalu sama, sehingga katalog
+   bisa dipindai ke bawah seperti membaca kolom tabel, bukan dibaca kartu per kartu. */
+.spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px;margin-top:auto;padding-top:14px}
+/* saat kartunya selebar satu kolom penuh, dua kolom membuat nilainya terpencar jauh dari
+   labelnya, jadi di sana tiga kolom yang benar */
+@media (max-width:600px){ .spec{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 12px} }
+.spec > div{min-width:0}
+.spec dt{display:block;font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spec dd{display:block;margin:4px 0 0;font-size:13px;font-weight:var(--w-body-strong);color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1.3;overflow:hidden;text-overflow:ellipsis}
+.spec dd.acc{color:var(--accent)}
+.spec dd.mut{color:var(--ink-3);font-weight:var(--w-caption)}
+a.mod .rule{height:1px;background:var(--border);margin-top:15px}
+
+/* ---------- tampilan daftar ----------
+   Kisi kartu bagus untuk menjelajah belasan modul. Untuk seratus modul ia jadi dinding foto
+   sepanjang sepuluh ribu piksel, dan itu bukan cuma lambat, itu juga membuat orang berhenti
+   memilih. Maka di atas ambang tertentu katalog berganti sendiri jadi daftar: satu baris per
+   modul, angkanya berbaris jadi kolom sungguhan, dan seratus modul muat dibaca sambil digulir
+   sekali. Penggantiannya otomatis, jadi tidak ada yang perlu menemukan tombolnya lebih dulu. */
+/* Delapan kolom: sampul, judul, lalu ENAM fakta yang sama persis dengan yang ada di kartu.
+   Jumlahnya harus tepat delapan; kalau kurang satu, item terakhir melompat ke baris kedua
+   dan tinggi tiap baris membengkak dari 69 piksel jadi 107 tanpa ada yang terlihat rusak. */
+.kepala,.baris-mod{display:grid;
+  grid-template-columns:76px minmax(0,1fr) 110px 76px 54px 68px 84px 88px;
+  gap:16px;align-items:center}
+@media (max-width:1100px){ .kepala,.baris-mod{
+  grid-template-columns:64px minmax(0,1fr) 92px 68px 48px 62px 74px 80px;gap:12px} }
+.kepala{padding:0 0 9px;border-bottom:1px solid var(--border-strong)}
+.kepala span{font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
+.baris-mod{padding:13px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit}
+.baris-mod:hover{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+.baris-mod img{width:76px;height:43px;object-fit:cover;border-radius:8px;background:var(--surface-3);border:1px solid var(--border)}
+@media (max-width:1100px){ .baris-mod img{width:64px;height:36px} }
+.baris-mod .jd{font-size:14.5px;font-weight:var(--w-body-strong);line-height:1.35;
+  overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.baris-mod:hover .jd{color:var(--accent)}
+.baris-mod .nilai{font-size:13px;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.baris-mod .nilai.acc{color:var(--accent);font-weight:var(--w-body-strong)}
+.baris-mod .nilai.mut{color:var(--ink-3)}
+/* Di layar sempit tabel tujuh kolom mustahil. Barisnya dilipat jadi dua baris kecil,
+   tetap satu modul per baris, tetap jauh lebih padat daripada kartu. */
+@media (max-width:820px){
+  .kepala{display:none}
+  .baris-mod{grid-template-columns:64px minmax(0,1fr);gap:12px;row-gap:6px}
+  .baris-mod .jd{grid-column:2}
+  .baris-mod .nilai{grid-column:2;display:inline;font-size:12px;color:var(--ink-3)}
+  .baris-mod .nilai::after{content:" · "}
+  .baris-mod .nilai:last-child::after{content:""}
+  .baris-mod .lipat{grid-column:2;display:flex;flex-wrap:wrap;gap:0}
+}
+
+/* ---------- kendali tampilan dan muat lebih banyak ---------- */
+.tampil{display:flex;gap:2px;border:1px solid var(--border-strong);border-radius:9px;padding:2px;flex:none}
+.tampil button{border:0;background:transparent;border-radius:7px;padding:4px 10px;font-size:12px;
+  font-weight:var(--w-body-strong);color:var(--ink-3);min-height:26px}
+.tampil button[aria-pressed="true"]{background:var(--surface-3);color:var(--ink)}
+.lagi{display:flex;justify-content:center;margin-top:30px}
+
+.nihil{border:1px dashed var(--border-strong);border-radius:var(--r-card);padding:40px 24px;margin-top:6px}
+.nihil b{display:block;font-size:16px}
+
+/* ---------- pita trainer, latar melebar tapi teks tetap di sumbu ---------- */
+.pita{background:var(--grad-pasang);color:#fff}
+.pita .wrap{padding-top:40px;padding-bottom:42px;display:grid;grid-template-columns:1.35fr .65fr;gap:30px;align-items:center}
+@media (max-width:820px){ .pita .wrap{grid-template-columns:1fr;padding-top:30px;padding-bottom:32px} }
+.pita h2{color:#fff;margin-top:9px;max-width:20ch;font-size:clamp(22px,2.6vw,30px)}
+.pita p{color:rgba(255,255,255,.92);font-size:15px;line-height:1.6;margin:13px 0 0;max-width:52ch}
+.pita .eyebrow{color:rgba(255,255,255,.82)}
+.pita .btn-secondary{background:#fff;border-color:#fff;color:var(--samudra-900)}
+.pita .btn-quiet{border-color:rgba(255,255,255,.45);color:#fff}
+.pita .cta{margin-top:0;flex-direction:column;align-items:stretch}
+
 .akun{display:flex;gap:9px;align-items:center;font-size:13px;color:var(--ink-2)}
 .akun .ini{width:30px;height:30px;border-radius:50%;background:var(--surface-3);color:var(--ink-2);
   display:grid;place-items:center;font-size:11.5px;font-weight:800;flex:none}
 .akun .nm{max-width:22ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:var(--w-body-strong)}
 @media (max-width:640px){ .akun .nm{display:none} }
-
-/* kartu ritme di hero */
-.demo{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-panel);padding:20px}
-.dcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 15px;margin-bottom:10px}
-.dcard:last-child{margin-bottom:0}
-.dcard .lb{display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-.dcard .q{display:block;font-size:15px;font-weight:var(--w-subhead);margin-top:6px;line-height:1.4}
-.dopt{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap}
-.dopt button{border:1px solid var(--border-strong);background:var(--surface);border-radius:9px;
-  padding:8px 12px;font-size:13px;font-weight:var(--w-body-strong);color:var(--ink-2);min-height:var(--hit-compact)}
-.dopt button[data-st="benar"]{background:var(--success-tint);border-color:var(--success);color:var(--success-deep)}
-.dopt button[data-st="salah"]{background:var(--danger-tint);border-color:var(--danger);color:var(--danger-deep)}
-.dfb{font-size:12.5px;line-height:1.5;margin-top:10px;color:var(--ink-2)}
-.ring{display:flex;gap:4px;margin-top:4px}
-.ring i{height:5px;flex:1;border-radius:3px;background:var(--surface-3)}
-.ring i.on{background:var(--grad-pasang)}
-
-/* tiga alasan */
-.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
-@media (max-width:820px){ .tri{grid-template-columns:1fr} }
-.tri .card{padding:20px 21px 22px}
-.tri h3{margin-bottom:8px}
-.tri p{font-size:13.5px;color:var(--ink-2);margin:0;line-height:1.55}
-.tri .ic{width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;
-  display:grid;place-items:center;margin-bottom:13px}
-.tri .ic svg{width:16px;height:16px}
-
-/* katalog */
-.kat{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:16px;margin-top:30px}
-@media (max-width:560px){ .kat{grid-template-columns:1fr} }
-a.mod{display:flex;flex-direction:column;text-decoration:none;color:inherit;background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--r-card);overflow:hidden;height:100%;
-  transition:border-color .18s ease,transform .18s var(--spring)}
-a.mod .gb{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--surface-3);flex:none}
-a.mod > *:not(.gb){margin-left:18px;margin-right:18px}
-a.mod .top{margin-top:16px}
-a.mod .ft{margin-top:auto;padding-top:13px;margin-bottom:17px}
-a.mod:hover{border-color:var(--accent);transform:translateY(-2px)}
-a.mod .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:9px}
-a.mod h3{font-size:16.5px;font-weight:var(--w-subhead);line-height:1.35}
-a.mod .rk{font-size:13px;color:var(--ink-2);margin:7px 0 0;line-height:1.5}
-a.mod .ft{display:flex;gap:12px;align-items:baseline;font-size:12.5px;color:var(--ink-3)}
-/* satu penanda dominan per kartu: bagian gratis yang bersuara, harga cukup terbaca */
-a.mod .ft .hrg{margin-left:auto;font-size:13.5px;font-weight:var(--w-body-strong);color:var(--ink-2);letter-spacing:0}
-.filter{display:flex;gap:7px;flex-wrap:wrap;margin-top:22px}
-.filter button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
-.caribar{display:flex;gap:9px;align-items:center;margin-top:18px;max-width:520px}
-.caribar input{margin:0}
-.caribar .x{border:1px solid var(--border-strong);background:var(--surface);border-radius:var(--r-field);
-  padding:0 13px;height:var(--hit-min);font-size:13px;font-weight:var(--w-body-strong);color:var(--ink-2);flex:none}
-.jml{font-size:13px;color:var(--ink-3);margin-top:12px}
-.nihil{border:1px dashed var(--border-strong);border-radius:var(--r-card);padding:34px 22px;text-align:center;margin-top:16px}
-
-/* pita trainer */
-.pita{background:var(--grad-pasang);color:#fff;border-radius:var(--r-panel);padding:40px 38px 42px;
-  display:grid;grid-template-columns:1.3fr .7fr;gap:28px;align-items:center}
-@media (max-width:820px){ .pita{grid-template-columns:1fr;padding:30px 24px 32px} }
-.pita h2{color:#fff;margin-top:10px;max-width:20ch}
-.pita p{color:rgba(255,255,255,.92);font-size:15.5px;line-height:1.6;margin:14px 0 0;max-width:52ch}
-.pita .eyebrow{color:rgba(255,255,255,.82)}
-.pita .btn-secondary{background:#fff;border-color:#fff;color:var(--samudra-900)}
-.pita .btn-quiet{border-color:rgba(255,255,255,.45);color:#fff}
 </style>
 </head>
 <body>
 
 <header id="nav"></header>
-<div id="rail"></div>
 
 <main>
 
@@ -129,111 +206,76 @@ a.mod .ft .hrg{margin-left:auto;font-size:13.5px;font-weight:var(--w-body-strong
   <div class="herotx">
       <span class="eyebrow" id="hEyebrow" data-en="Nusva Learning">Nusva Learning</span>
       <h1 id="hJudul" data-en="You do not learn a skill by watching one.">Keterampilan tidak menempel dari menonton.</h1>
-      <p class="sub" id="hSub" data-en="Here you read four minutes, then you do the work. Your submission is checked criterion by criterion with a specific reason, and what you got wrong comes back tomorrow morning until it sticks.">Di sini Anda membaca empat menit, lalu mengerjakannya. Karya Anda diperiksa kriteria demi kriteria dengan alasan yang spesifik, dan yang belum tepat datang lagi besok pagi sampai menempel.</p>
+      <p class="sub" id="hSub" data-en="Read four minutes, then do the work. Every submission is checked criterion by criterion, and what you got wrong comes back the next morning.">Baca empat menit, lalu kerjakan. Tiap karya diperiksa kriteria demi kriteria, dan yang belum tepat datang lagi besok pagi.</p>
       <div class="cta" id="hCta">
         <a class="btn btn-primary" href="#katalog">
           <span data-en="Browse the catalogue">Lihat katalog</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="M12.5 5.5L19 12l-6.5 6.5"/></svg>
         </a>
-        <a class="btn btn-secondary" href="#coba" data-en="Try it in 30 seconds">Coba 30 detik</a>
+        <a class="btn btn-secondary" href="dokumen.html#cara" id="hCta2" data-en="How it works">Cara belajarnya</a>
       </div>
-      <p class="cap" id="hCap" style="margin-top:24px;max-width:46ch" data-en="Detail of every module is open to read before you sign up. Signing in is only needed when you start learning.">Detail tiap modul terbuka untuk dibaca sebelum Anda mendaftar. Masuk baru diperlukan saat Anda mulai belajar.</p>
+      <div class="fakta" id="fakta"></div>
+      <!-- Sumbu masuk berbentuk pengenalan diri, bukan evaluasi. Sengaja berupa tautan teks,
+           bukan chip, supaya terbaca sebagai pintasan dan tidak menambah satu lagi permukaan
+           kendali di halaman yang kendalinya justru sedang dikurangi. -->
+      <p class="jabatan" id="jabatan"></p>
   </div>
 </section>
 
-<section class="coba" id="coba">
-  <div class="wrap in">
-    <div>
-      <span class="eyebrow" data-en="Thirty seconds">Tiga puluh detik</span>
-      <p class="sub" data-en="Two questions from what you read yesterday, answered with one thumb. No streaks, no points, and a blank day stays blank.">Dua pertanyaan dari materi kemarin, dijawab dengan satu jempol. Tanpa hitungan beruntun, tanpa poin, dan hari yang bolong dibiarkan bolong.</p>
-    </div>
-    <aside class="demo" aria-label="Contoh sapaan pagi">
-      <div class="dcard">
-        <span class="lb" data-en="Daily recall · 30 seconds">Daily recall · 30 detik</span>
-        <span class="q" data-en="Which one belongs in a job description, and which one does not?">Mana yang termasuk isi uraian jabatan, dan mana yang bukan?</span>
-        <div class="dopt">
-          <button data-i="0" data-en="Main responsibilities">Tanggung jawab utama</button>
-          <button data-i="1" data-en="The person salary">Gaji orangnya</button>
-          <button data-i="2" data-en="Required competencies">Kompetensi yang dibutuhkan</button>
-        </div>
-        <p class="dfb" id="fb" data-en="Pick one. Nothing here is recorded; this is just a taste.">Pilih satu. Tidak ada yang dicatat di sini, ini sekadar contoh rasanya.</p>
-      </div>
-      <div class="dcard">
-        <span class="lb" data-en="Continue">Lanjutkan</span>
-        <span class="q" data-en="Anatomy of a job description that gets used">Anatomi uraian jabatan yang terpakai</span>
-        <p class="cap" style="margin-top:6px" data-en="Next: 6 min reading, then one exercise.">Berikutnya: baca 6 mnt, lalu satu latihan.</p>
-        <div class="ring" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
-        <p class="cap" style="margin-top:7px" data-en="2 of 5 criteria complete">2 dari 5 kriteria complete</p>
-      </div>
-    </aside>
-  </div>
-</section>
-
-<section id="cara">
+<section class="kerja" id="katalog" aria-label="Saring katalog">
   <div class="wrap">
-    <span class="eyebrow" data-en="How it works">Cara belajarnya</span>
-    <div class="tri">
-      <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h9"/><path d="M4 12h16"/><path d="M4 18h12"/></svg></div>
-        <h3 data-en="You do the work, not watch it">Anda mengerjakan, bukan menontonnya</h3>
-        <p data-en="The concept panel is short on purpose. Most of your time goes to the exercise, because doing is what builds the memory, not watching someone else do it.">Panel konsepnya sengaja pendek. Sebagian besar waktu Anda dipakai untuk latihan, karena yang membangun ingatan adalah mengerjakan, bukan melihat orang lain mengerjakan.</p>
+    <div class="baris">
+      <div class="cari">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+        <label class="sr" for="cari" data-en="Search modules">Cari modul</label>
+        <input class="f" id="cari" type="search" autocomplete="off"
+               placeholder="Cari modul atau kode unit" data-en-ph="Search modules or unit code">
+        <button class="x" id="cariX" hidden aria-label="Bersihkan pencarian">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+        </button>
       </div>
-      <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12l2.4 2.4L16 9.5"/></svg></div>
-        <h3 data-en="You see the criteria before you start">Kriterianya terlihat sebelum Anda mulai</h3>
-        <p data-en="No guessing what counts as good. The rubric is open from the first screen, and the feedback tells you which criterion is not met yet and why, quoting your own work.">Tidak perlu menebak apa yang dianggap baik. Rubriknya terbuka sejak layar pertama, dan umpan baliknya menyebut kriteria mana yang belum terpenuhi beserta alasannya, dengan mengutip karya Anda sendiri.</p>
-      </div>
-      <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 1.8"/></svg></div>
-        <h3 data-en="It comes back before you forget">Ia datang lagi sebelum Anda lupa</h3>
-        <p data-en="Thirty seconds in the morning, two questions from yesterday. No streaks, no points, no guilt notifications. A blank day stays blank and nothing scolds you.">Tiga puluh detik di pagi hari, dua pertanyaan dari materi kemarin. Tanpa hitungan beruntun, tanpa poin, tanpa notifikasi rasa bersalah. Hari yang bolong dibiarkan bolong dan tidak ada yang memarahi Anda.</p>
+      <span class="hasil" id="hasil"></span>
+      <span class="sp"></span>
+      <label class="sr" for="urut" data-en="Sort">Urutkan</label>
+      <select class="f" id="urut">
+        <option value="judul"  data-en="Name">Nama modul</option>
+        <option value="murah"  data-en="Lowest price">Harga terendah</option>
+        <option value="mahal"  data-en="Highest price">Harga tertinggi</option>
+        <option value="pendek" data-en="Shortest">Paling singkat</option>
+        <option value="gratis" data-en="Most free parts">Bagian gratis terbanyak</option>
+      </select>
+    </div>
+    <div class="baris">
+      <div class="grup" id="fBidang"></div>
+      <div class="grup" id="fPeran" hidden></div>
+      <span class="sp"></span>
+      <div class="tampil" id="tampil" role="group" aria-label="Cara menampilkan" hidden>
+        <button data-m="kartu"  aria-pressed="false" data-en="Cards">Kartu</button>
+        <button data-m="daftar" aria-pressed="false" data-en="List">Daftar</button>
       </div>
     </div>
   </div>
 </section>
 
-<section class="artefak">
-  <div class="wrap in">
-    <div>
-      <p class="sub" data-en="Every exercise you finish becomes part of an Evidence Portfolio, arranged criterion by criterion. You can attach it to a job application, bring it to a performance review, or take it to an LSP when you sit for competency assessment.">Tiap latihan yang Anda tuntaskan menjadi bagian dari Paket Bukti Karya, tersusun kriteria demi kriteria. Bisa Anda lampirkan di lamaran kerja, Anda bawa ke penilaian kinerja, atau Anda bawa ke LSP saat ikut uji kompetensi.</p>
-      <p class="cap" style="margin-top:18px;max-width:46ch" data-en="The portfolio is free forever. It is a trust instrument, not a product we sell you.">Paket Bukti Karya gratis selamanya. Ia alat kepercayaan, bukan barang yang kami jual ke Anda.</p>
-    </div>
-    <img src="assets/foto/artefak.webp" width="900" height="1200" loading="lazy"
-         alt="Satu dokumen hasil latihan tercetak di atas meja">
-  </div>
-</section>
-
-<section id="katalog">
+<section class="katwrap">
   <div class="wrap">
-    <span class="eyebrow" data-en="Catalogue">Katalog</span>
-    <h2 data-en="Open any module and read it before you decide.">Buka modul mana pun dan bacanya dulu sebelum memutuskan.</h2>
-    <p class="sub" data-en="Every module shows its parts, its length, and which parts the trainer opened for free.">Tiap modul menampilkan bagian-bagiannya, durasinya, dan bagian mana yang dibuka gratis oleh trainernya.</p>
-    <p class="cap" id="jangkarHarga" style="margin-top:10px;max-width:58ch"></p>
-    <div class="caribar">
-      <label class="sr" for="cari" data-en="Search modules">Cari modul</label>
-      <input class="f" id="cari" type="search" autocomplete="off"
-             placeholder="Cari modul, misalnya beban kerja" data-en-ph="Search modules, for example workload">
-      <button class="x" id="cariX" hidden data-en="Clear">Bersihkan</button>
-    </div>
-    <div class="filter" id="filter"></div>
-    <p class="jml" id="jml"></p>
     <div class="kat" id="kat"></div>
+    <div class="lagi" id="lagi"></div>
     <div class="nihil" id="nihil" hidden></div>
+    <p class="cap" id="jangkarHarga" style="margin-top:26px;max-width:66ch"></p>
   </div>
 </section>
 
-<section id="trainer" style="border-top:0;padding-top:8px">
+<section class="pita" id="trainer">
   <div class="wrap">
-    <div class="pita">
-      <div>
-        <span class="eyebrow" data-en="For trainers">Untuk trainer</span>
-        <h2 data-en="Have something worth teaching?">Punya sesuatu yang layak diajarkan?</h2>
-        <p data-en="Upload your material once. The exercises, the marking, and the daily reminders are ours to handle, and you keep 50% of every sale.">Unggah materi Anda sekali. Latihannya, penilaiannya, dan pengingat hariannya kami yang urus, dan Anda memegang 50% dari tiap penjualan.</p>
-      </div>
-      <div class="cta" style="margin-top:0;flex-direction:column;align-items:stretch">
-        <a class="btn btn-secondary" href="masuk.html?peran=trainer&amp;next=trainer/modul.html" data-en="Register your training">Daftarkan training Anda</a>
-        <a class="btn btn-quiet" href="trainer.html" data-en="Read the details first">Baca dulu ketentuannya</a>
-      </div>
+    <div>
+      <span class="eyebrow" data-en="For trainers">Untuk trainer</span>
+      <h2 data-en="Have something worth teaching?">Punya sesuatu yang layak diajarkan?</h2>
+      <p data-en="Upload your material once. The exercises, the marking, and the daily reminders are ours to handle, and you keep 50% of every sale.">Unggah materi Anda sekali. Latihannya, penilaiannya, dan pengingat hariannya kami yang urus, dan Anda memegang 50% dari tiap penjualan.</p>
+    </div>
+    <div class="cta">
+      <a class="btn btn-secondary" href="masuk.html?peran=trainer&amp;next=trainer/modul.html" data-en="Register your training">Daftarkan training Anda</a>
+      <a class="btn btn-quiet" href="trainer.html" data-en="Read the details first">Baca dulu ketentuannya</a>
     </div>
   </div>
 </section>
@@ -260,168 +302,312 @@ a.mod .ft .hrg{margin-left:auto;font-size:13.5px;font-weight:var(--w-body-strong
 
 <script type="module">
 import { pasangKepala, pasangAkun, T, rp, nf, KATALOG, pengguna } from './assets/app.js';
-import { pasangNav, pasangRail } from './assets/nav.js';
+import { pasangNav } from './assets/nav.js';
 import { sampulCadangan } from './assets/sampul.js';
 
 pasangNav({ prefix:'' });
 pasangKepala();
 pasangAkun(document.getElementById('aakun'));
 
-/* Rail membawa JALUR, katalog membawa MODUL. Sebelumnya keduanya menampilkan empat modul yang
-   sama persis, dan pengulangan itu justru membuat katalognya terasa lebih kecil dari sebenarnya. */
-function gambarRail(){
-  const j = [
-    { h:'index.html?bidang=SKKNI%20MSDM#katalog', judul:T('SKKNI MSDM','SKKNI HR'),         g:'assets/foto/sampul-uraian-jabatan.webp' },
-    { h:'index.html?bidang=Soft%20skill#katalog', judul:T('Soft skill','Soft skills'),      g:'assets/foto/sampul-komunikasi-sulit.webp' },
-    { h:'index.html#katalog',   judul:T('Semua modul','All modules'),        g:'assets/foto/sampul-analisis-beban-kerja.webp' },
-    { h:'perusahaan.html',      judul:T('Untuk perusahaan','For companies'), g:'assets/foto/artefak.webp' },
-    { h:'dokumen.html',         judul:T('Dokumen Anda','Your documents'),    g:'assets/foto/sampul-administrasi-pengupahan.webp' },
-    { h:'trainer.html',         judul:T('Untuk trainer','For trainers'),     g:'assets/foto/hero-trainer.webp' }
+const $ = id => document.getElementById(id);
+
+/* ---------- baris fakta ----------
+   Seluruhnya dihitung dari katalog yang berlaku, jadi tidak ada angka mati yang
+   diam-diam jadi keliru saat modulnya bertambah. */
+function gambarFakta(){
+  const bidang = new Set(KATALOG.map(m => m.bidang));
+  const menit  = KATALOG.reduce((a,m) => a + m.menit, 0);
+  const gratis = KATALOG.reduce((a,m) => a + m.bagian.filter(b => b.buka).length, 0);
+  const isi = [
+    [nf(KATALOG.length),  T('Modul terbit','Modules live')],
+    [nf(bidang.size),     T('Bidang','Fields')],
+    [nf(menit),           T('Menit materi','Minutes of material')],
+    [nf(gratis),          T('Bagian gratis','Free parts')]
   ];
-  pasangRail('rail', j.map(x => ({
-    h:x.h, judul:x.judul, gambar:'<img src="'+x.g+'" alt="" loading="lazy">'
-  })), '');
+  $('fakta').innerHTML = isi.map(([v,k]) =>
+    '<div><b class="num"></b><span></span></div>').join('');
+  [...$('fakta').children].forEach((el,i) => {
+    el.querySelector('b').textContent = isi[i][0];
+    el.querySelector('span').textContent = isi[i][1];
+  });
 }
 
-/* ---------- hero yang sadar sesi ----------
-   Peserta yang sudah punya modul berjalan tidak perlu disambut halaman jualan lagi.
-   Yang ia butuhkan cuma satu: melanjutkan yang kemarin. */
+/* ---------- hero yang sadar sesi ---------- */
 function setTeks(el, id, en){ el.textContent = T(id, en); el.dataset.en = T(en, id); }
 async function sesuaikanHero(){
   const u = await pengguna();
   if(!u) return;
-  const nama = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || u.email || '';
+  const nama  = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || u.email || '';
   const depan = String(nama).trim().split(/\s+/)[0] || '';
-  setTeks(document.getElementById('hEyebrow'),
-    depan ? 'Selamat datang kembali, ' + depan : 'Selamat datang kembali',
-    depan ? 'Welcome back, ' + depan : 'Welcome back');
-  setTeks(document.getElementById('hJudul'),
-    'Lanjutkan yang kemarin.', 'Pick up where you left off.');
-  setTeks(document.getElementById('hSub'),
-    'Yang belum menempel sudah menunggu di beranda belajar Anda, beserta modul yang sedang berjalan.',
-    'What has not stuck yet is waiting on your learning home, along with the module you have in progress.');
-  const cta = document.getElementById('hCta');
+  setTeks($('hEyebrow'), depan ? 'Selamat datang kembali, ' + depan : 'Selamat datang kembali',
+                         depan ? 'Welcome back, ' + depan : 'Welcome back');
+  setTeks($('hJudul'), 'Lanjutkan yang kemarin.', 'Pick up where you left off.');
+  setTeks($('hSub'), 'Yang belum menempel sudah menunggu di beranda belajar Anda, beserta modul yang sedang berjalan.',
+                     'What has not stuck yet is waiting on your learning home, along with the module in progress.');
+  const cta = $('hCta');
   cta.innerHTML =
     '<a class="btn btn-primary" href="belajar.html"><span id="hB1"></span>' +
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="M12.5 5.5L19 12l-6.5 6.5"/></svg></a>' +
     '<a class="btn btn-secondary" href="#katalog" id="hB2"></a>';
-  setTeks(document.getElementById('hB1'), 'Lanjutkan belajar', 'Continue learning');
-  setTeks(document.getElementById('hB2'), 'Lihat katalog', 'Browse the catalogue');
-  setTeks(document.getElementById('hCap'),
-    'Katalog tetap di bawah kalau Anda memang sedang mencari modul baru.',
-    'The catalogue is still below if you are actually looking for something new.');
+  setTeks($('hB1'), 'Lanjutkan belajar', 'Continue learning');
+  setTeks($('hB2'), 'Lihat katalog', 'Browse the catalogue');
 }
 
-/* ---------- contoh retrieval di hero ---------- */
-const BENAR=[0,2];
-document.querySelectorAll('.dopt button').forEach(b=>{
-  b.addEventListener('click',()=>{
-    const i=+b.dataset.i, ok=BENAR.includes(i);
-    b.dataset.st = ok ? 'benar' : 'salah';
-    document.getElementById('fb').textContent = ok
-      ? T('Tepat. Uraian jabatan menjelaskan pekerjaannya, bukan orangnya.',
-          'Right. A job description describes the job, not the person.')
-      : T('Belum. Gaji melekat pada orang dan struktur upah, bukan pada uraian jabatannya.',
-          'Not yet. Salary attaches to the person and the pay structure, not to the job description.');
-  });
-});
-
-/* ---------- katalog ---------- */
+/* ---------- bilah kerja ---------- */
 const qs = new URLSearchParams(location.search);
-let saring = qs.get('bidang') && KATALOG.some(m=>m.bidang===qs.get('bidang')) ? qs.get('bidang') : 'semua';
+const awalBidang = qs.get('bidang');
+let sBidang = awalBidang && KATALOG.some(m => m.bidang === awalBidang) ? awalBidang : 'semua';
+let sJabatan = 'semua';
 let kata = '';
-const bidangUnik=()=>['semua',...new Set(KATALOG.map(m=>m.bidang))];
-const normal = s => String(s||'').toLowerCase();
+let urut = 'judul';
+const normal = s => String(s || '').toLowerCase();
 
-/* Jangkar harga yang jujur: kisaran yang benar-benar ada di katalog, bukan perbandingan
-   dengan harga makan siang. Angkanya dihitung dari data, jadi tidak bisa basi. */
-function jangkarHarga(){
-  const h = KATALOG.map(m=>m.harga).filter(x=>x>0);
-  const el = document.getElementById('jangkarHarga');
-  if(!h.length){ el.textContent=''; return; }
-  const lo = Math.min(...h), hi = Math.max(...h);
-  el.textContent = lo === hi
-    ? T('Semua modul di katalog ini '+rp(lo)+', sekali bayar dan akses selamanya.',
-        'Every module here is '+rp(lo)+', one payment and access for good.')
-    : T('Modul di katalog ini berkisar '+rp(lo)+' sampai '+rp(hi)+', sekali bayar dan akses selamanya. Yang lebih mahal biasanya lebih panjang dan latihannya lebih banyak.',
-        'Modules here range from '+rp(lo)+' to '+rp(hi)+', one payment and access for good. The pricier ones are usually longer with more practice.');
+/* ============================================================
+   TAKSONOMI DITURUNKAN DARI DATA, BUKAN DITULIS MATI.
+   Halaman ini TIDAK boleh tahu apa-apa tentang bidang tertentu. Katalog hari ini kebetulan
+   berisi SDM karena itu yang lebih dulu dibuat, tetapi Nusva Learning adalah MOOC umum.
+   Begitu ada modul Digital, Bahasa, Keuangan, atau Produksi, bidang dan perannya muncul
+   sendiri di sini tanpa satu baris pun diubah. Daftar peran ber-kode-mati adalah cara
+   tercepat mengunci produk umum ke dalam satu industri.
+   ============================================================ */
+const AMBANG_CHIP   = 7;    /* di atas ini chip berganti jadi dropdown */
+const AMBANG_PERAN  = 6;    /* di atas ini pintasan peran turun ke bilah kerja */
+const AMBANG_DAFTAR = 12;   /* di atas ini kisi kartu berganti jadi daftar */
+const SEKALI        = 24;   /* jumlah yang digambar per tahap */
+
+const hitung = ambil => {
+  const n = new Map();
+  KATALOG.forEach(m => [].concat(ambil(m) || []).forEach(v => v && n.set(v, (n.get(v) || 0) + 1)));
+  /* diurutkan dari yang paling banyak modulnya, lalu abjad, supaya pilihan teratas selalu
+     yang paling mungkin berisi sesuatu */
+  return [...n.entries()].sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0], 'id')).map(x => x[0]);
+};
+const BIDANG = () => hitung(m => m.bidang);
+const PERAN  = () => hitung(m => m.jabatan);
+
+function grup(boxId, label, nilai, aktif, pilih){
+  const box = $(boxId);
+  box.innerHTML = '<span class="lb"></span>';
+  box.querySelector('.lb').textContent = label;
+  /* Delapan chip masih terbaca sekilas. Dua puluh chip adalah dinding, dan dinding pilihan
+     justru menurunkan jumlah orang yang memilih apa pun. Di atas ambang, chip diganti
+     dropdown yang memakan satu baris berapa pun jumlah nilainya. */
+  if(nilai.length > AMBANG_CHIP){
+    const s = document.createElement('select');
+    s.className = 'f';
+    ['semua', ...nilai].forEach(v => {
+      const o = document.createElement('option');
+      o.value = v; o.textContent = v === 'semua' ? T('Semua','All') : v;
+      o.selected = v === aktif; s.appendChild(o);
+    });
+    s.onchange = () => { pilih(s.value); tahap = 1; gambarBilah(); gambarKatalog(); };
+    box.appendChild(s);
+    return;
+  }
+  ['semua', ...nilai].forEach(v => {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.setAttribute('aria-pressed', String(v === aktif));
+    b.textContent = v === 'semua' ? T('Semua','All') : v;
+    b.onclick = () => { pilih(v); tahap = 1; gambarBilah(); gambarKatalog(); };
+    box.appendChild(b);
+  });
+}
+function gambarBilah(){
+  grup('fBidang', T('Bidang','Field'), BIDANG(), sBidang, v => sBidang = v);
+  const peran = PERAN();
+  $('fPeran').hidden = peran.length <= AMBANG_PERAN;
+  if(peran.length > AMBANG_PERAN)
+    grup('fPeran', T('Peran','Role'), peran, sJabatan, v => sJabatan = v);
+}
+
+/* Pintasan peran di hero. Bentuknya tautan teks, bukan chip, karena ia bukan saringan ketiga
+   melainkan jalan masuk: satu kalimat yang meminta orang mengenali dirinya, lalu katalognya
+   menyempit sendiri. Mengenali diri jauh lebih murah secara kognitif daripada mengevaluasi
+   satu per satu, dan itulah yang membuatnya bekerja. Begitu perannya terlalu banyak untuk
+   satu baris, ia turun ke bilah kerja sebagai dropdown dan baris ini menghilang sendiri. */
+function gambarPeran(){
+  const box = $('jabatan');
+  const daftar = PERAN();
+  if(!daftar.length || daftar.length > AMBANG_PERAN){ box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  box.innerHTML = '<span class="lb"></span>';
+  box.querySelector('.lb').textContent = T('Mulai dari peran Anda','Start from your role');
+  const tambah = (label, nilai) => {
+    if(box.children.length > 1){
+      const s = document.createElement('span'); s.className = 'pisah'; s.textContent = '·';
+      box.appendChild(s);
+    }
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = label;
+    if(nilai === sJabatan){ b.style.color = 'var(--ink)'; b.style.textDecoration = 'none'; b.disabled = true; }
+    b.onclick = () => { sJabatan = nilai; tahap = 1; gambarPeran(); gambarKatalog();
+      $('katalog').scrollIntoView({ block:'start' }); };
+    box.appendChild(b);
+  };
+  daftar.forEach(j => tambah(j, j));
+  if(sJabatan !== 'semua') tambah(T('Tampilkan semua','Show all'), 'semua');
 }
 
 function cocok(m){
-  if(saring!=='semua' && m.bidang!==saring) return false;
+  if(sBidang  !== 'semua' && m.bidang !== sBidang) return false;
+  if(sJabatan !== 'semua' && !(m.jabatan || []).includes(sJabatan)) return false;
   if(!kata) return true;
   const heap = [m.judul, m.pendek, m.ringkas, m.bidang, m.tingkat, m.kode, m.trainer,
-                ...m.bagian.map(b=>b.judul)].map(normal).join(' ');
+                ...m.bagian.map(b => b.judul)].map(normal).join(' ');
   return kata.split(/\s+/).filter(Boolean).every(k => heap.includes(k));
 }
+const gratisnya = m => m.bagian.filter(b => b.buka).length;
+const URUT = {
+  judul:  (a,b) => a.judul.localeCompare(b.judul, 'id'),
+  murah:  (a,b) => a.harga - b.harga,
+  mahal:  (a,b) => b.harga - a.harga,
+  pendek: (a,b) => a.menit - b.menit,
+  gratis: (a,b) => gratisnya(b) - gratisnya(a)
+};
 
-function gambarFilter(){
-  const box=document.getElementById('filter'); box.innerHTML='';
-  bidangUnik().forEach(b=>{
-    const el=document.createElement('button');
-    el.className='chip'; el.setAttribute('aria-pressed',String(b===saring));
-    el.textContent = b==='semua' ? T('Semua bidang','All fields') : b;
-    el.onclick=()=>{ saring=b; gambarFilter(); gambarKatalog(); };
-    box.appendChild(el);
-  });
+/* enam fakta yang sama, dipakai kartu maupun daftar, jadi tidak mungkin berbeda isinya */
+function fakta(m){
+  const g = gratisnya(m);
+  return [
+    [T('Bidang','Field'),  m.bidang, ''],
+    [T('Tingkat','Level'), m.tingkat, ''],
+    [T('Bagian','Parts'),  nf(m.bagian.length), ''],
+    [T('Durasi','Length'), nf(m.menit) + ' ' + T('mnt','min'), ''],
+    /* Inggris membedakan tunggal dan jamak, Indonesia tidak. "1 parts" adalah jenis
+       kelalaian kecil yang membuat produk terbaca belum selesai. */
+    [T('Gratis','Free'),   g ? nf(g) + ' ' + T('bagian', g === 1 ? 'part' : 'parts') : T('Tidak ada','None'), g ? 'acc' : 'mut'],
+    [T('Harga','Price'),   rp(m.harga), '']
+  ];
 }
+function sel(k, v, kelas){
+  return '<div><dt>' + k + '</dt><dd class="' + (kelas || '') + '">' + v + '</dd></div>';
+}
+
+let tahap = 1;                 /* berapa gelombang yang sudah digambar */
+let modeTampil = 'otomatis';   /* otomatis | kartu | daftar */
+function modeBerlaku(n){
+  return modeTampil === 'otomatis' ? (n > AMBANG_DAFTAR ? 'daftar' : 'kartu') : modeTampil;
+}
+
 function gambarKatalog(){
-  const box=document.getElementById('kat'); box.innerHTML='';
-  const hasil = KATALOG.filter(cocok);
-  const nihil = document.getElementById('nihil');
-  document.getElementById('jml').textContent = (kata || saring!=='semua')
-    ? T(nf(hasil.length)+' dari '+nf(KATALOG.length)+' modul', nf(hasil.length)+' of '+nf(KATALOG.length)+' modules')
-    : '';
+  const hasil = KATALOG.filter(cocok).slice().sort(URUT[urut] || URUT.judul);
+  const disaring = kata || sBidang !== 'semua' || sJabatan !== 'semua';
+  $('hasil').textContent = disaring
+    ? T(nf(hasil.length) + ' dari ' + nf(KATALOG.length) + ' modul',
+        nf(hasil.length) + ' of ' + nf(KATALOG.length) + ' modules')
+    : T(nf(KATALOG.length) + ' modul', nf(KATALOG.length) + ' modules');
+
+  const nihil = $('nihil');
   nihil.hidden = hasil.length > 0;
   if(!hasil.length){
-    nihil.innerHTML = '<b style="display:block;font-size:16px">'+
-      T('Belum ada modul yang cocok','Nothing matches that yet')+'</b>'+
-      '<p class="cap" style="margin-top:8px">'+
-      T('Katalognya masih kecil dan kami tidak mau berpura-pura sebaliknya. Coba kata yang lebih umum, atau lihat semua bidang.',
-        'The catalogue is still small and we would rather not pretend otherwise. Try a broader word, or view all fields.')+'</p>';
+    nihil.innerHTML = '<b></b><p class="cap" style="margin-top:8px"></p>';
+    nihil.querySelector('b').textContent = T('Belum ada modul yang cocok','Nothing matches that yet');
+    nihil.querySelector('p').textContent = T(
+      'Coba kata yang lebih umum, atau kosongkan saringannya.',
+      'Try a broader word, or clear the filters.');
   }
-  hasil.forEach(m=>{
-    const buka=m.bagian.filter(b=>b.buka).length;
-    const a=document.createElement('a');
-    a.className='mod'; a.href='modul.html?m='+m.slug;
-    a.innerHTML=
-      '<img class="gb" alt="" src="'+(m.sampul||sampulCadangan(m.judul,m.slug,640,400))+'">'+
-      '<span class="top">'+
-        '<span class="badge mut">'+m.bidang+'</span>'+
-        '<span class="badge info">'+m.tingkat+'</span>'+
-        (buka?'<span class="badge acc">'+T(buka+' bagian gratis',buka+' free parts')+'</span>':'')+
-      '</span>'+
-      '<h3></h3><p class="rk"></p>'+
-      '<span class="ft"><span>'+nf(m.menit)+' '+T('mnt','min')+'</span>'+
-      '<span>'+nf(m.peserta)+' '+T('peserta','learners')+'</span>'+
-      '<span class="hrg num">'+rp(m.harga)+'</span></span>';
-    a.querySelector('h3').textContent=m.judul;
-    a.querySelector('.rk').textContent=m.ringkas;
+
+  const mode = modeBerlaku(hasil.length);
+  $('tampil').hidden = hasil.length <= AMBANG_DAFTAR;
+  [...$('tampil').children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === mode)));
+
+  /* Digambar bertahap. Menaruh seratus kartu sekaligus bukan cuma berat buat peramban,
+     tetapi juga membuat orang berhenti memilih: makin banyak pilihan terlihat sekaligus,
+     makin sedikit yang akhirnya dipilih. Tombolnya "tampilkan lebih banyak", bukan gulir
+     tanpa henti, karena gulir tanpa henti menghapus rasa ada ujungnya. */
+  const batas = Math.min(hasil.length, SEKALI * tahap);
+  const tampak = hasil.slice(0, batas);
+
+  const box = $('kat');
+  box.className = mode === 'daftar' ? 'daftar' : 'kat';
+  box.innerHTML = '';
+
+  if(mode === 'daftar'){
+    const kep = document.createElement('div');
+    kep.className = 'kepala';
+    kep.innerHTML = '<span></span><span>' + T('Modul','Module') + '</span>' +
+      fakta(hasil[0]).map(f => '<span>' + f[0] + '</span>').join('');
+    box.appendChild(kep);
+  }
+
+  tampak.forEach(m => {
+    const f = fakta(m);
+    const a = document.createElement('a');
+    a.href = 'modul.html?m=' + m.slug;
+    if(mode === 'daftar'){
+      a.className = 'baris-mod';
+      a.innerHTML =
+        '<img alt="" loading="lazy" src="' + (m.sampul || sampulCadangan(m.judul, m.slug, 320, 180)) + '">' +
+        '<span class="jd"></span>' +
+        f.map(x => '<span class="nilai ' + x[2] + '">' + x[1] + '</span>').join('');
+      a.querySelector('.jd').textContent = m.judul;
+    } else {
+      a.className = 'mod';
+      a.innerHTML =
+        '<img class="gb" alt="" loading="lazy" src="' + (m.sampul || sampulCadangan(m.judul, m.slug, 640, 360)) + '">' +
+        '<h3></h3><p class="rk"></p><div class="rule"></div>' +
+        '<dl class="spec">' + f.map(x => sel(x[0], x[1], x[2])).join('') + '</dl>';
+      a.querySelector('h3').textContent = m.judul;
+      a.querySelector('.rk').textContent = m.ringkas;
+    }
     box.appendChild(a);
   });
+
+  const sisa = hasil.length - batas;
+  const lagi = $('lagi');
+  lagi.innerHTML = '';
+  if(sisa > 0){
+    const b = document.createElement('button');
+    b.className = 'btn btn-secondary';
+    b.textContent = T('Tampilkan ' + nf(Math.min(sisa, SEKALI)) + ' modul lagi · sisa ' + nf(sisa),
+                      'Show ' + nf(Math.min(sisa, SEKALI)) + ' more · ' + nf(sisa) + ' left');
+    b.onclick = () => { tahap++; gambarKatalog(); };
+    lagi.appendChild(b);
+  }
 }
-/* ---------- pencarian ----------
-   Empat modul masih bisa dipindai mata; empat puluh tidak. Slotnya dipasang sekarang, dan diisi
-   fungsi sungguhan, bukan penanda Coming soon, supaya tata letaknya tidak perlu diubah lagi nanti. */
-const inCari = document.getElementById('cari');
-const btnX = document.getElementById('cariX');
-let tundaCari = null;
+
+/* Jangkar harga yang jujur: kisaran yang benar-benar ada di katalog, bukan perbandingan
+   dengan harga makan siang. Dihitung dari data, jadi tidak bisa basi. */
+function jangkarHarga(){
+  const h = KATALOG.map(m => m.harga).filter(x => x > 0);
+  const el = $('jangkarHarga');
+  if(!h.length){ el.textContent = ''; return; }
+  const lo = Math.min(...h), hi = Math.max(...h);
+  el.textContent = lo === hi
+    ? T('Semua modul di katalog ini ' + rp(lo) + ', sekali bayar dan akses selamanya.',
+        'Every module here is ' + rp(lo) + ', one payment and access for good.')
+    : T('Modul di katalog ini berkisar ' + rp(lo) + ' sampai ' + rp(hi) + ', sekali bayar dan akses selamanya. Yang lebih mahal biasanya lebih panjang dan latihannya lebih banyak.',
+        'Modules here range from ' + rp(lo) + ' to ' + rp(hi) + ', one payment and access for good. The pricier ones are usually longer with more practice.');
+}
+
+/* ---------- kendali ---------- */
+const inCari = $('cari'), btnX = $('cariX');
+let tunda = null;
 inCari.addEventListener('input', () => {
-  clearTimeout(tundaCari);
+  clearTimeout(tunda);
   btnX.hidden = !inCari.value;
-  tundaCari = setTimeout(() => { kata = normal(inCari.value.trim()); gambarKatalog(); }, 160);
+  tunda = setTimeout(() => { kata = normal(inCari.value.trim()); tahap = 1; gambarKatalog(); }, 160);
 });
 btnX.addEventListener('click', () => {
-  inCari.value=''; kata=''; btnX.hidden=true; gambarKatalog(); inCari.focus();
+  inCari.value = ''; kata = ''; btnX.hidden = true; tahap = 1; gambarKatalog(); inCari.focus();
+});
+$('urut').addEventListener('change', e => { urut = e.target.value; tahap = 1; gambarKatalog(); });
+
+/* Tombolnya cuma muncul saat hasilnya memang banyak. Sebelum itu tidak ada yang perlu
+   diputuskan pengguna, jadi tidak ada yang perlu ditampilkan. */
+$('tampil').querySelectorAll('button').forEach(b => {
+  b.addEventListener('click', () => { modeTampil = b.dataset.m; tahap = 1; gambarKatalog(); });
 });
 
-document.addEventListener('nusva:bahasa',()=>{ gambarFilter(); gambarKatalog(); gambarRail(); jangkarHarga(); });
-gambarFilter(); gambarKatalog(); gambarRail(); jangkarHarga(); sesuaikanHero();
+document.addEventListener('nusva:bahasa', () => {
+  gambarBilah(); gambarPeran(); gambarKatalog(); gambarFakta(); jangkarHarga();
+});
+gambarBilah(); gambarPeran(); gambarKatalog(); gambarFakta(); jangkarHarga(); sesuaikanHero();
 
-/* datang dari ikon cari di bar navigasi */
 if(location.hash === '#cari'){
-  document.getElementById('katalog').scrollIntoView();
-  setTimeout(()=>inCari.focus(), 120);
+  $('katalog').scrollIntoView();
+  setTimeout(() => inCari.focus(), 120);
 }
 </script>
 </body>

@@ -129,10 +129,16 @@ export async function pasangAkun(el){
   el.querySelector('[data-aksi="keluar"]').addEventListener('click', keluar);
 }
 
-/* ---------- katalog contoh (dipakai sampai tabel Supabase terisi) ---------- */
+/* ---------- katalog contoh (dipakai sampai tabel Supabase terisi) ----------
+   Kolom `jabatan` adalah sumbu masuk utama beranda. Alasannya perilaku, bukan estetika:
+   katalog datar memaksa orang MENGEVALUASI tiap modul, sedangkan jabatan mengubahnya jadi
+   MENGENALI diri sendiri, dan mengenali jauh lebih murah secara kognitif daripada
+   mengevaluasi. Nilainya harus benar, bukan kategori karangan, karena satu jabatan yang
+   dipasang asal akan mengirim orang ke modul yang salah. */
 export const KATALOG = [
   { slug:'uraian-jabatan', sampul:'assets/foto/sampul-uraian-jabatan.webp', pendek:'Uraian Jabatan', judul:'Menyusun Uraian Jabatan', kode:'M.70SDM01.010.2',
     bidang:'SKKNI MSDM', tingkat:'Dasar', harga:50000, menit:51, peserta:38,
+    jabatan:['Staf HR','Supervisor HR'],
     trainer:'Rangga Irawan Prasetyo, MBA',
     ringkas:'Menyusun uraian jabatan yang dipakai untuk rekrutmen, evaluasi jabatan, dan penilaian kinerja, bukan sekadar dokumen arsip.',
     bagian:[
@@ -144,6 +150,7 @@ export const KATALOG = [
     ] },
   { slug:'analisis-beban-kerja', sampul:'assets/foto/sampul-analisis-beban-kerja.webp', pendek:'Beban Kerja', judul:'Melaksanakan Analisis Beban Kerja', kode:'M.70SDM01.011.2',
     bidang:'SKKNI MSDM', tingkat:'Menengah', harga:50000, menit:44, peserta:21,
+    jabatan:['Supervisor HR','Manajer HR'],
     trainer:'Rangga Irawan Prasetyo, MBA',
     ringkas:'Menghitung kebutuhan orang dari beban kerja nyata, dengan angka yang bisa dipertahankan di depan direksi.',
     bagian:[
@@ -155,6 +162,7 @@ export const KATALOG = [
     ] },
   { slug:'komunikasi-sulit', sampul:'assets/foto/sampul-komunikasi-sulit.webp', pendek:'Percakapan Sulit', judul:'Percakapan Sulit di Tempat Kerja', kode:null,
     bidang:'Soft skill', tingkat:'Dasar', harga:75000, menit:38, peserta:64,
+    jabatan:['Supervisor HR','Manajer HR','Pemimpin tim'],
     trainer:'Rangga Irawan Prasetyo, MBA',
     ringkas:'Menyampaikan hal yang tidak enak didengar tanpa merusak hubungan kerja, dilatih lewat simulasi percakapan.',
     bagian:[
@@ -166,6 +174,7 @@ export const KATALOG = [
     ] },
   { slug:'administrasi-pengupahan', sampul:'assets/foto/sampul-administrasi-pengupahan.webp', pendek:'Administrasi Upah', judul:'Melakukan Administrasi Pengupahan', kode:'M.70SDM01.057.2',
     bidang:'SKKNI MSDM', tingkat:'Dasar', harga:50000, menit:46, peserta:15,
+    jabatan:['Staf HR','Staf Payroll'],
     trainer:'Rangga Irawan Prasetyo, MBA',
     ringkas:'Menjalankan siklus pengupahan dan mendokumentasikan tiap pembayaran agar bisa ditelusuri auditor.',
     bagian:[

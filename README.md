@@ -6,7 +6,7 @@ Autentikasi dan data memakai Supabase.
 ## Isi repo
 
 ```
-index.html              Landing utama, untuk semua orang yang membuka learning.nusva.ai
+index.html              Permukaan utama: header produk padat, bilah kerja katalog, kartu spesifikasi
 masuk.html              Masuk dengan Google atau daftar dengan email, sadar peran learner atau trainer
 belajar.html            Beranda learner: Daily Recall, modul saya, progres, katalog
 modul.html              Detail modul. Terbuka tanpa akun; bagian bertanda gratis bisa dibuka
