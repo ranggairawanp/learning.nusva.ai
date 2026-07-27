@@ -45,7 +45,7 @@ const KUNCI_SR =
 
 const STT_KEY = Deno.env.get('STT_API_KEY') ?? '';
 const STT_URL = Deno.env.get('STT_ENDPOINT') ?? 'https://api.openai.com/v1/audio/transcriptions';
-const STT_MDL = Deno.env.get('STT_MODEL') ?? 'whisper-1';
+const STT_MDL = Deno.env.get('STT_MODEL') ?? 'gpt-4o-mini-transcribe';
 
 // Batas ukuran layanan STT umumnya 25 MB. Berkas di atas itu ditolak lebih awal
 // dengan pesan yang menyebut angkanya, bukan dibiarkan gagal di tengah jalan.
